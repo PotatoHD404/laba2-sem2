@@ -1,0 +1,455 @@
+        -:    0:Source:/mnt/c/Users/korna/CLionProjects/Laba2/main.cpp
+        -:    0:Graph:/mnt/c/Users/korna/CLionProjects/Laba2/cmake-build-debug-coverage/CMakeFiles/Laba2.dir/main.cpp.gcno
+        -:    0:Data:/mnt/c/Users/korna/CLionProjects/Laba2/cmake-build-debug-coverage/CMakeFiles/Laba2.dir/main.cpp.gcda
+        -:    0:Runs:1
+        -:    0:Programs:1
+        -:    1:#include <iostream>
+        -:    2:#include <cstring>
+        -:    3:
+        -:    4:using namespace std;
+        -:    5:
+        -:    6:template<class T>
+        -:    7:class LinkedList {
+        -:    8:private:
+        -:    9:    struct node {
+        -:   10:        T data;
+        -:   11:        node *next;
+        -:   12:    };
+        -:   13:    node *head, *tail;
+        -:   14:    unsigned int length;
+        -:   15:
+        -:   16:    node *CreateNode(T data) {
+        -:   17:        node *res = new T[1];
+        -:   18:        res->data = data;
+        -:   19:        res->next = NULL;
+        -:   20:    }
+        -:   21:
+        -:   22:    node *GetNode(int index) {
+        -:   23:        if (index < 0 || index >= length || head == NULL)
+        -:   24:            throw out_of_range("");
+        -:   25:        node *res = head;
+        -:   26:        for (int i = index - 1; i >= 0; --i) {
+        -:   27:            res = res->next;
+        -:   28:        }
+        -:   29:        return res;
+        -:   30:    }
+        -:   31:
+        -:   32:public:
+        -:   33:    //Creation of the object
+        -:   34:    LinkedList() {
+        -:   35:        head = NULL;
+        -:   36:        tail = NULL;
+        -:   37:        length = 0;
+        -:   38:    }
+        -:   39:
+        -:   40:    LinkedList(T *items, int count) {
+        -:   41:        head = CreateNode(items[0]);
+        -:   42:        node *prev = head;
+        -:   43:        for (int i = 1; i < count; ++i) {
+        -:   44:            prev->next = CreateNode(items[i]);
+        -:   45:            prev = prev->next;
+        -:   46:        }
+        -:   47:        tail = prev;
+        -:   48:        length = count;
+        -:   49:    }
+        -:   50:
+        -:   51:    LinkedList(const LinkedList<T> &list) {
+        -:   52:        node *tmp = list.head;
+        -:   53:        head = CreateNode(tmp->data);
+        -:   54:        node *prev = head;
+        -:   55:        while (tmp->next != NULL) {
+        -:   56:            prev->next = CreateNode(tmp->data);
+        -:   57:            prev = prev->next;
+        -:   58:            tmp = tmp->next;
+        -:   59:        }
+        -:   60:        tail = prev;
+        -:   61:        length = GetLength(list);
+        -:   62:    }
+        -:   63:
+        -:   64:    //Decomposition
+        -:   65:    T GetFirst() {
+        -:   66:        if (head == NULL)
+        -:   67:            throw out_of_range("");
+        -:   68:        return head;
+        -:   69:    }
+        -:   70:
+        -:   71:    T GetLast() {
+        -:   72:        if (tail == NULL)
+        -:   73:            throw out_of_range("");
+        -:   74:        return tail;
+        -:   75:    }
+        -:   76:
+        -:   77:    T At(int index) {
+        -:   78:        if (index == 0)
+        -:   79:            return GetFirst();
+        -:   80:        if (index == length - 1)
+        -:   81:            return GetLast();
+        -:   82:        return GetNode(index)->data;
+        -:   83:    }
+        -:   84:
+        -:   85:    LinkedList<T> *GetSubList(int startIndex, int endIndex) {
+        -:   86:        LinkedList<T> *res;
+        -:   87:        res(new LinkedList<T>);
+        -:   88:        node *tmp = GetNode(startIndex);
+        -:   89:        for (int i = startIndex; i < endIndex + 1; ++i) {
+        -:   90:            res->Append(tmp->data);
+        -:   91:            tmp = tmp->next;
+        -:   92:        }
+        -:   93:        return res;
+        -:   94:    }
+        -:   95:
+        -:   96:    int GetLength() {
+        -:   97:        return length;
+        -:   98:    }
+        -:   99:
+        -:  100:    T operator[](unsigned int index) { return At(index); }
+        -:  101:
+        -:  102:    //Operations
+        -:  103:    void Append(T item) {
+        -:  104:        node *tmp = CreateNode(item);
+        -:  105:        if (head == NULL)
+        -:  106:            head = tmp;
+        -:  107:        else
+        -:  108:            tail->next = tmp;
+        -:  109:        tail = tmp;
+        -:  110:        ++length;
+        -:  111:    }
+        -:  112:
+        -:  113:    void Prepend(T item) {
+        -:  114:        node *tmp = CreateNode(item);
+        -:  115:        if (head == NULL) {
+        -:  116:            head = tmp;
+        -:  117:            tail = tmp;
+        -:  118:        } else {
+        -:  119:            tmp->next = head;
+        -:  120:            head = tmp;
+        -:  121:        }
+        -:  122:        ++length;
+        -:  123:    }
+        -:  124:
+        -:  125:    void InsertAt(T item, int index) {
+        -:  126:        node *tmp = CreateNode(item);
+        -:  127:        node *prev = GetNode(index);
+        -:  128:        node *next = prev->next;
+        -:  129:        prev->next = tmp;
+        -:  130:        tmp->next = next;
+        -:  131:    }
+        -:  132:
+        -:  133:    LinkedList<T> *Concat(LinkedList<T> *list) {
+        -:  134:        LinkedList<T> *res = new LinkedList<T>[1];
+        -:  135:        *res = LinkedList();
+        -:  136:        for (int i = 0; i < list->GetLength(); ++i) {
+        -:  137:            res->Append(list->At(i));
+        -:  138:        }
+        -:  139:        for (int i = 0; i < length; ++i) {
+        -:  140:            res->Append(this[i]);
+        -:  141:        }
+        -:  142:        return res;
+        -:  143:    }
+        -:  144:
+        -:  145:    //Termination
+        -:  146:    ~LinkedList() {
+        -:  147:        node *tmp = head;
+        -:  148:        for (int i = 1; i < length; ++i) {
+        -:  149:            node *next = tmp->next;
+        -:  150:            delete *tmp;
+        -:  151:            tmp = next;
+        -:  152:        }
+        -:  153:    }
+        -:  154:};
+        -:  155:
+        -:  156:
+        -:  157:template<class T>
+        -:  158:class DynamicArray {
+        -:  159:private:
+        -:  160:    T *actual_array;
+        -:  161:    unsigned int length;
+        -:  162:public:
+        -:  163:    //Creation of the object
+        1:  164:    DynamicArray() {
+        1:  164-block  0
+        1:  165:        actual_array = new T[1];
+        1:  165-block  0
+        1:  166:        length = 0;
+        1:  167:    }
+        -:  168:
+        -:  169:    explicit DynamicArray(int count) {
+        -:  170:        actual_array = new T[count];
+        -:  171:        length = count;
+        -:  172:    }
+        -:  173:
+        -:  174:    DynamicArray(T *items, int count) {
+        -:  175:        actual_array = new T[count];
+        -:  176:        memcpy(actual_array, items, count * sizeof(T));
+        -:  177:        length = count;
+        -:  178:    }
+        -:  179:
+        -:  180:    DynamicArray(const DynamicArray<T> &dynamicArray) {
+        -:  181:        length = dynamicArray.length;
+        -:  182:        actual_array = new T[length];
+        -:  183:        memcpy(actual_array, dynamicArray.actual_array, length * sizeof(T));
+        -:  184:    }
+        -:  185:
+        -:  186:    //Decomposition
+        3:  187:    T &At(int index) {
+        3:  187-block  0
+        3:  188:        if (index < 0 || index >= length)
+        3:  188-block  0
+        3:  188-block  1
+    #####:  189:            throw out_of_range("");
+    $$$$$:  189-block  0
+    $$$$$:  189-block  1
+    %%%%%:  189-block  2
+        3:  190:        return actual_array[index];
+        3:  190-block  0
+        3:  190-block  1
+        -:  191:    }
+        -:  192:
+        1:  193:    void Set(int index, T value) {
+        1:  193-block  0
+        1:  194:        if (index < 0 || index >= length)
+        1:  194-block  0
+        1:  194-block  1
+    #####:  195:            throw range_error("");
+    $$$$$:  195-block  0
+    $$$$$:  195-block  1
+    %%%%%:  195-block  2
+        1:  196:        At(index) = value;
+        1:  196-block  0
+        1:  197:    }
+        -:  198:
+        -:  199:    unsigned int GetLength() { return length; }
+        -:  200:
+        4:  201:    T &operator[](int index) { return At(index); }
+        2:  201-block  0
+        2:  201-block  1
+        -:  202:
+        -:  203:    //Operations
+        1:  204:    void Resize(int new_length) {
+        1:  204-block  0
+        1:  205:        if (new_length < 0) {
+        1:  205-block  0
+    #####:  206:            throw range_error("");
+    $$$$$:  206-block  0
+    $$$$$:  206-block  1
+    %%%%%:  206-block  2
+        -:  207:        }
+        1:  208:        T *new_array = new T[new_length];
+        1:  208-block  0
+        1:  208-block  1
+    $$$$$:  208-block  2
+        1:  208-block  3
+        1:  209:        memcpy(new_array, actual_array, sizeof(T) * new_length);
+        1:  210:        length = new_length;
+        1:  211:        delete[] actual_array;
+        1:  211-block  0
+        1:  212:        actual_array = new_array;
+        1:  213:    }
+        1:  213-block  0
+        -:  214:
+        -:  215:    //Termination
+        2:  216:    ~DynamicArray() { delete[] actual_array; }
+        1:  216-block  0
+        1:  216-block  1
+        1:  216-block  2
+        -:  217:
+        -:  218:};
+        -:  219:
+        -:  220:template<class T>
+        -:  221:class Sequence {
+        -:  222:public:
+        -:  223:    //Decomposition
+        -:  224:    virtual T GetFirst() { return At(0); }
+        -:  225:
+        -:  226:    virtual T GetLast() { return At(GetLength() - 1); }
+        -:  227:
+        -:  228:    virtual T At(int index) = 0;
+        -:  229:
+        -:  230:    virtual Sequence<T> *GetSubsequence(int startIndex, int endIndex) = 0;
+        -:  231:
+        -:  232:    virtual int GetLength() = 0;
+        -:  233:
+        -:  234:    //Operations
+        -:  235:    virtual void Append(T item) = 0;
+        -:  236:
+        -:  237:    virtual void Prepend(T item) = 0;
+        -:  238:
+        -:  239:    virtual void InsertAt(T item, int index) = 0;
+        -:  240:
+        -:  241:    virtual Sequence<T> *Concat(Sequence<T> *list) = 0;
+        -:  242:};
+        -:  243:
+        -:  244:template<class T>
+        -:  245:class ArraySequence : Sequence<T> {
+        -:  246:
+        -:  247:private:
+        -:  248:    DynamicArray<T> *items;
+        -:  249:
+        -:  250:public:
+        -:  251:    //Creation of the object
+        -:  252:    ArraySequence() {
+        -:  253:        items(new DynamicArray<T>());
+        -:  254:    }
+        -:  255:
+        -:  256:    ArraySequence(T *items, int count) {
+        -:  257:        items(new DynamicArray<T>(items, count));
+        -:  258:    }
+        -:  259:
+        -:  260:    explicit ArraySequence(const DynamicArray<T> &list) {
+        -:  261:        items(new DynamicArray<T>(list));
+        -:  262:    }
+        -:  263:
+        -:  264:    //Decomposition
+        -:  265:
+        -:  266:    T At(int index) {
+        -:  267:        return items->At(index);
+        -:  268:    }
+        -:  269:
+        -:  270:    Sequence<T> *GetSubsequence(int startIndex, int endIndex) {
+        -:  271:        ArraySequence<T> *res;
+        -:  272:        res(new ArraySequence<T>);
+        -:  273:        for (int i = startIndex; i < endIndex; ++i) {
+        -:  274:            res->Append(items->At(i));
+        -:  275:        }
+        -:  276:        return res;
+        -:  277:    }
+        -:  278:
+        -:  279:    int GetLength() {
+        -:  280:        return items->GetLength();
+        -:  281:    }
+        -:  282:
+        -:  283:
+        -:  284:    //Operations
+        -:  285:    void Append(T item) {
+        -:  286:        items->Resize(items->GetLength() + 1);
+        -:  287:        items->Set(items->GetLength() - 1, item);
+        -:  288:    }
+        -:  289:
+        -:  290:    void Prepend(T item) {
+        -:  291:        items->Resize(items->GetLength() + 1);
+        -:  292:        for (int i = items->GetLength() - 1; i > 0; --i) {
+        -:  293:            items->Set(i, items->At(i - 1));
+        -:  294:        }
+        -:  295:        items->Set(0, item);
+        -:  296:    }
+        -:  297:
+        -:  298:    void InsertAt(T item, int index) {
+        -:  299:        items->Resize(items->GetLength() + 1);
+        -:  300:        for (int i = items->GetLength() - 1; i > index; --i) {
+        -:  301:            items->Set(i, items->At(i - 1));
+        -:  302:        }
+        -:  303:        items->Set(index, item);
+        -:  304:    }
+        -:  305:
+        -:  306:    Sequence<T> *Concat(Sequence<T> *list) {
+        -:  307:        ArraySequence<T> *res;
+        -:  308:        res(new ArraySequence<T>);
+        -:  309:        for (int i = 0; i < items->GetLength(); ++i) {
+        -:  310:            res->Append(items->At(i));
+        -:  311:        }
+        -:  312:        for (int i = 0; i < list->items->GetLength(); ++i) {
+        -:  313:            res->Append(list->items->At(i));
+        -:  314:        }
+        -:  315:        return res;
+        -:  316:    }
+        -:  317:
+        -:  318:    //Termination
+        -:  319:    ~ArraySequence() {
+        -:  320:        delete *items;
+        -:  321:        delete[] items;
+        -:  322:    }
+        -:  323:};
+        -:  324:
+        -:  325:template<class T>
+        -:  326:class LinkedListSequence : Sequence<T> {
+        -:  327:private:
+        -:  328:    LinkedList<T> *items;
+        -:  329:
+        -:  330:public:
+        -:  331:    //Creation of the object
+        -:  332:    LinkedListSequence() {
+        -:  333:        items(new LinkedList<T>());
+        -:  334:    }
+        -:  335:
+        -:  336:    LinkedListSequence(T *items, int count) {
+        -:  337:        items(new LinkedList<T>(items, count));
+        -:  338:    }
+        -:  339:
+        -:  340:    explicit LinkedListSequence(const LinkedList<T> &list) {
+        -:  341:        items(new LinkedList<T>(list));
+        -:  342:    }
+        -:  343:
+        -:  344:    //Decomposition
+        -:  345:
+        -:  346:    T Get(int index) {
+        -:  347:        return items->At(index);
+        -:  348:    }
+        -:  349:
+        -:  350:    Sequence<T> *GetSubsequence(int startIndex, int endIndex) {
+        -:  351:        LinkedListSequence<T> *res;
+        -:  352:        res(new LinkedListSequence<T>());
+        -:  353:        return res;
+        -:  354:    }
+        -:  355:
+        -:  356:    int GetLength() {
+        -:  357:        return items->GetLength();
+        -:  358:    }
+        -:  359:
+        -:  360:    //Operations
+        -:  361:    void Append(T item) {
+        -:  362:        items->Append(item);
+        -:  363:    }
+        -:  364:
+        -:  365:    void Prepend(T item) {
+        -:  366:        items->Prepend(item);
+        -:  367:    }
+        -:  368:
+        -:  369:    void InsertAt(T item, int index) {
+        -:  370:        items->InsertAt(item, index);
+        -:  371:    }
+        -:  372:
+        -:  373:    Sequence<T> *Concat(Sequence<T> *list) {
+        -:  374:        LinkedListSequence<T> *res;
+        -:  375:        res(new LinkedListSequence<T>());
+        -:  376:        for (int i = 0; i < items->GetLength(); ++i) {
+        -:  377:            res->Append(items->At(i));
+        -:  378:        }
+        -:  379:        for (int i = 0; i < list->items->GetLength(); ++i) {
+        -:  380:            res->Append(list->items->At(i));
+        -:  381:        }
+        -:  382:        return res;
+        -:  383:    }
+        -:  384:
+        -:  385:    //Termination
+        -:  386:    ~LinkedListSequence() {
+        -:  387:        delete *items;
+        -:  388:        delete[] items;
+        -:  389:    }
+        -:  390:};
+        -:  391:
+        -:  392:
+        1:  393:int main() {
+        1:  393-block  0
+        2:  394:    DynamicArray<int> arr = DynamicArray<int>();
+        1:  394-block  0
+        1:  394-block  1
+        1:  394-block  2
+    %%%%%:  394-block  3
+        1:  395:    arr.Resize(1);
+        1:  395-block  0
+        -:  396:
+        1:  397:    arr[0] = 5;
+        1:  397-block  0
+        1:  398:    arr.Set(0, 1);
+        1:  398-block  0
+        1:  399:    cout << arr[0] << endl;
+        1:  399-block  0
+        1:  399-block  1
+        1:  399-block  2
+        1:  400:    return 0;
+        4:  401:}
+        1:  401-block  0
+        1:  401-block  1
+        1:  401-block  2
+        1:  401-block  3
+        1:  401-block  4

@@ -6,7 +6,9 @@
 
 #IncludeRegexTransform: 
 
-C:/Users/korna/CLionProjects/Laba2/main.cpp
+/mnt/c/Users/korna/CLionProjects/Laba2/main.cpp
 iostream
+-
+cstring
 -
 

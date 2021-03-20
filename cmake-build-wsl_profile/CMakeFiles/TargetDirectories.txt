@@ -1,0 +1,3 @@
+/mnt/c/Users/korna/CLionProjects/Laba2/cmake-build-wsl_profile/CMakeFiles/rebuild_cache.dir
+/mnt/c/Users/korna/CLionProjects/Laba2/cmake-build-wsl_profile/CMakeFiles/edit_cache.dir
+/mnt/c/Users/korna/CLionProjects/Laba2/cmake-build-wsl_profile/CMakeFiles/Laba2.dir

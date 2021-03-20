@@ -1,3 +1,3 @@
-C:/Users/korna/CLionProjects/Laba2/cmake-build-debug/CMakeFiles/Laba2.dir
-C:/Users/korna/CLionProjects/Laba2/cmake-build-debug/CMakeFiles/edit_cache.dir
-C:/Users/korna/CLionProjects/Laba2/cmake-build-debug/CMakeFiles/rebuild_cache.dir
+/mnt/c/Users/korna/CLionProjects/Laba2/cmake-build-debug/CMakeFiles/rebuild_cache.dir
+/mnt/c/Users/korna/CLionProjects/Laba2/cmake-build-debug/CMakeFiles/edit_cache.dir
+/mnt/c/Users/korna/CLionProjects/Laba2/cmake-build-debug/CMakeFiles/Laba2.dir
