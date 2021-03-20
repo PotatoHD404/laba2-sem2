@@ -60,7 +60,7 @@ public:
         length = GetLength(list);
     }
 
-//Decomposition
+    //Decomposition
     T GetFirst() {
         if (head == NULL)
             throw out_of_range("");
@@ -74,12 +74,16 @@ public:
     }
 
     T At(int index) {
+        if (index == 0)
+            return GetFirst();
+        if (index == length - 1)
+            return GetLast();
         return GetNode(index)->data;
     }
 
     LinkedList<T> *GetSubList(int startIndex, int endIndex) {
-        LinkedList<T> *res = new LinkedList<T>[1];
-        *res = LinkedList();
+        LinkedList<T> *res;
+        res(new LinkedList<T>);
         node *tmp = GetNode(startIndex);
         for (int i = startIndex; i < endIndex + 1; ++i) {
             res->Append(tmp->data);
@@ -94,7 +98,7 @@ public:
 
     T &operator[](unsigned int index) { return At(index); }
 
-//Operations
+    //Operations
     void Append(T item) {
         node *tmp = CreateNode(item);
         if (head == NULL)
@@ -137,6 +141,15 @@ public:
         return res;
     }
 
+    //Termination
+    ~LinkedList() {
+        node *tmp = head;
+        for (int i = 1; i < length; ++i) {
+            node *next = tmp->next;
+            delete *tmp;
+            tmp = next;
+        }
+    }
 };
 
 
@@ -206,39 +219,173 @@ public:
 template<class T>
 class Sequence {
 public:
-    Sequence();
+    //Decomposition
+    virtual T GetFirst() { return At(0); }
 
-    Sequence(T *items, int count);
+    virtual T GetLast() { return At(GetLength() - 1); }
 
-    Sequence(const LinkedList<T> &list);
+    virtual T At(int index) = 0;
 
-    T GetFirst();
+    virtual Sequence<T> *GetSubsequence(int startIndex, int endIndex) = 0;
 
-    T GetLast();
+    virtual int GetLength() = 0;
 
-    T Get(int index);
+    //Operations
+    virtual void Append(T item) = 0;
 
-    Sequence<T> *GetSubsequence(int startIndex, int endIndex);
+    virtual void Prepend(T item) = 0;
 
-    int GetLength();
+    virtual void InsertAt(T item, int index) = 0;
 
-    void Append(T item);
-
-    void Prepend(T item);
-
-    void InsertAt(T item, int index);
-
-    Sequence<T> *Concat(Sequence<T> *list);
+    virtual Sequence<T> *Concat(Sequence<T> *list) = 0;
 };
 
 template<class T>
 class ArraySequence : Sequence<T> {
 
+private:
+    DynamicArray<T> *items;
+
+public:
+    //Creation of the object
+    ArraySequence() {
+        items(new DynamicArray<T>());
+    }
+
+    ArraySequence(T *items, int count) {
+        items(new DynamicArray<T>(items, count));
+    }
+
+    explicit ArraySequence(const DynamicArray<T> &list) {
+        items(new DynamicArray<T>(list));
+    }
+
+    //Decomposition
+
+    T At(int index) {
+        return items->At(index);
+    }
+
+    Sequence<T> *GetSubsequence(int startIndex, int endIndex) {
+        ArraySequence<T> *res;
+        res(new ArraySequence<T>);
+        for (int i = startIndex; i < endIndex; ++i) {
+            res->Append(items->At(i));
+        }
+        return res;
+    }
+
+    int GetLength() {
+        return items->GetLength();
+    }
+
+
+    //Operations
+    void Append(T item) {
+        items->Resize(items->GetLength() + 1);
+        items->Set(items->GetLength() - 1, item);
+    }
+
+    void Prepend(T item) {
+        items->Resize(items->GetLength() + 1);
+        for (int i = items->GetLength() - 1; i > 0; --i) {
+            items->Set(i, items->At(i - 1));
+        }
+        items->Set(0, item);
+    }
+
+    void InsertAt(T item, int index) {
+        items->Resize(items->GetLength() + 1);
+        for (int i = items->GetLength() - 1; i > index; --i) {
+            items->Set(i, items->At(i - 1));
+        }
+        items->Set(index, item);
+    }
+
+    Sequence<T> *Concat(Sequence<T> *list) {
+        ArraySequence<T> *res;
+        res(new ArraySequence<T>);
+        for (int i = 0; i < items->GetLength(); ++i) {
+            res->Append(items->At(i));
+        }
+        for (int i = 0; i < list->items->GetLength(); ++i) {
+            res->Append(list->items->At(i));
+        }
+        return res;
+    }
+
+    //Termination
+    ~ArraySequence() {
+        delete *items;
+        delete[] items;
+    }
 };
 
 template<class T>
 class LinkedListSequence : Sequence<T> {
+private:
+    LinkedList<T> *items;
 
+public:
+    //Creation of the object
+    LinkedListSequence() {
+        items(new LinkedList<T>());
+    }
+
+    LinkedListSequence(T *items, int count) {
+        items(new LinkedList<T>(items, count));
+    }
+
+    explicit LinkedListSequence(const LinkedList<T> &list) {
+        items(new LinkedList<T>(list));
+    }
+
+    //Decomposition
+
+    T Get(int index) {
+        return items->At(index);
+    }
+
+    Sequence<T> *GetSubsequence(int startIndex, int endIndex) {
+        LinkedListSequence<T> *res;
+        res(new LinkedListSequence<T>());
+        return res;
+    }
+
+    int GetLength() {
+        return items->GetLength();
+    }
+
+    //Operations
+    void Append(T item) {
+        items->Append(item);
+    }
+
+    void Prepend(T item) {
+        items->Prepend(item);
+    }
+
+    void InsertAt(T item, int index) {
+        items->InsertAt(item, index);
+    }
+
+    Sequence<T> *Concat(Sequence<T> *list) {
+        LinkedListSequence<T> *res;
+        res(new LinkedListSequence<T>());
+        for (int i = 0; i < items->GetLength(); ++i) {
+            res->Append(items->At(i));
+        }
+        for (int i = 0; i < list->items->GetLength(); ++i) {
+            res->Append(list->items->At(i));
+        }
+        return res;
+    }
+
+    //Termination
+    ~LinkedListSequence() {
+        delete *items;
+        delete[] items;
+    }
 };
 
 
