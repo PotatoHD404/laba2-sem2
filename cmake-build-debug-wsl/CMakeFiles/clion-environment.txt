@@ -1,4 +1,4 @@
 ToolSet: Ubuntu 18.04.4 LTS (local)@C:\Users\korna\AppData\Local\Microsoft\WindowsApps\ubuntu1804.exe
 Options: 
 
-Options:-fpermissive
+Options:

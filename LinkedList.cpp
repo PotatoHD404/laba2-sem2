@@ -2,7 +2,10 @@
 // Created by korna on 20.03.2021.
 //
 
+#include <iostream>
 #include <cstring>
+
+using namespace std;
 
 template<class T>
 class LinkedList {

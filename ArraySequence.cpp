@@ -2,7 +2,10 @@
 // Created by korna on 20.03.2021.
 //
 #include "Sequence.cpp"
+#include <iostream>
+#include <cstring>
 
+using namespace std;
 template<class T>
 class ArraySequence : Sequence<T> {
 

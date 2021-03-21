@@ -1,0 +1,15 @@
+/mnt/c/Users/korna/CLionProjects/Laba2/cmake-build-debug-wsl/CMakeFiles/install/strip.dir
+/mnt/c/Users/korna/CLionProjects/Laba2/cmake-build-debug-wsl/CMakeFiles/install/local.dir
+/mnt/c/Users/korna/CLionProjects/Laba2/cmake-build-debug-wsl/CMakeFiles/Laba2.dir
+/mnt/c/Users/korna/CLionProjects/Laba2/cmake-build-debug-wsl/CMakeFiles/edit_cache.dir
+/mnt/c/Users/korna/CLionProjects/Laba2/cmake-build-debug-wsl/CMakeFiles/rebuild_cache.dir
+/mnt/c/Users/korna/CLionProjects/Laba2/cmake-build-debug-wsl/CMakeFiles/install.dir
+/mnt/c/Users/korna/CLionProjects/Laba2/cmake-build-debug-wsl/CMakeFiles/list_install_components.dir
+/mnt/c/Users/korna/CLionProjects/Laba2/cmake-build-debug-wsl/[binary_dir]/CMakeFiles/install/strip.dir
+/mnt/c/Users/korna/CLionProjects/Laba2/cmake-build-debug-wsl/[binary_dir]/CMakeFiles/install/local.dir
+/mnt/c/Users/korna/CLionProjects/Laba2/cmake-build-debug-wsl/[binary_dir]/CMakeFiles/install.dir
+/mnt/c/Users/korna/CLionProjects/Laba2/cmake-build-debug-wsl/[binary_dir]/CMakeFiles/list_install_components.dir
+/mnt/c/Users/korna/CLionProjects/Laba2/cmake-build-debug-wsl/[binary_dir]/CMakeFiles/gtest_main.dir
+/mnt/c/Users/korna/CLionProjects/Laba2/cmake-build-debug-wsl/[binary_dir]/CMakeFiles/edit_cache.dir
+/mnt/c/Users/korna/CLionProjects/Laba2/cmake-build-debug-wsl/[binary_dir]/CMakeFiles/gtest.dir
+/mnt/c/Users/korna/CLionProjects/Laba2/cmake-build-debug-wsl/[binary_dir]/CMakeFiles/rebuild_cache.dir
