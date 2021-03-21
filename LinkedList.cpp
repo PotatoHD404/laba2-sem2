@@ -18,8 +18,13 @@ private:
     unsigned int length;
 
     node *CreateNode(T data) {
-        node *res = new T[1];
+        node *res = new node[1];
         res->data = data;
+        res->next = NULL;
+    }
+
+    node *CreateNode() {
+        node *res = new node[1]();
         res->next = NULL;
     }
 
@@ -36,12 +41,29 @@ private:
 public:
     //Creation of the object
     LinkedList() {
-        head = NULL;
-        tail = NULL;
+        head = nullptr;
+        tail = nullptr;
         length = 0;
     }
 
+    explicit LinkedList(int count) {
+        if (count < 0)
+            throw out_of_range("count < 0");
+        head = CreateNode();
+        node *prev = head;
+        for (int i = 1; i < count; ++i) {
+            prev->next = CreateNode();
+            prev = prev->next;
+        }
+        tail = prev;
+        length = count;
+    }
+
     LinkedList(T *items, int count) {
+        if (count < 0)
+            throw out_of_range("count < 0");
+        if (items == NULL)
+            throw invalid_argument("items is NULL");
         head = CreateNode(items[0]);
         node *prev = head;
         for (int i = 1; i < count; ++i) {
@@ -66,19 +88,21 @@ public:
     }
 
     //Decomposition
-    T GetFirst() {
-        if (head == NULL)
+    T &GetFirst() {
+        if (!head)
             throw out_of_range("");
-        return head;
+        return head->data;
     }
 
-    T GetLast() {
-        if (tail == NULL)
+    T &GetLast() {
+        if (!tail)
             throw out_of_range("");
-        return tail;
+        return tail->data;
     }
 
-    T At(int index) {
+    T &At(int index) {
+        if (index < 0 || index >= length)
+            throw out_of_range("index < 0 or index >= length");
         if (index == 0)
             return GetFirst();
         if (index == length - 1)
@@ -86,7 +110,19 @@ public:
         return GetNode(index)->data;
     }
 
+    void Set(int index, T value) {
+        if (index < 0 || index >= length)
+            throw range_error("index < 0 or index >= length");
+        At(index) = value;
+    }
+
     LinkedList<T> *GetSubList(int startIndex, int endIndex) {
+        if (startIndex < 0 || startIndex >= length)
+            throw range_error("index < 0 or index >= length");
+        if (startIndex > endIndex)
+            throw range_error("startIndex > endIndex");
+        if (endIndex >= length)
+            throw range_error("endIndex >= length");
         LinkedList<T> *res;
         res(new LinkedList<T>);
         node *tmp = GetNode(startIndex);
@@ -101,7 +137,7 @@ public:
         return length;
     }
 
-    T operator[](unsigned int index) { return At(index); }
+    T &operator[](unsigned int index) { return At(index); }
 
     //Operations
     void Append(T item) {
@@ -126,20 +162,76 @@ public:
         ++length;
     }
 
+    void RemoveLast() {
+        if (length < 1)
+            throw range_error("index < 0 or index >= length");
+        if(length == 1) {
+            this->RemoveFirst();
+            return;
+        }
+        node *prev = GetNode(length - 2);
+        tail = prev;
+        delete prev->next;
+        --length;
+    }
+
+    void RemoveFirst() {
+        if (length < 1)
+            throw range_error("index < 0 or index >= length");
+        node *prev = head;
+        head = prev->next;
+        delete prev;
+        --length;
+        if(length == 0) {
+            tail = NULL;
+            head = NULL;
+        }
+    }
+
     void InsertAt(T item, int index) {
+        if (index < 0 || index >= length)
+            throw range_error("index < 0 or index >= length");
+        if (index == length - 1) {
+            this->Append(index);
+            return;
+        } else if (index == 0) {
+            this->Prepend(index);
+            return;
+        }
+
+
         node *tmp = CreateNode(item);
-        node *prev = GetNode(index);
+        node *prev = GetNode(index - 1);
         node *next = prev->next;
         prev->next = tmp;
         tmp->next = next;
+        ++length;
+    }
+
+    void RemoveAt(int index) {
+        if (index < 0 || index >= length)
+            throw range_error("index < 0 or index >= length");
+        if (index == length - 1) {
+            this->RemoveLast();
+            return;
+        } else if (index == 0) {
+            this->RemoveFirst();
+            return;
+        }
+
+
+        node *prev = GetNode(index);
+        node *next = (prev->next)->next;
+        delete prev->next;
+        prev->next = next;
+        --length;
     }
 
     LinkedList<T> *Concat(LinkedList<T> *list) {
+        if (list == NULL)
+            throw invalid_argument("list is NULL");
         LinkedList<T> *res = new LinkedList<T>[1];
-        *res = LinkedList();
-        for (int i = 0; i < list->GetLength(); ++i) {
-            res->Append(list->At(i));
-        }
+        *res = LinkedList(*list);
         for (int i = 0; i < length; ++i) {
             res->Append(this[i]);
         }
@@ -149,9 +241,9 @@ public:
     //Termination
     ~LinkedList() {
         node *tmp = head;
-        for (int i = 1; i < length; ++i) {
+        for (int i = 1; i <= length; ++i) {
             node *next = tmp->next;
-            delete *tmp;
+            delete tmp;
             tmp = next;
         }
     }

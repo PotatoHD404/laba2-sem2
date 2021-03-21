@@ -21,7 +21,7 @@ public:
     explicit DynamicArray(int count) {
         if (count < 0)
             throw out_of_range("count < 0");
-        this->actual_array = new T[count]();
+        actual_array = new T[count]();
         length = count;
     }
 
