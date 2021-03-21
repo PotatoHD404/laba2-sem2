@@ -13,16 +13,18 @@ private:
     int length;
 public:
     //Creation of the object
-    DynamicArray() {
-        actual_array = new T[1]();
-        length = 0;
-    }
+    DynamicArray() : actual_array(new T[1]()), length(0) {}
 
     explicit DynamicArray(int count) {
         if (count < 0)
             throw out_of_range("count < 0");
-        actual_array = new T[count]();
+
+        if (count > 0)
+            actual_array = new T[count]();
+        else
+            actual_array = new T[1]();
         length = count;
+
     }
 
     DynamicArray(T *items, int count) {
@@ -30,15 +32,23 @@ public:
             throw out_of_range("count < 0");
         if (items == NULL)
             throw invalid_argument("items is NULL");
-        actual_array = new T[count]();
-        memcpy(actual_array, items, count * sizeof(T));
+        if (count > 0) {
+            actual_array = new T[count]();
+            memcpy(actual_array, items, count * sizeof(T));
+        } else {
+            actual_array = new T[1]();
+        }
         length = count;
     }
 
     DynamicArray(const DynamicArray<T> &dynamicArray) {
         length = dynamicArray.length;
-        actual_array = new T[length]();
-        memcpy(actual_array, dynamicArray.actual_array, length * sizeof(T));
+        if (length > 0) {
+            actual_array = new T[length]();
+            memcpy(actual_array, dynamicArray.actual_array, length * sizeof(T));
+        }
+        else
+            actual_array = new T[1]();
     }
 
     //Decomposition
@@ -68,6 +78,17 @@ public:
         length = new_length;
         delete[] actual_array;
         actual_array = new_array;
+    }
+    DynamicArray<T> &operator=(const DynamicArray<T> &list) {
+        this->~DynamicArray();
+        length = list.length;
+        if (length > 0) {
+            actual_array = new T[length]();
+            memcpy(actual_array, list.actual_array, length * sizeof(T));
+        }
+        else
+            actual_array = new T[1]();
+        return *this;
     }
 
     //Termination

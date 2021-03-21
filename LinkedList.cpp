@@ -15,7 +15,7 @@ private:
         node *next;
     };
     node *head, *tail;
-    unsigned int length;
+    int length;
 
     node *CreateNode(T data) {
         node *res = new node[1];
@@ -40,51 +40,54 @@ private:
 
 public:
     //Creation of the object
-    LinkedList() {
-        head = nullptr;
-        tail = nullptr;
-        length = 0;
-    }
+    LinkedList() : head(nullptr), tail(nullptr), length(0) {}
 
-    explicit LinkedList(int count) {
+    explicit LinkedList(int count) : LinkedList() {
         if (count < 0)
             throw out_of_range("count < 0");
-        head = CreateNode();
-        node *prev = head;
-        for (int i = 1; i < count; ++i) {
-            prev->next = CreateNode();
-            prev = prev->next;
+        if (count > 0) {
+            head = CreateNode();
+            node *prev = head;
+            for (int i = 1; i < count; ++i) {
+                prev->next = CreateNode();
+                prev = prev->next;
+            }
+            tail = prev;
+            length = count;
         }
-        tail = prev;
-        length = count;
     }
 
-    LinkedList(T *items, int count) {
+    LinkedList(T *items, int count) : LinkedList() {
         if (count < 0)
             throw out_of_range("count < 0");
         if (items == NULL)
             throw invalid_argument("items is NULL");
-        head = CreateNode(items[0]);
-        node *prev = head;
-        for (int i = 1; i < count; ++i) {
-            prev->next = CreateNode(items[i]);
-            prev = prev->next;
+        if (count > 0) {
+            head = CreateNode(items[0]);
+            node *prev = head;
+            for (int i = 1; i < count; ++i) {
+                prev->next = CreateNode(items[i]);
+                prev = prev->next;
+            }
+            tail = prev;
+            length = count;
         }
-        tail = prev;
-        length = count;
     }
 
-    LinkedList(const LinkedList<T> &list) {
-        node *tmp = list.head;
-        head = CreateNode(tmp->data);
-        node *prev = head;
-        while (tmp->next != NULL) {
-            prev->next = CreateNode(tmp->data);
-            prev = prev->next;
+    LinkedList(const LinkedList<T> &list) : LinkedList() {
+        if (list.length > 0) {
+            node *tmp = list.head;
+            head = CreateNode(tmp->data);
+            node *prev = head;
             tmp = tmp->next;
+            while (tmp != NULL) {
+                prev->next = CreateNode(tmp->data);
+                prev = prev->next;
+                tmp = tmp->next;
+            }
+            tail = prev;
+            length = list.length;
         }
-        tail = prev;
-        length = GetLength(list);
     }
 
     //Decomposition
@@ -116,18 +119,17 @@ public:
         At(index) = value;
     }
 
-    LinkedList<T> *GetSubList(int startIndex, int endIndex) {
+    LinkedList<T> GetSubList(int startIndex, int endIndex) {
         if (startIndex < 0 || startIndex >= length)
             throw range_error("index < 0 or index >= length");
         if (startIndex > endIndex)
             throw range_error("startIndex > endIndex");
         if (endIndex >= length)
             throw range_error("endIndex >= length");
-        LinkedList<T> *res;
-        res(new LinkedList<T>);
+        LinkedList<T> res;
         node *tmp = GetNode(startIndex);
         for (int i = startIndex; i < endIndex + 1; ++i) {
-            res->Append(tmp->data);
+            res.Append(tmp->data);
             tmp = tmp->next;
         }
         return res;
@@ -162,27 +164,27 @@ public:
         ++length;
     }
 
-    void RemoveLast() {
+    void PopLast() {
         if (length < 1)
             throw range_error("index < 0 or index >= length");
-        if(length == 1) {
-            this->RemoveFirst();
+        if (length == 1) {
+            this->PopFirst();
             return;
         }
         node *prev = GetNode(length - 2);
         tail = prev;
-        delete prev->next;
+        delete[] prev->next;
         --length;
     }
 
-    void RemoveFirst() {
+    void PopFirst() {
         if (length < 1)
             throw range_error("index < 0 or index >= length");
         node *prev = head;
         head = prev->next;
-        delete prev;
+        delete[] prev;
         --length;
-        if(length == 0) {
+        if (length == 0) {
             tail = NULL;
             head = NULL;
         }
@@ -212,40 +214,61 @@ public:
         if (index < 0 || index >= length)
             throw range_error("index < 0 or index >= length");
         if (index == length - 1) {
-            this->RemoveLast();
+            this->PopLast();
             return;
         } else if (index == 0) {
-            this->RemoveFirst();
+            this->PopFirst();
             return;
         }
 
 
         node *prev = GetNode(index);
         node *next = (prev->next)->next;
-        delete prev->next;
+        delete[] prev->next;
         prev->next = next;
         --length;
     }
 
-    LinkedList<T> *Concat(LinkedList<T> *list) {
-        if (list == NULL)
-            throw invalid_argument("list is NULL");
-        LinkedList<T> *res = new LinkedList<T>[1];
-        *res = LinkedList(*list);
+    LinkedList<T> Concat(LinkedList<T> &list) {
+        LinkedList<T> res;
         for (int i = 0; i < length; ++i) {
-            res->Append(this[i]);
+            res.Append(this->At(i));
+        }
+        for (int i = 0; i < list.length; ++i) {
+            res.Append(list[i]);
         }
         return res;
     }
 
+    LinkedList<T> &operator=(const LinkedList<T> &list) {
+        this->~LinkedList();
+        if (list.length > 0) {
+            node *tmp = list.head;
+            head = CreateNode(tmp->data);
+            node *prev = head;
+            tmp = tmp->next;
+            while (tmp != NULL) {
+                prev->next = CreateNode(tmp->data);
+                prev = prev->next;
+                tmp = tmp->next;
+            }
+            tail = prev;
+            length = list.length;
+        } else {
+            head = nullptr;
+            tail = nullptr;
+            length = 0;
+        }
+        return *this;
+    }
+
     //Termination
     ~LinkedList() {
-        node *tmp = head;
-        for (int i = 1; i <= length; ++i) {
-            node *next = tmp->next;
-            delete tmp;
-            tmp = next;
-        }
+        while (length)
+            PopFirst();
     }
 };
+
+
+
 
