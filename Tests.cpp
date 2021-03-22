@@ -87,11 +87,11 @@ TEST(LinkedList, Basic) {
     EXPECT_ANY_THROW(arr.GetFirst());
     EXPECT_ANY_THROW(arr.GetLast());
 
-//    arr.Append(5);
-//    ASSERT_EQ (1, arr.GetLength());
-//    EXPECT_ANY_THROW(arr[-1]);
-//    EXPECT_ANY_THROW(arr[1]);
-//    EXPECT_EQ (5, arr[0]);
+    arr.Append(5);
+    ASSERT_EQ (1, arr.GetLength());
+    EXPECT_ANY_THROW(arr[-1]);
+    EXPECT_ANY_THROW(arr[1]);
+    EXPECT_EQ (5, arr[0]);
 //
 //    arr[0] = 4;
 //    EXPECT_EQ (4, arr[0]);
