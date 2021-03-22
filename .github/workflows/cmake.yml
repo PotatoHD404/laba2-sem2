@@ -21,7 +21,7 @@ jobs:
       # Some projects don't allow in-source building, so create a separate build directory
       # We'll use this as our working directory for all subsequent commands
       run: cmake -E make_directory ${{github.workspace}}/build
-    - name: Install gtest manually
+    - name: Install gtest
       run: sudo apt-get install libgtest-dev
     - name: Configure CMake
       # Use a bash shell so we can use the same syntax for environment variable
@@ -44,4 +44,5 @@ jobs:
       shell: bash
       # Execute tests defined by the CMake configuration.  
       # See https://cmake.org/cmake/help/latest/manual/ctest.1.html for more detail
-      run: ctest -C $BUILD_TYPE
+      run:Tests.test
+      
