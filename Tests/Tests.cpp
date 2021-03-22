@@ -263,4 +263,5 @@ TEST(LinkedList, Advanced) {
     ASSERT_EQ(arr1.GetLength(), 2);
     EXPECT_EQ (arr1[0], arr3[2]);
     EXPECT_EQ (arr1[1], arr3[3]);
+    EXPECT_EQ (0, 1);
 }
