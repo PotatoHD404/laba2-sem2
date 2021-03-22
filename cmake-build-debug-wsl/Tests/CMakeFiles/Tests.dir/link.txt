@@ -1,1 +1,1 @@
-/usr/bin/c++ -g CMakeFiles/Tests.dir/Tests.cpp.o -o Tests  [binary_dir]/libgtest.a [binary_dir]/libgtest_main.a [binary_dir]/libgtest.a -lpthread 
+/usr/bin/c++ -g CMakeFiles/Tests.dir/LinkedListTests.cpp.o CMakeFiles/Tests.dir/DynamicArrayTests.cpp.o CMakeFiles/Tests.dir/ArraySequenceTests.cpp.o CMakeFiles/Tests.dir/ListSequenceTests.cpp.o CMakeFiles/Tests.dir/SequenceTests.cpp.o -o Tests  [binary_dir]/libgtest.a [binary_dir]/libgtest_main.a [binary_dir]/libgtest.a -lpthread 

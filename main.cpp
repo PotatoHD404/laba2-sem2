@@ -3,7 +3,7 @@
 //
 
 #include <iostream>
-#include "DynamicArray.cpp"
+#include "DynamicArray.h"
 
 using namespace std;
 

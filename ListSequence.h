@@ -1,7 +1,8 @@
 //
 // Created by korna on 20.03.2021.
 //
-#include "Sequence.cpp"
+#include "Sequence.h"
+#include "LinkedList.h"
 #include <iostream>
 #include <cstring>
 

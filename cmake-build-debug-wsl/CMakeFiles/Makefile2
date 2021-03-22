@@ -163,12 +163,12 @@ Tests/CMakeFiles/Tests.dir/all: Tests/[binary_dir]/CMakeFiles/gtest_main.dir/all
 Tests/CMakeFiles/Tests.dir/all: Tests/[binary_dir]/CMakeFiles/gtest.dir/all
 	$(MAKE) $(MAKESILENT) -f Tests/CMakeFiles/Tests.dir/build.make Tests/CMakeFiles/Tests.dir/depend
 	$(MAKE) $(MAKESILENT) -f Tests/CMakeFiles/Tests.dir/build.make Tests/CMakeFiles/Tests.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/mnt/c/Users/korna/CLionProjects/Laba2/cmake-build-debug-wsl/CMakeFiles --progress-num=3,4 "Built target Tests"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/mnt/c/Users/korna/CLionProjects/Laba2/cmake-build-debug-wsl/CMakeFiles --progress-num=3,4,5,6,7,8 "Built target Tests"
 .PHONY : Tests/CMakeFiles/Tests.dir/all
 
 # Build rule for subdir invocation for target.
 Tests/CMakeFiles/Tests.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /mnt/c/Users/korna/CLionProjects/Laba2/cmake-build-debug-wsl/CMakeFiles 6
+	$(CMAKE_COMMAND) -E cmake_progress_start /mnt/c/Users/korna/CLionProjects/Laba2/cmake-build-debug-wsl/CMakeFiles 10
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 Tests/CMakeFiles/Tests.dir/all
 	$(CMAKE_COMMAND) -E cmake_progress_start /mnt/c/Users/korna/CLionProjects/Laba2/cmake-build-debug-wsl/CMakeFiles 0
 .PHONY : Tests/CMakeFiles/Tests.dir/rule
@@ -190,7 +190,7 @@ Tests/CMakeFiles/Tests.dir/clean:
 Tests/[binary_dir]/CMakeFiles/gtest_main.dir/all: Tests/[binary_dir]/CMakeFiles/gtest.dir/all
 	$(MAKE) $(MAKESILENT) -f Tests/[binary_dir]/CMakeFiles/gtest_main.dir/build.make Tests/[binary_dir]/CMakeFiles/gtest_main.dir/depend
 	$(MAKE) $(MAKESILENT) -f Tests/[binary_dir]/CMakeFiles/gtest_main.dir/build.make Tests/[binary_dir]/CMakeFiles/gtest_main.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/mnt/c/Users/korna/CLionProjects/Laba2/cmake-build-debug-wsl/CMakeFiles --progress-num=7,8 "Built target gtest_main"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/mnt/c/Users/korna/CLionProjects/Laba2/cmake-build-debug-wsl/CMakeFiles --progress-num=11,12 "Built target gtest_main"
 .PHONY : Tests/[binary_dir]/CMakeFiles/gtest_main.dir/all
 
 # Build rule for subdir invocation for target.
@@ -217,7 +217,7 @@ Tests/[binary_dir]/CMakeFiles/gtest_main.dir/clean:
 Tests/[binary_dir]/CMakeFiles/gtest.dir/all:
 	$(MAKE) $(MAKESILENT) -f Tests/[binary_dir]/CMakeFiles/gtest.dir/build.make Tests/[binary_dir]/CMakeFiles/gtest.dir/depend
 	$(MAKE) $(MAKESILENT) -f Tests/[binary_dir]/CMakeFiles/gtest.dir/build.make Tests/[binary_dir]/CMakeFiles/gtest.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/mnt/c/Users/korna/CLionProjects/Laba2/cmake-build-debug-wsl/CMakeFiles --progress-num=5,6 "Built target gtest"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/mnt/c/Users/korna/CLionProjects/Laba2/cmake-build-debug-wsl/CMakeFiles --progress-num=9,10 "Built target gtest"
 .PHONY : Tests/[binary_dir]/CMakeFiles/gtest.dir/all
 
 # Build rule for subdir invocation for target.

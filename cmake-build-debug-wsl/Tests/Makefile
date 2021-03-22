@@ -190,32 +190,140 @@ Tests/fast:
 	cd /mnt/c/Users/korna/CLionProjects/Laba2/cmake-build-debug-wsl && $(MAKE) $(MAKESILENT) -f Tests/CMakeFiles/Tests.dir/build.make Tests/CMakeFiles/Tests.dir/build
 .PHONY : Tests/fast
 
-Tests.o: Tests.cpp.o
+ArraySequenceTests.o: ArraySequenceTests.cpp.o
 
-.PHONY : Tests.o
+.PHONY : ArraySequenceTests.o
 
 # target to build an object file
-Tests.cpp.o:
-	cd /mnt/c/Users/korna/CLionProjects/Laba2/cmake-build-debug-wsl && $(MAKE) $(MAKESILENT) -f Tests/CMakeFiles/Tests.dir/build.make Tests/CMakeFiles/Tests.dir/Tests.cpp.o
-.PHONY : Tests.cpp.o
+ArraySequenceTests.cpp.o:
+	cd /mnt/c/Users/korna/CLionProjects/Laba2/cmake-build-debug-wsl && $(MAKE) $(MAKESILENT) -f Tests/CMakeFiles/Tests.dir/build.make Tests/CMakeFiles/Tests.dir/ArraySequenceTests.cpp.o
+.PHONY : ArraySequenceTests.cpp.o
 
-Tests.i: Tests.cpp.i
+ArraySequenceTests.i: ArraySequenceTests.cpp.i
 
-.PHONY : Tests.i
+.PHONY : ArraySequenceTests.i
 
 # target to preprocess a source file
-Tests.cpp.i:
-	cd /mnt/c/Users/korna/CLionProjects/Laba2/cmake-build-debug-wsl && $(MAKE) $(MAKESILENT) -f Tests/CMakeFiles/Tests.dir/build.make Tests/CMakeFiles/Tests.dir/Tests.cpp.i
-.PHONY : Tests.cpp.i
+ArraySequenceTests.cpp.i:
+	cd /mnt/c/Users/korna/CLionProjects/Laba2/cmake-build-debug-wsl && $(MAKE) $(MAKESILENT) -f Tests/CMakeFiles/Tests.dir/build.make Tests/CMakeFiles/Tests.dir/ArraySequenceTests.cpp.i
+.PHONY : ArraySequenceTests.cpp.i
 
-Tests.s: Tests.cpp.s
+ArraySequenceTests.s: ArraySequenceTests.cpp.s
 
-.PHONY : Tests.s
+.PHONY : ArraySequenceTests.s
 
 # target to generate assembly for a file
-Tests.cpp.s:
-	cd /mnt/c/Users/korna/CLionProjects/Laba2/cmake-build-debug-wsl && $(MAKE) $(MAKESILENT) -f Tests/CMakeFiles/Tests.dir/build.make Tests/CMakeFiles/Tests.dir/Tests.cpp.s
-.PHONY : Tests.cpp.s
+ArraySequenceTests.cpp.s:
+	cd /mnt/c/Users/korna/CLionProjects/Laba2/cmake-build-debug-wsl && $(MAKE) $(MAKESILENT) -f Tests/CMakeFiles/Tests.dir/build.make Tests/CMakeFiles/Tests.dir/ArraySequenceTests.cpp.s
+.PHONY : ArraySequenceTests.cpp.s
+
+DynamicArrayTests.o: DynamicArrayTests.cpp.o
+
+.PHONY : DynamicArrayTests.o
+
+# target to build an object file
+DynamicArrayTests.cpp.o:
+	cd /mnt/c/Users/korna/CLionProjects/Laba2/cmake-build-debug-wsl && $(MAKE) $(MAKESILENT) -f Tests/CMakeFiles/Tests.dir/build.make Tests/CMakeFiles/Tests.dir/DynamicArrayTests.cpp.o
+.PHONY : DynamicArrayTests.cpp.o
+
+DynamicArrayTests.i: DynamicArrayTests.cpp.i
+
+.PHONY : DynamicArrayTests.i
+
+# target to preprocess a source file
+DynamicArrayTests.cpp.i:
+	cd /mnt/c/Users/korna/CLionProjects/Laba2/cmake-build-debug-wsl && $(MAKE) $(MAKESILENT) -f Tests/CMakeFiles/Tests.dir/build.make Tests/CMakeFiles/Tests.dir/DynamicArrayTests.cpp.i
+.PHONY : DynamicArrayTests.cpp.i
+
+DynamicArrayTests.s: DynamicArrayTests.cpp.s
+
+.PHONY : DynamicArrayTests.s
+
+# target to generate assembly for a file
+DynamicArrayTests.cpp.s:
+	cd /mnt/c/Users/korna/CLionProjects/Laba2/cmake-build-debug-wsl && $(MAKE) $(MAKESILENT) -f Tests/CMakeFiles/Tests.dir/build.make Tests/CMakeFiles/Tests.dir/DynamicArrayTests.cpp.s
+.PHONY : DynamicArrayTests.cpp.s
+
+LinkedListTests.o: LinkedListTests.cpp.o
+
+.PHONY : LinkedListTests.o
+
+# target to build an object file
+LinkedListTests.cpp.o:
+	cd /mnt/c/Users/korna/CLionProjects/Laba2/cmake-build-debug-wsl && $(MAKE) $(MAKESILENT) -f Tests/CMakeFiles/Tests.dir/build.make Tests/CMakeFiles/Tests.dir/LinkedListTests.cpp.o
+.PHONY : LinkedListTests.cpp.o
+
+LinkedListTests.i: LinkedListTests.cpp.i
+
+.PHONY : LinkedListTests.i
+
+# target to preprocess a source file
+LinkedListTests.cpp.i:
+	cd /mnt/c/Users/korna/CLionProjects/Laba2/cmake-build-debug-wsl && $(MAKE) $(MAKESILENT) -f Tests/CMakeFiles/Tests.dir/build.make Tests/CMakeFiles/Tests.dir/LinkedListTests.cpp.i
+.PHONY : LinkedListTests.cpp.i
+
+LinkedListTests.s: LinkedListTests.cpp.s
+
+.PHONY : LinkedListTests.s
+
+# target to generate assembly for a file
+LinkedListTests.cpp.s:
+	cd /mnt/c/Users/korna/CLionProjects/Laba2/cmake-build-debug-wsl && $(MAKE) $(MAKESILENT) -f Tests/CMakeFiles/Tests.dir/build.make Tests/CMakeFiles/Tests.dir/LinkedListTests.cpp.s
+.PHONY : LinkedListTests.cpp.s
+
+ListSequenceTests.o: ListSequenceTests.cpp.o
+
+.PHONY : ListSequenceTests.o
+
+# target to build an object file
+ListSequenceTests.cpp.o:
+	cd /mnt/c/Users/korna/CLionProjects/Laba2/cmake-build-debug-wsl && $(MAKE) $(MAKESILENT) -f Tests/CMakeFiles/Tests.dir/build.make Tests/CMakeFiles/Tests.dir/ListSequenceTests.cpp.o
+.PHONY : ListSequenceTests.cpp.o
+
+ListSequenceTests.i: ListSequenceTests.cpp.i
+
+.PHONY : ListSequenceTests.i
+
+# target to preprocess a source file
+ListSequenceTests.cpp.i:
+	cd /mnt/c/Users/korna/CLionProjects/Laba2/cmake-build-debug-wsl && $(MAKE) $(MAKESILENT) -f Tests/CMakeFiles/Tests.dir/build.make Tests/CMakeFiles/Tests.dir/ListSequenceTests.cpp.i
+.PHONY : ListSequenceTests.cpp.i
+
+ListSequenceTests.s: ListSequenceTests.cpp.s
+
+.PHONY : ListSequenceTests.s
+
+# target to generate assembly for a file
+ListSequenceTests.cpp.s:
+	cd /mnt/c/Users/korna/CLionProjects/Laba2/cmake-build-debug-wsl && $(MAKE) $(MAKESILENT) -f Tests/CMakeFiles/Tests.dir/build.make Tests/CMakeFiles/Tests.dir/ListSequenceTests.cpp.s
+.PHONY : ListSequenceTests.cpp.s
+
+SequenceTests.o: SequenceTests.cpp.o
+
+.PHONY : SequenceTests.o
+
+# target to build an object file
+SequenceTests.cpp.o:
+	cd /mnt/c/Users/korna/CLionProjects/Laba2/cmake-build-debug-wsl && $(MAKE) $(MAKESILENT) -f Tests/CMakeFiles/Tests.dir/build.make Tests/CMakeFiles/Tests.dir/SequenceTests.cpp.o
+.PHONY : SequenceTests.cpp.o
+
+SequenceTests.i: SequenceTests.cpp.i
+
+.PHONY : SequenceTests.i
+
+# target to preprocess a source file
+SequenceTests.cpp.i:
+	cd /mnt/c/Users/korna/CLionProjects/Laba2/cmake-build-debug-wsl && $(MAKE) $(MAKESILENT) -f Tests/CMakeFiles/Tests.dir/build.make Tests/CMakeFiles/Tests.dir/SequenceTests.cpp.i
+.PHONY : SequenceTests.cpp.i
+
+SequenceTests.s: SequenceTests.cpp.s
+
+.PHONY : SequenceTests.s
+
+# target to generate assembly for a file
+SequenceTests.cpp.s:
+	cd /mnt/c/Users/korna/CLionProjects/Laba2/cmake-build-debug-wsl && $(MAKE) $(MAKESILENT) -f Tests/CMakeFiles/Tests.dir/build.make Tests/CMakeFiles/Tests.dir/SequenceTests.cpp.s
+.PHONY : SequenceTests.cpp.s
 
 # Help Target
 help:
@@ -230,9 +338,21 @@ help:
 	@echo "... list_install_components"
 	@echo "... rebuild_cache"
 	@echo "... Tests"
-	@echo "... Tests.o"
-	@echo "... Tests.i"
-	@echo "... Tests.s"
+	@echo "... ArraySequenceTests.o"
+	@echo "... ArraySequenceTests.i"
+	@echo "... ArraySequenceTests.s"
+	@echo "... DynamicArrayTests.o"
+	@echo "... DynamicArrayTests.i"
+	@echo "... DynamicArrayTests.s"
+	@echo "... LinkedListTests.o"
+	@echo "... LinkedListTests.i"
+	@echo "... LinkedListTests.s"
+	@echo "... ListSequenceTests.o"
+	@echo "... ListSequenceTests.i"
+	@echo "... ListSequenceTests.s"
+	@echo "... SequenceTests.o"
+	@echo "... SequenceTests.i"
+	@echo "... SequenceTests.s"
 .PHONY : help
 
 

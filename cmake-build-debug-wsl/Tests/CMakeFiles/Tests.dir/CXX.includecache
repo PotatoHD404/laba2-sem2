@@ -6,25 +6,29 @@
 
 #IncludeRegexTransform: 
 
-/mnt/c/Users/korna/CLionProjects/Laba2/DynamicArray.cpp
+/mnt/c/Users/korna/CLionProjects/Laba2/ArraySequence.h
+Sequence.h
+/mnt/c/Users/korna/CLionProjects/Laba2/Sequence.h
+DynamicArray.h
+/mnt/c/Users/korna/CLionProjects/Laba2/DynamicArray.h
 iostream
 -
 cstring
 -
 
-/mnt/c/Users/korna/CLionProjects/Laba2/LinkedList.cpp
+/mnt/c/Users/korna/CLionProjects/Laba2/DynamicArray.h
 iostream
 -
 cstring
 -
 
-/mnt/c/Users/korna/CLionProjects/Laba2/Tests/Tests.cpp
+/mnt/c/Users/korna/CLionProjects/Laba2/Sequence.h
+
+/mnt/c/Users/korna/CLionProjects/Laba2/Tests/ArraySequenceTests.cpp
 gtest/gtest.h
 /mnt/c/Users/korna/CLionProjects/Laba2/Tests/gtest/gtest.h
-../DynamicArray.cpp
-/mnt/c/Users/korna/CLionProjects/Laba2/DynamicArray.cpp
-../LinkedList.cpp
-/mnt/c/Users/korna/CLionProjects/Laba2/LinkedList.cpp
+../ArraySequence.h
+/mnt/c/Users/korna/CLionProjects/Laba2/ArraySequence.h
 
 /usr/src/gtest/include/gtest/gtest-death-test.h
 gtest/internal/gtest-death-test-internal.h

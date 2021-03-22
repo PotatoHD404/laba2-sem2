@@ -76,33 +76,93 @@ include Tests/CMakeFiles/Tests.dir/progress.make
 # Include the compile flags for this target's objects.
 include Tests/CMakeFiles/Tests.dir/flags.make
 
-Tests/CMakeFiles/Tests.dir/Tests.cpp.o: Tests/CMakeFiles/Tests.dir/flags.make
-Tests/CMakeFiles/Tests.dir/Tests.cpp.o: ../Tests/Tests.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/mnt/c/Users/korna/CLionProjects/Laba2/cmake-build-debug-wsl/CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "Building CXX object Tests/CMakeFiles/Tests.dir/Tests.cpp.o"
-	cd /mnt/c/Users/korna/CLionProjects/Laba2/cmake-build-debug-wsl/Tests && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/Tests.dir/Tests.cpp.o -c /mnt/c/Users/korna/CLionProjects/Laba2/Tests/Tests.cpp
+Tests/CMakeFiles/Tests.dir/LinkedListTests.cpp.o: Tests/CMakeFiles/Tests.dir/flags.make
+Tests/CMakeFiles/Tests.dir/LinkedListTests.cpp.o: ../Tests/LinkedListTests.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/mnt/c/Users/korna/CLionProjects/Laba2/cmake-build-debug-wsl/CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "Building CXX object Tests/CMakeFiles/Tests.dir/LinkedListTests.cpp.o"
+	cd /mnt/c/Users/korna/CLionProjects/Laba2/cmake-build-debug-wsl/Tests && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/Tests.dir/LinkedListTests.cpp.o -c /mnt/c/Users/korna/CLionProjects/Laba2/Tests/LinkedListTests.cpp
 
-Tests/CMakeFiles/Tests.dir/Tests.cpp.i: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/Tests.dir/Tests.cpp.i"
-	cd /mnt/c/Users/korna/CLionProjects/Laba2/cmake-build-debug-wsl/Tests && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /mnt/c/Users/korna/CLionProjects/Laba2/Tests/Tests.cpp > CMakeFiles/Tests.dir/Tests.cpp.i
+Tests/CMakeFiles/Tests.dir/LinkedListTests.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/Tests.dir/LinkedListTests.cpp.i"
+	cd /mnt/c/Users/korna/CLionProjects/Laba2/cmake-build-debug-wsl/Tests && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /mnt/c/Users/korna/CLionProjects/Laba2/Tests/LinkedListTests.cpp > CMakeFiles/Tests.dir/LinkedListTests.cpp.i
 
-Tests/CMakeFiles/Tests.dir/Tests.cpp.s: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/Tests.dir/Tests.cpp.s"
-	cd /mnt/c/Users/korna/CLionProjects/Laba2/cmake-build-debug-wsl/Tests && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /mnt/c/Users/korna/CLionProjects/Laba2/Tests/Tests.cpp -o CMakeFiles/Tests.dir/Tests.cpp.s
+Tests/CMakeFiles/Tests.dir/LinkedListTests.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/Tests.dir/LinkedListTests.cpp.s"
+	cd /mnt/c/Users/korna/CLionProjects/Laba2/cmake-build-debug-wsl/Tests && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /mnt/c/Users/korna/CLionProjects/Laba2/Tests/LinkedListTests.cpp -o CMakeFiles/Tests.dir/LinkedListTests.cpp.s
+
+Tests/CMakeFiles/Tests.dir/DynamicArrayTests.cpp.o: Tests/CMakeFiles/Tests.dir/flags.make
+Tests/CMakeFiles/Tests.dir/DynamicArrayTests.cpp.o: ../Tests/DynamicArrayTests.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/mnt/c/Users/korna/CLionProjects/Laba2/cmake-build-debug-wsl/CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Building CXX object Tests/CMakeFiles/Tests.dir/DynamicArrayTests.cpp.o"
+	cd /mnt/c/Users/korna/CLionProjects/Laba2/cmake-build-debug-wsl/Tests && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/Tests.dir/DynamicArrayTests.cpp.o -c /mnt/c/Users/korna/CLionProjects/Laba2/Tests/DynamicArrayTests.cpp
+
+Tests/CMakeFiles/Tests.dir/DynamicArrayTests.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/Tests.dir/DynamicArrayTests.cpp.i"
+	cd /mnt/c/Users/korna/CLionProjects/Laba2/cmake-build-debug-wsl/Tests && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /mnt/c/Users/korna/CLionProjects/Laba2/Tests/DynamicArrayTests.cpp > CMakeFiles/Tests.dir/DynamicArrayTests.cpp.i
+
+Tests/CMakeFiles/Tests.dir/DynamicArrayTests.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/Tests.dir/DynamicArrayTests.cpp.s"
+	cd /mnt/c/Users/korna/CLionProjects/Laba2/cmake-build-debug-wsl/Tests && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /mnt/c/Users/korna/CLionProjects/Laba2/Tests/DynamicArrayTests.cpp -o CMakeFiles/Tests.dir/DynamicArrayTests.cpp.s
+
+Tests/CMakeFiles/Tests.dir/ArraySequenceTests.cpp.o: Tests/CMakeFiles/Tests.dir/flags.make
+Tests/CMakeFiles/Tests.dir/ArraySequenceTests.cpp.o: ../Tests/ArraySequenceTests.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/mnt/c/Users/korna/CLionProjects/Laba2/cmake-build-debug-wsl/CMakeFiles --progress-num=$(CMAKE_PROGRESS_3) "Building CXX object Tests/CMakeFiles/Tests.dir/ArraySequenceTests.cpp.o"
+	cd /mnt/c/Users/korna/CLionProjects/Laba2/cmake-build-debug-wsl/Tests && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/Tests.dir/ArraySequenceTests.cpp.o -c /mnt/c/Users/korna/CLionProjects/Laba2/Tests/ArraySequenceTests.cpp
+
+Tests/CMakeFiles/Tests.dir/ArraySequenceTests.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/Tests.dir/ArraySequenceTests.cpp.i"
+	cd /mnt/c/Users/korna/CLionProjects/Laba2/cmake-build-debug-wsl/Tests && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /mnt/c/Users/korna/CLionProjects/Laba2/Tests/ArraySequenceTests.cpp > CMakeFiles/Tests.dir/ArraySequenceTests.cpp.i
+
+Tests/CMakeFiles/Tests.dir/ArraySequenceTests.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/Tests.dir/ArraySequenceTests.cpp.s"
+	cd /mnt/c/Users/korna/CLionProjects/Laba2/cmake-build-debug-wsl/Tests && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /mnt/c/Users/korna/CLionProjects/Laba2/Tests/ArraySequenceTests.cpp -o CMakeFiles/Tests.dir/ArraySequenceTests.cpp.s
+
+Tests/CMakeFiles/Tests.dir/ListSequenceTests.cpp.o: Tests/CMakeFiles/Tests.dir/flags.make
+Tests/CMakeFiles/Tests.dir/ListSequenceTests.cpp.o: ../Tests/ListSequenceTests.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/mnt/c/Users/korna/CLionProjects/Laba2/cmake-build-debug-wsl/CMakeFiles --progress-num=$(CMAKE_PROGRESS_4) "Building CXX object Tests/CMakeFiles/Tests.dir/ListSequenceTests.cpp.o"
+	cd /mnt/c/Users/korna/CLionProjects/Laba2/cmake-build-debug-wsl/Tests && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/Tests.dir/ListSequenceTests.cpp.o -c /mnt/c/Users/korna/CLionProjects/Laba2/Tests/ListSequenceTests.cpp
+
+Tests/CMakeFiles/Tests.dir/ListSequenceTests.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/Tests.dir/ListSequenceTests.cpp.i"
+	cd /mnt/c/Users/korna/CLionProjects/Laba2/cmake-build-debug-wsl/Tests && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /mnt/c/Users/korna/CLionProjects/Laba2/Tests/ListSequenceTests.cpp > CMakeFiles/Tests.dir/ListSequenceTests.cpp.i
+
+Tests/CMakeFiles/Tests.dir/ListSequenceTests.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/Tests.dir/ListSequenceTests.cpp.s"
+	cd /mnt/c/Users/korna/CLionProjects/Laba2/cmake-build-debug-wsl/Tests && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /mnt/c/Users/korna/CLionProjects/Laba2/Tests/ListSequenceTests.cpp -o CMakeFiles/Tests.dir/ListSequenceTests.cpp.s
+
+Tests/CMakeFiles/Tests.dir/SequenceTests.cpp.o: Tests/CMakeFiles/Tests.dir/flags.make
+Tests/CMakeFiles/Tests.dir/SequenceTests.cpp.o: ../Tests/SequenceTests.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/mnt/c/Users/korna/CLionProjects/Laba2/cmake-build-debug-wsl/CMakeFiles --progress-num=$(CMAKE_PROGRESS_5) "Building CXX object Tests/CMakeFiles/Tests.dir/SequenceTests.cpp.o"
+	cd /mnt/c/Users/korna/CLionProjects/Laba2/cmake-build-debug-wsl/Tests && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/Tests.dir/SequenceTests.cpp.o -c /mnt/c/Users/korna/CLionProjects/Laba2/Tests/SequenceTests.cpp
+
+Tests/CMakeFiles/Tests.dir/SequenceTests.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/Tests.dir/SequenceTests.cpp.i"
+	cd /mnt/c/Users/korna/CLionProjects/Laba2/cmake-build-debug-wsl/Tests && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /mnt/c/Users/korna/CLionProjects/Laba2/Tests/SequenceTests.cpp > CMakeFiles/Tests.dir/SequenceTests.cpp.i
+
+Tests/CMakeFiles/Tests.dir/SequenceTests.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/Tests.dir/SequenceTests.cpp.s"
+	cd /mnt/c/Users/korna/CLionProjects/Laba2/cmake-build-debug-wsl/Tests && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /mnt/c/Users/korna/CLionProjects/Laba2/Tests/SequenceTests.cpp -o CMakeFiles/Tests.dir/SequenceTests.cpp.s
 
 # Object files for target Tests
 Tests_OBJECTS = \
-"CMakeFiles/Tests.dir/Tests.cpp.o"
+"CMakeFiles/Tests.dir/LinkedListTests.cpp.o" \
+"CMakeFiles/Tests.dir/DynamicArrayTests.cpp.o" \
+"CMakeFiles/Tests.dir/ArraySequenceTests.cpp.o" \
+"CMakeFiles/Tests.dir/ListSequenceTests.cpp.o" \
+"CMakeFiles/Tests.dir/SequenceTests.cpp.o"
 
 # External object files for target Tests
 Tests_EXTERNAL_OBJECTS =
 
-Tests/Tests: Tests/CMakeFiles/Tests.dir/Tests.cpp.o
+Tests/Tests: Tests/CMakeFiles/Tests.dir/LinkedListTests.cpp.o
+Tests/Tests: Tests/CMakeFiles/Tests.dir/DynamicArrayTests.cpp.o
+Tests/Tests: Tests/CMakeFiles/Tests.dir/ArraySequenceTests.cpp.o
+Tests/Tests: Tests/CMakeFiles/Tests.dir/ListSequenceTests.cpp.o
+Tests/Tests: Tests/CMakeFiles/Tests.dir/SequenceTests.cpp.o
 Tests/Tests: Tests/CMakeFiles/Tests.dir/build.make
 Tests/Tests: Tests/[binary_dir]/libgtest.a
 Tests/Tests: Tests/[binary_dir]/libgtest_main.a
 Tests/Tests: Tests/[binary_dir]/libgtest.a
 Tests/Tests: Tests/CMakeFiles/Tests.dir/link.txt
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir=/mnt/c/Users/korna/CLionProjects/Laba2/cmake-build-debug-wsl/CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Linking CXX executable Tests"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir=/mnt/c/Users/korna/CLionProjects/Laba2/cmake-build-debug-wsl/CMakeFiles --progress-num=$(CMAKE_PROGRESS_6) "Linking CXX executable Tests"
 	cd /mnt/c/Users/korna/CLionProjects/Laba2/cmake-build-debug-wsl/Tests && $(CMAKE_COMMAND) -E cmake_link_script CMakeFiles/Tests.dir/link.txt --verbose=$(VERBOSE)
 
 # Rule to build all files generated by this target.

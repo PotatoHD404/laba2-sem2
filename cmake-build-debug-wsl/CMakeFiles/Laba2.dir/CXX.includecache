@@ -6,7 +6,7 @@
 
 #IncludeRegexTransform: 
 
-/mnt/c/Users/korna/CLionProjects/Laba2/DynamicArray.cpp
+/mnt/c/Users/korna/CLionProjects/Laba2/DynamicArray.h
 iostream
 -
 cstring
@@ -15,6 +15,6 @@ cstring
 /mnt/c/Users/korna/CLionProjects/Laba2/main.cpp
 iostream
 -
-DynamicArray.cpp
-/mnt/c/Users/korna/CLionProjects/Laba2/DynamicArray.cpp
+DynamicArray.h
+/mnt/c/Users/korna/CLionProjects/Laba2/DynamicArray.h
 

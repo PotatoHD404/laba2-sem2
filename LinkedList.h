@@ -194,10 +194,10 @@ public:
         if (index < 0 || index >= length)
             throw range_error("index < 0 or index >= length");
         if (index == length - 1) {
-            this->Append(index);
+            this->Append(item);
             return;
         } else if (index == 0) {
-            this->Prepend(index);
+            this->Prepend(item);
             return;
         }
 
@@ -222,7 +222,7 @@ public:
         }
 
 
-        node *prev = GetNode(index);
+        node *prev = GetNode(index - 1);
         node *next = (prev->next)->next;
         delete prev->next;
         prev->next = next;

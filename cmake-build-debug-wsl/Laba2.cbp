@@ -274,7 +274,19 @@
 				</MakeCommands>
 			</Target>
 		</Build>
-		<Unit filename="/mnt/c/Users/korna/CLionProjects/Laba2/Tests/Tests.cpp">
+		<Unit filename="/mnt/c/Users/korna/CLionProjects/Laba2/Tests/ArraySequenceTests.cpp">
+			<Option target="Tests"/>
+		</Unit>
+		<Unit filename="/mnt/c/Users/korna/CLionProjects/Laba2/Tests/DynamicArrayTests.cpp">
+			<Option target="Tests"/>
+		</Unit>
+		<Unit filename="/mnt/c/Users/korna/CLionProjects/Laba2/Tests/LinkedListTests.cpp">
+			<Option target="Tests"/>
+		</Unit>
+		<Unit filename="/mnt/c/Users/korna/CLionProjects/Laba2/Tests/ListSequenceTests.cpp">
+			<Option target="Tests"/>
+		</Unit>
+		<Unit filename="/mnt/c/Users/korna/CLionProjects/Laba2/Tests/SequenceTests.cpp">
 			<Option target="Tests"/>
 		</Unit>
 		<Unit filename="/mnt/c/Users/korna/CLionProjects/Laba2/main.cpp">
