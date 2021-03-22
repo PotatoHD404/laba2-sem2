@@ -5,16 +5,23 @@
 template<class T>
 class Sequence {
 public:
+
     //Decomposition
-    virtual T GetFirst() { return At(0); }
+    T &GetFirst() { return At(0); }
 
-    virtual T GetLast() { return At(GetLength() - 1); }
+    T &GetLast() { return At(GetLength() - 1); }
 
-    virtual T At(int index) = 0;
+    void Set(int index, T value) {
+        At(index) = value;
+    }
 
-    virtual Sequence<T> *GetSubsequence(int startIndex, int endIndex) = 0;
+    virtual T &At(int index) = 0;
+
+    virtual Sequence<T> &GetSubsequence(int startIndex, int endIndex) = 0;
 
     virtual int GetLength() = 0;
+
+    T &operator[](unsigned int index) { return At(index); }
 
     //Operations
     virtual void Append(T item) = 0;
@@ -23,5 +30,12 @@ public:
 
     virtual void InsertAt(T item, int index) = 0;
 
-    virtual Sequence<T> *Concat(Sequence<T> *list) = 0;
+    virtual void PopFirst() = 0;
+
+    virtual void PopLast() = 0;
+
+    virtual void RemoveAt(int index) = 0;
+
+    virtual std::unique_ptr<Sequence<T>> Concat(Sequence<T> &list) = 0;
+
 };

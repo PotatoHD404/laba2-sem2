@@ -9,7 +9,7 @@
 using namespace std;
 
 template<class T>
-class ArraySequence : Sequence<T> {
+class ArraySequence : public Sequence<T> {
 
 private:
     DynamicArray<T> items;
@@ -18,6 +18,10 @@ public:
     //Creation of the object
     ArraySequence() {
         items = DynamicArray<T>();
+    }
+
+    explicit ArraySequence(int count) {
+        items = DynamicArray<T>(count);
     }
 
     ArraySequence(T *items, int count) {
@@ -34,18 +38,27 @@ public:
         return items.At(index);
     }
 
-    Sequence<T> GetSubsequence(int startIndex, int endIndex) {
-        ArraySequence<T> res;
-        for (int i = startIndex; i < endIndex; ++i) {
-            res.Append(items.At(i));
+    ArraySequence<T> &GetSubsequence(int startIndex, int endIndex) {
+        if (startIndex < 0 || startIndex >= items.GetLength())
+            throw range_error("index < 0 or index >= length");
+        if (startIndex > endIndex)
+            throw range_error("startIndex > endIndex");
+        if (endIndex >= items.GetLength())
+            throw range_error("endIndex >= length");
+        ArraySequence<T> *res = new ArraySequence<T>;
+        for (int i = startIndex; i < endIndex + 1; ++i) {
+            res->Append(items.At(i));
         }
-        return res;
+        return *res;
     }
 
     int GetLength() {
         return items.GetLength();
     }
 
+//    T &GetFirst() { return (static_cast<Sequence<T>>(*this)).GetFirst(); }
+//
+//    T &GetLast() { return (static_cast<Sequence<T>>(*this)).GetFirst(); }
 
     //Operations
     void Append(T item) {
@@ -63,25 +76,49 @@ public:
 
     void InsertAt(T item, int index) {
         items.Resize(items.GetLength() + 1);
+
         for (int i = items.GetLength() - 1; i > index; --i) {
             items.Set(i, items[i - 1]);
         }
-        items.Set(index, item);
+        if (items.GetLength() - 2 != index)
+            items.Set(index, item);
+        else
+            items.Set(items.GetLength() - 1, item);
+
     }
 
-    Sequence<T> *Concat(Sequence<T> &list) {
-        ArraySequence<T> res;
+    std::unique_ptr<Sequence<T>> Concat(Sequence<T> &list) {
+        ArraySequence<T> res = ArraySequence<T>();
         for (int i = 0; i < items.GetLength(); ++i) {
             res.Append(items[i]);
         }
-        for (int i = 0; i < list->items.GetLength(); ++i) {
-            res.Append(list.items[i]);
+        for (int i = 0; i < list.GetLength(); ++i) {
+            res.Append(list[i]);
         }
         return res;
     }
 
+    void PopFirst() {
+        for (int i = 0; i < items.GetLength() - 1; ++i) {
+            items.Set(i, items[i + 1]);
+        }
+        items.Resize(items.GetLength() - 1);
+    }
+
+    void PopLast() {
+        items.Resize(items.GetLength() - 1);
+    }
+
+    void RemoveAt(int index) {
+        if (index < 0 || index >= items.GetLength())
+            throw range_error("index < 0 or index >= length");
+        for (int i = index; i < items.GetLength() - 1; ++i) {
+            items.Set(i, items[i + 1]);
+        }
+        items.Resize(items.GetLength() - 1);
+    }
+
     ArraySequence<T> &operator=(const ArraySequence<T> &list) {
-        this->~ArraySequence();
         items = DynamicArray<T>(list.items);
         return *this;
     }

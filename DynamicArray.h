@@ -46,8 +46,7 @@ public:
         if (length > 0) {
             actual_array = new T[length]();
             memcpy(actual_array, dynamicArray.actual_array, length * sizeof(T));
-        }
-        else
+        } else
             actual_array = new T[1]();
     }
 
@@ -73,20 +72,25 @@ public:
         if (new_length < 0) {
             throw range_error("new_length < 0");
         }
-        T *new_array = new T[new_length]();
-        memcpy(new_array, actual_array, sizeof(T) * new_length);
-        length = new_length;
+        T *new_array;
+
+        if (new_length > 0) {
+            new_array = new T[new_length]();
+            int len = new_length > length ? length : new_length;
+            memcpy(new_array, actual_array, sizeof(T) * len);
+        } else new_array = new T[1]();
         delete[] actual_array;
+        length = new_length;
         actual_array = new_array;
     }
+
     DynamicArray<T> &operator=(const DynamicArray<T> &list) {
         this->~DynamicArray();
         length = list.length;
         if (length > 0) {
             actual_array = new T[length]();
             memcpy(actual_array, list.actual_array, length * sizeof(T));
-        }
-        else
+        } else
             actual_array = new T[1]();
         return *this;
     }
