@@ -31,3 +31,5 @@
 *.out
 *.app
 *.cmake
+
+cmake-build-debug-wsl/*
