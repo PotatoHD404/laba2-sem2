@@ -76,31 +76,28 @@ include CMakeFiles/Laba2.dir/progress.make
 # Include the compile flags for this target's objects.
 include CMakeFiles/Laba2.dir/flags.make
 
-CMakeFiles/Laba2.dir/Tests.cpp.o: CMakeFiles/Laba2.dir/flags.make
-CMakeFiles/Laba2.dir/Tests.cpp.o: ../Tests.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/mnt/c/Users/korna/CLionProjects/Laba2/cmake-build-debug-wsl/CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "Building CXX object CMakeFiles/Laba2.dir/Tests.cpp.o"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/Laba2.dir/Tests.cpp.o -c /mnt/c/Users/korna/CLionProjects/Laba2/Tests.cpp
+CMakeFiles/Laba2.dir/main.cpp.o: CMakeFiles/Laba2.dir/flags.make
+CMakeFiles/Laba2.dir/main.cpp.o: ../main.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/mnt/c/Users/korna/CLionProjects/Laba2/cmake-build-debug-wsl/CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "Building CXX object CMakeFiles/Laba2.dir/main.cpp.o"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/Laba2.dir/main.cpp.o -c /mnt/c/Users/korna/CLionProjects/Laba2/main.cpp
 
-CMakeFiles/Laba2.dir/Tests.cpp.i: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/Laba2.dir/Tests.cpp.i"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /mnt/c/Users/korna/CLionProjects/Laba2/Tests.cpp > CMakeFiles/Laba2.dir/Tests.cpp.i
+CMakeFiles/Laba2.dir/main.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/Laba2.dir/main.cpp.i"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /mnt/c/Users/korna/CLionProjects/Laba2/main.cpp > CMakeFiles/Laba2.dir/main.cpp.i
 
-CMakeFiles/Laba2.dir/Tests.cpp.s: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/Laba2.dir/Tests.cpp.s"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /mnt/c/Users/korna/CLionProjects/Laba2/Tests.cpp -o CMakeFiles/Laba2.dir/Tests.cpp.s
+CMakeFiles/Laba2.dir/main.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/Laba2.dir/main.cpp.s"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /mnt/c/Users/korna/CLionProjects/Laba2/main.cpp -o CMakeFiles/Laba2.dir/main.cpp.s
 
 # Object files for target Laba2
 Laba2_OBJECTS = \
-"CMakeFiles/Laba2.dir/Tests.cpp.o"
+"CMakeFiles/Laba2.dir/main.cpp.o"
 
 # External object files for target Laba2
 Laba2_EXTERNAL_OBJECTS =
 
-Laba2: CMakeFiles/Laba2.dir/Tests.cpp.o
+Laba2: CMakeFiles/Laba2.dir/main.cpp.o
 Laba2: CMakeFiles/Laba2.dir/build.make
-Laba2: [binary_dir]/libgtest.a
-Laba2: [binary_dir]/libgtest_main.a
-Laba2: [binary_dir]/libgtest.a
 Laba2: CMakeFiles/Laba2.dir/link.txt
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir=/mnt/c/Users/korna/CLionProjects/Laba2/cmake-build-debug-wsl/CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Linking CXX executable Laba2"
 	$(CMAKE_COMMAND) -E cmake_link_script CMakeFiles/Laba2.dir/link.txt --verbose=$(VERBOSE)

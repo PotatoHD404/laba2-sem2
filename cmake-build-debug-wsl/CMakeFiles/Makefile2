@@ -73,47 +73,66 @@ CMAKE_BINARY_DIR = /mnt/c/Users/korna/CLionProjects/Laba2/cmake-build-debug-wsl
 
 # The main recursive "all" target.
 all: CMakeFiles/Laba2.dir/all
-all: [binary_dir]/all
+all: Tests/all
 
 .PHONY : all
 
 # The main recursive "preinstall" target.
-preinstall: [binary_dir]/preinstall
+preinstall: Tests/preinstall
 
 .PHONY : preinstall
 
 # The main recursive "clean" target.
 clean: CMakeFiles/Laba2.dir/clean
-clean: [binary_dir]/clean
+clean: Tests/clean
 
 .PHONY : clean
 
 #=============================================================================
-# Directory level rules for directory [binary_dir]
+# Directory level rules for directory Tests
 
 # Recursive "all" directory target.
-[binary_dir]/all: [binary_dir]/CMakeFiles/gtest_main.dir/all
-[binary_dir]/all: [binary_dir]/CMakeFiles/gtest.dir/all
+Tests/all: Tests/CMakeFiles/Tests.dir/all
+Tests/all: Tests/[binary_dir]/all
 
-.PHONY : [binary_dir]/all
+.PHONY : Tests/all
 
 # Recursive "preinstall" directory target.
-[binary_dir]/preinstall:
+Tests/preinstall: Tests/[binary_dir]/preinstall
 
-.PHONY : [binary_dir]/preinstall
+.PHONY : Tests/preinstall
 
 # Recursive "clean" directory target.
-[binary_dir]/clean: [binary_dir]/CMakeFiles/gtest_main.dir/clean
-[binary_dir]/clean: [binary_dir]/CMakeFiles/gtest.dir/clean
+Tests/clean: Tests/CMakeFiles/Tests.dir/clean
+Tests/clean: Tests/[binary_dir]/clean
 
-.PHONY : [binary_dir]/clean
+.PHONY : Tests/clean
+
+#=============================================================================
+# Directory level rules for directory Tests/[binary_dir]
+
+# Recursive "all" directory target.
+Tests/[binary_dir]/all: Tests/[binary_dir]/CMakeFiles/gtest_main.dir/all
+Tests/[binary_dir]/all: Tests/[binary_dir]/CMakeFiles/gtest.dir/all
+
+.PHONY : Tests/[binary_dir]/all
+
+# Recursive "preinstall" directory target.
+Tests/[binary_dir]/preinstall:
+
+.PHONY : Tests/[binary_dir]/preinstall
+
+# Recursive "clean" directory target.
+Tests/[binary_dir]/clean: Tests/[binary_dir]/CMakeFiles/gtest_main.dir/clean
+Tests/[binary_dir]/clean: Tests/[binary_dir]/CMakeFiles/gtest.dir/clean
+
+.PHONY : Tests/[binary_dir]/clean
 
 #=============================================================================
 # Target rules for target CMakeFiles/Laba2.dir
 
 # All Build rule for target.
-CMakeFiles/Laba2.dir/all: [binary_dir]/CMakeFiles/gtest_main.dir/all
-CMakeFiles/Laba2.dir/all: [binary_dir]/CMakeFiles/gtest.dir/all
+CMakeFiles/Laba2.dir/all:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/Laba2.dir/build.make CMakeFiles/Laba2.dir/depend
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/Laba2.dir/build.make CMakeFiles/Laba2.dir/build
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/mnt/c/Users/korna/CLionProjects/Laba2/cmake-build-debug-wsl/CMakeFiles --progress-num=1,2 "Built target Laba2"
@@ -121,7 +140,7 @@ CMakeFiles/Laba2.dir/all: [binary_dir]/CMakeFiles/gtest.dir/all
 
 # Build rule for subdir invocation for target.
 CMakeFiles/Laba2.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /mnt/c/Users/korna/CLionProjects/Laba2/cmake-build-debug-wsl/CMakeFiles 6
+	$(CMAKE_COMMAND) -E cmake_progress_start /mnt/c/Users/korna/CLionProjects/Laba2/cmake-build-debug-wsl/CMakeFiles 2
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 CMakeFiles/Laba2.dir/all
 	$(CMAKE_COMMAND) -E cmake_progress_start /mnt/c/Users/korna/CLionProjects/Laba2/cmake-build-debug-wsl/CMakeFiles 0
 .PHONY : CMakeFiles/Laba2.dir/rule
@@ -137,58 +156,86 @@ CMakeFiles/Laba2.dir/clean:
 .PHONY : CMakeFiles/Laba2.dir/clean
 
 #=============================================================================
-# Target rules for target [binary_dir]/CMakeFiles/gtest_main.dir
+# Target rules for target Tests/CMakeFiles/Tests.dir
 
 # All Build rule for target.
-[binary_dir]/CMakeFiles/gtest_main.dir/all: [binary_dir]/CMakeFiles/gtest.dir/all
-	$(MAKE) $(MAKESILENT) -f [binary_dir]/CMakeFiles/gtest_main.dir/build.make [binary_dir]/CMakeFiles/gtest_main.dir/depend
-	$(MAKE) $(MAKESILENT) -f [binary_dir]/CMakeFiles/gtest_main.dir/build.make [binary_dir]/CMakeFiles/gtest_main.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/mnt/c/Users/korna/CLionProjects/Laba2/cmake-build-debug-wsl/CMakeFiles --progress-num=5,6 "Built target gtest_main"
-.PHONY : [binary_dir]/CMakeFiles/gtest_main.dir/all
+Tests/CMakeFiles/Tests.dir/all: Tests/[binary_dir]/CMakeFiles/gtest_main.dir/all
+Tests/CMakeFiles/Tests.dir/all: Tests/[binary_dir]/CMakeFiles/gtest.dir/all
+	$(MAKE) $(MAKESILENT) -f Tests/CMakeFiles/Tests.dir/build.make Tests/CMakeFiles/Tests.dir/depend
+	$(MAKE) $(MAKESILENT) -f Tests/CMakeFiles/Tests.dir/build.make Tests/CMakeFiles/Tests.dir/build
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/mnt/c/Users/korna/CLionProjects/Laba2/cmake-build-debug-wsl/CMakeFiles --progress-num=3,4 "Built target Tests"
+.PHONY : Tests/CMakeFiles/Tests.dir/all
 
 # Build rule for subdir invocation for target.
-[binary_dir]/CMakeFiles/gtest_main.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /mnt/c/Users/korna/CLionProjects/Laba2/cmake-build-debug-wsl/CMakeFiles 4
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 [binary_dir]/CMakeFiles/gtest_main.dir/all
+Tests/CMakeFiles/Tests.dir/rule: cmake_check_build_system
+	$(CMAKE_COMMAND) -E cmake_progress_start /mnt/c/Users/korna/CLionProjects/Laba2/cmake-build-debug-wsl/CMakeFiles 6
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 Tests/CMakeFiles/Tests.dir/all
 	$(CMAKE_COMMAND) -E cmake_progress_start /mnt/c/Users/korna/CLionProjects/Laba2/cmake-build-debug-wsl/CMakeFiles 0
-.PHONY : [binary_dir]/CMakeFiles/gtest_main.dir/rule
+.PHONY : Tests/CMakeFiles/Tests.dir/rule
 
 # Convenience name for target.
-gtest_main: [binary_dir]/CMakeFiles/gtest_main.dir/rule
+Tests: Tests/CMakeFiles/Tests.dir/rule
+
+.PHONY : Tests
+
+# clean rule for target.
+Tests/CMakeFiles/Tests.dir/clean:
+	$(MAKE) $(MAKESILENT) -f Tests/CMakeFiles/Tests.dir/build.make Tests/CMakeFiles/Tests.dir/clean
+.PHONY : Tests/CMakeFiles/Tests.dir/clean
+
+#=============================================================================
+# Target rules for target Tests/[binary_dir]/CMakeFiles/gtest_main.dir
+
+# All Build rule for target.
+Tests/[binary_dir]/CMakeFiles/gtest_main.dir/all: Tests/[binary_dir]/CMakeFiles/gtest.dir/all
+	$(MAKE) $(MAKESILENT) -f Tests/[binary_dir]/CMakeFiles/gtest_main.dir/build.make Tests/[binary_dir]/CMakeFiles/gtest_main.dir/depend
+	$(MAKE) $(MAKESILENT) -f Tests/[binary_dir]/CMakeFiles/gtest_main.dir/build.make Tests/[binary_dir]/CMakeFiles/gtest_main.dir/build
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/mnt/c/Users/korna/CLionProjects/Laba2/cmake-build-debug-wsl/CMakeFiles --progress-num=7,8 "Built target gtest_main"
+.PHONY : Tests/[binary_dir]/CMakeFiles/gtest_main.dir/all
+
+# Build rule for subdir invocation for target.
+Tests/[binary_dir]/CMakeFiles/gtest_main.dir/rule: cmake_check_build_system
+	$(CMAKE_COMMAND) -E cmake_progress_start /mnt/c/Users/korna/CLionProjects/Laba2/cmake-build-debug-wsl/CMakeFiles 4
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 Tests/[binary_dir]/CMakeFiles/gtest_main.dir/all
+	$(CMAKE_COMMAND) -E cmake_progress_start /mnt/c/Users/korna/CLionProjects/Laba2/cmake-build-debug-wsl/CMakeFiles 0
+.PHONY : Tests/[binary_dir]/CMakeFiles/gtest_main.dir/rule
+
+# Convenience name for target.
+gtest_main: Tests/[binary_dir]/CMakeFiles/gtest_main.dir/rule
 
 .PHONY : gtest_main
 
 # clean rule for target.
-[binary_dir]/CMakeFiles/gtest_main.dir/clean:
-	$(MAKE) $(MAKESILENT) -f [binary_dir]/CMakeFiles/gtest_main.dir/build.make [binary_dir]/CMakeFiles/gtest_main.dir/clean
-.PHONY : [binary_dir]/CMakeFiles/gtest_main.dir/clean
+Tests/[binary_dir]/CMakeFiles/gtest_main.dir/clean:
+	$(MAKE) $(MAKESILENT) -f Tests/[binary_dir]/CMakeFiles/gtest_main.dir/build.make Tests/[binary_dir]/CMakeFiles/gtest_main.dir/clean
+.PHONY : Tests/[binary_dir]/CMakeFiles/gtest_main.dir/clean
 
 #=============================================================================
-# Target rules for target [binary_dir]/CMakeFiles/gtest.dir
+# Target rules for target Tests/[binary_dir]/CMakeFiles/gtest.dir
 
 # All Build rule for target.
-[binary_dir]/CMakeFiles/gtest.dir/all:
-	$(MAKE) $(MAKESILENT) -f [binary_dir]/CMakeFiles/gtest.dir/build.make [binary_dir]/CMakeFiles/gtest.dir/depend
-	$(MAKE) $(MAKESILENT) -f [binary_dir]/CMakeFiles/gtest.dir/build.make [binary_dir]/CMakeFiles/gtest.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/mnt/c/Users/korna/CLionProjects/Laba2/cmake-build-debug-wsl/CMakeFiles --progress-num=3,4 "Built target gtest"
-.PHONY : [binary_dir]/CMakeFiles/gtest.dir/all
+Tests/[binary_dir]/CMakeFiles/gtest.dir/all:
+	$(MAKE) $(MAKESILENT) -f Tests/[binary_dir]/CMakeFiles/gtest.dir/build.make Tests/[binary_dir]/CMakeFiles/gtest.dir/depend
+	$(MAKE) $(MAKESILENT) -f Tests/[binary_dir]/CMakeFiles/gtest.dir/build.make Tests/[binary_dir]/CMakeFiles/gtest.dir/build
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/mnt/c/Users/korna/CLionProjects/Laba2/cmake-build-debug-wsl/CMakeFiles --progress-num=5,6 "Built target gtest"
+.PHONY : Tests/[binary_dir]/CMakeFiles/gtest.dir/all
 
 # Build rule for subdir invocation for target.
-[binary_dir]/CMakeFiles/gtest.dir/rule: cmake_check_build_system
+Tests/[binary_dir]/CMakeFiles/gtest.dir/rule: cmake_check_build_system
 	$(CMAKE_COMMAND) -E cmake_progress_start /mnt/c/Users/korna/CLionProjects/Laba2/cmake-build-debug-wsl/CMakeFiles 2
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 [binary_dir]/CMakeFiles/gtest.dir/all
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 Tests/[binary_dir]/CMakeFiles/gtest.dir/all
 	$(CMAKE_COMMAND) -E cmake_progress_start /mnt/c/Users/korna/CLionProjects/Laba2/cmake-build-debug-wsl/CMakeFiles 0
-.PHONY : [binary_dir]/CMakeFiles/gtest.dir/rule
+.PHONY : Tests/[binary_dir]/CMakeFiles/gtest.dir/rule
 
 # Convenience name for target.
-gtest: [binary_dir]/CMakeFiles/gtest.dir/rule
+gtest: Tests/[binary_dir]/CMakeFiles/gtest.dir/rule
 
 .PHONY : gtest
 
 # clean rule for target.
-[binary_dir]/CMakeFiles/gtest.dir/clean:
-	$(MAKE) $(MAKESILENT) -f [binary_dir]/CMakeFiles/gtest.dir/build.make [binary_dir]/CMakeFiles/gtest.dir/clean
-.PHONY : [binary_dir]/CMakeFiles/gtest.dir/clean
+Tests/[binary_dir]/CMakeFiles/gtest.dir/clean:
+	$(MAKE) $(MAKESILENT) -f Tests/[binary_dir]/CMakeFiles/gtest.dir/build.make Tests/[binary_dir]/CMakeFiles/gtest.dir/clean
+.PHONY : Tests/[binary_dir]/CMakeFiles/gtest.dir/clean
 
 #=============================================================================
 # Special targets to cleanup operation of make.

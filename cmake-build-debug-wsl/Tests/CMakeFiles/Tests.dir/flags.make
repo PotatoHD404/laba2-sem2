@@ -4,7 +4,7 @@
 # compile CXX with /usr/bin/c++
 CXX_DEFINES = 
 
-CXX_INCLUDES = 
+CXX_INCLUDES = -I/usr/src/gtest/include -I/usr/src/gtest
 
 CXX_FLAGS = -g -std=gnu++1z
 

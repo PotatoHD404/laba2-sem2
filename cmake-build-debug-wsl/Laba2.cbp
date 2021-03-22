@@ -5,7 +5,7 @@
 		<Option title="Laba2"/>
 		<Option makefile_is_custom="1"/>
 		<Option compiler="gcc"/>
-		<Option virtualFolders="CMake Files\;CMake Files\..\;CMake Files\..\..\;CMake Files\..\..\..\;CMake Files\..\..\..\..\;CMake Files\..\..\..\..\..\;CMake Files\..\..\..\..\..\..\;CMake Files\..\..\..\..\..\..\usr\;CMake Files\..\..\..\..\..\..\usr\src\;CMake Files\..\..\..\..\..\..\usr\src\gtest\;CMake Files\..\..\..\..\..\..\usr\src\gtest\cmake\;"/>
+		<Option virtualFolders="CMake Files\;CMake Files\Tests\;CMake Files\..\;CMake Files\..\..\;CMake Files\..\..\..\;CMake Files\..\..\..\..\;CMake Files\..\..\..\..\..\;CMake Files\..\..\..\..\..\..\;CMake Files\..\..\..\..\..\..\usr\;CMake Files\..\..\..\..\..\..\usr\src\;CMake Files\..\..\..\..\..\..\usr\src\gtest\;CMake Files\..\..\..\..\..\..\usr\src\gtest\cmake\;"/>
 		<Build>
 			<Target title="all">
 				<Option working_dir="/mnt/c/Users/korna/CLionProjects/Laba2/cmake-build-debug-wsl"/>
@@ -44,8 +44,6 @@
 				<Option type="1"/>
 				<Option compiler="gcc"/>
 				<Compiler>
-					<Add directory="/usr/src/gtest/include"/>
-					<Add directory="/usr/src/gtest"/>
 					<Add directory="/usr/include/c++/7"/>
 					<Add directory="/usr/include/x86_64-linux-gnu/c++/7"/>
 					<Add directory="/usr/include/c++/7/backward"/>
@@ -69,8 +67,6 @@
 				<Option type="1"/>
 				<Option compiler="gcc"/>
 				<Compiler>
-					<Add directory="/usr/src/gtest/include"/>
-					<Add directory="/usr/src/gtest"/>
 					<Add directory="/usr/include/c++/7"/>
 					<Add directory="/usr/include/x86_64-linux-gnu/c++/7"/>
 					<Add directory="/usr/include/c++/7/backward"/>
@@ -127,9 +123,59 @@
 					<DistClean command="/usr/bin/make -j8 -f &quot;/mnt/c/Users/korna/CLionProjects/Laba2/cmake-build-debug-wsl/Makefile&quot;  VERBOSE=1 clean"/>
 				</MakeCommands>
 			</Target>
+			<Target title="Tests">
+				<Option output="/mnt/c/Users/korna/CLionProjects/Laba2/cmake-build-debug-wsl/Tests/Tests" prefix_auto="0" extension_auto="0"/>
+				<Option working_dir="/mnt/c/Users/korna/CLionProjects/Laba2/cmake-build-debug-wsl/Tests"/>
+				<Option object_output="./"/>
+				<Option type="1"/>
+				<Option compiler="gcc"/>
+				<Compiler>
+					<Add directory="/usr/src/gtest/include"/>
+					<Add directory="/usr/src/gtest"/>
+					<Add directory="/usr/include/c++/7"/>
+					<Add directory="/usr/include/x86_64-linux-gnu/c++/7"/>
+					<Add directory="/usr/include/c++/7/backward"/>
+					<Add directory="/usr/lib/gcc/x86_64-linux-gnu/7/include"/>
+					<Add directory="/usr/local/include"/>
+					<Add directory="/usr/lib/gcc/x86_64-linux-gnu/7/include-fixed"/>
+					<Add directory="/usr/include/x86_64-linux-gnu"/>
+					<Add directory="/usr/include"/>
+				</Compiler>
+				<MakeCommands>
+					<Build command="/usr/bin/make -j8 -f &quot;/mnt/c/Users/korna/CLionProjects/Laba2/cmake-build-debug-wsl/Tests/Makefile&quot;  VERBOSE=1 Tests"/>
+					<CompileFile command="/usr/bin/make -j8 -f &quot;/mnt/c/Users/korna/CLionProjects/Laba2/cmake-build-debug-wsl/Tests/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make -j8 -f &quot;/mnt/c/Users/korna/CLionProjects/Laba2/cmake-build-debug-wsl/Tests/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make -j8 -f &quot;/mnt/c/Users/korna/CLionProjects/Laba2/cmake-build-debug-wsl/Tests/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="Tests/fast">
+				<Option output="/mnt/c/Users/korna/CLionProjects/Laba2/cmake-build-debug-wsl/Tests/Tests" prefix_auto="0" extension_auto="0"/>
+				<Option working_dir="/mnt/c/Users/korna/CLionProjects/Laba2/cmake-build-debug-wsl/Tests"/>
+				<Option object_output="./"/>
+				<Option type="1"/>
+				<Option compiler="gcc"/>
+				<Compiler>
+					<Add directory="/usr/src/gtest/include"/>
+					<Add directory="/usr/src/gtest"/>
+					<Add directory="/usr/include/c++/7"/>
+					<Add directory="/usr/include/x86_64-linux-gnu/c++/7"/>
+					<Add directory="/usr/include/c++/7/backward"/>
+					<Add directory="/usr/lib/gcc/x86_64-linux-gnu/7/include"/>
+					<Add directory="/usr/local/include"/>
+					<Add directory="/usr/lib/gcc/x86_64-linux-gnu/7/include-fixed"/>
+					<Add directory="/usr/include/x86_64-linux-gnu"/>
+					<Add directory="/usr/include"/>
+				</Compiler>
+				<MakeCommands>
+					<Build command="/usr/bin/make -j8 -f &quot;/mnt/c/Users/korna/CLionProjects/Laba2/cmake-build-debug-wsl/Tests/Makefile&quot;  VERBOSE=1 Tests/fast"/>
+					<CompileFile command="/usr/bin/make -j8 -f &quot;/mnt/c/Users/korna/CLionProjects/Laba2/cmake-build-debug-wsl/Tests/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make -j8 -f &quot;/mnt/c/Users/korna/CLionProjects/Laba2/cmake-build-debug-wsl/Tests/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make -j8 -f &quot;/mnt/c/Users/korna/CLionProjects/Laba2/cmake-build-debug-wsl/Tests/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
 			<Target title="gtest_main">
-				<Option output="/mnt/c/Users/korna/CLionProjects/Laba2/cmake-build-debug-wsl/[binary_dir]/libgtest_main.a" prefix_auto="0" extension_auto="0"/>
-				<Option working_dir="/mnt/c/Users/korna/CLionProjects/Laba2/cmake-build-debug-wsl/[binary_dir]"/>
+				<Option output="/mnt/c/Users/korna/CLionProjects/Laba2/cmake-build-debug-wsl/Tests/[binary_dir]/libgtest_main.a" prefix_auto="0" extension_auto="0"/>
+				<Option working_dir="/mnt/c/Users/korna/CLionProjects/Laba2/cmake-build-debug-wsl/Tests/[binary_dir]"/>
 				<Option object_output="./"/>
 				<Option type="2"/>
 				<Option compiler="gcc"/>
@@ -146,15 +192,15 @@
 					<Add directory="/usr/include"/>
 				</Compiler>
 				<MakeCommands>
-					<Build command="/usr/bin/make -j8 -f &quot;/mnt/c/Users/korna/CLionProjects/Laba2/cmake-build-debug-wsl/[binary_dir]/Makefile&quot;  VERBOSE=1 gtest_main"/>
-					<CompileFile command="/usr/bin/make -j8 -f &quot;/mnt/c/Users/korna/CLionProjects/Laba2/cmake-build-debug-wsl/[binary_dir]/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
-					<Clean command="/usr/bin/make -j8 -f &quot;/mnt/c/Users/korna/CLionProjects/Laba2/cmake-build-debug-wsl/[binary_dir]/Makefile&quot;  VERBOSE=1 clean"/>
-					<DistClean command="/usr/bin/make -j8 -f &quot;/mnt/c/Users/korna/CLionProjects/Laba2/cmake-build-debug-wsl/[binary_dir]/Makefile&quot;  VERBOSE=1 clean"/>
+					<Build command="/usr/bin/make -j8 -f &quot;/mnt/c/Users/korna/CLionProjects/Laba2/cmake-build-debug-wsl/Tests/[binary_dir]/Makefile&quot;  VERBOSE=1 gtest_main"/>
+					<CompileFile command="/usr/bin/make -j8 -f &quot;/mnt/c/Users/korna/CLionProjects/Laba2/cmake-build-debug-wsl/Tests/[binary_dir]/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make -j8 -f &quot;/mnt/c/Users/korna/CLionProjects/Laba2/cmake-build-debug-wsl/Tests/[binary_dir]/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make -j8 -f &quot;/mnt/c/Users/korna/CLionProjects/Laba2/cmake-build-debug-wsl/Tests/[binary_dir]/Makefile&quot;  VERBOSE=1 clean"/>
 				</MakeCommands>
 			</Target>
 			<Target title="gtest_main/fast">
-				<Option output="/mnt/c/Users/korna/CLionProjects/Laba2/cmake-build-debug-wsl/[binary_dir]/libgtest_main.a" prefix_auto="0" extension_auto="0"/>
-				<Option working_dir="/mnt/c/Users/korna/CLionProjects/Laba2/cmake-build-debug-wsl/[binary_dir]"/>
+				<Option output="/mnt/c/Users/korna/CLionProjects/Laba2/cmake-build-debug-wsl/Tests/[binary_dir]/libgtest_main.a" prefix_auto="0" extension_auto="0"/>
+				<Option working_dir="/mnt/c/Users/korna/CLionProjects/Laba2/cmake-build-debug-wsl/Tests/[binary_dir]"/>
 				<Option object_output="./"/>
 				<Option type="2"/>
 				<Option compiler="gcc"/>
@@ -171,15 +217,15 @@
 					<Add directory="/usr/include"/>
 				</Compiler>
 				<MakeCommands>
-					<Build command="/usr/bin/make -j8 -f &quot;/mnt/c/Users/korna/CLionProjects/Laba2/cmake-build-debug-wsl/[binary_dir]/Makefile&quot;  VERBOSE=1 gtest_main/fast"/>
-					<CompileFile command="/usr/bin/make -j8 -f &quot;/mnt/c/Users/korna/CLionProjects/Laba2/cmake-build-debug-wsl/[binary_dir]/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
-					<Clean command="/usr/bin/make -j8 -f &quot;/mnt/c/Users/korna/CLionProjects/Laba2/cmake-build-debug-wsl/[binary_dir]/Makefile&quot;  VERBOSE=1 clean"/>
-					<DistClean command="/usr/bin/make -j8 -f &quot;/mnt/c/Users/korna/CLionProjects/Laba2/cmake-build-debug-wsl/[binary_dir]/Makefile&quot;  VERBOSE=1 clean"/>
+					<Build command="/usr/bin/make -j8 -f &quot;/mnt/c/Users/korna/CLionProjects/Laba2/cmake-build-debug-wsl/Tests/[binary_dir]/Makefile&quot;  VERBOSE=1 gtest_main/fast"/>
+					<CompileFile command="/usr/bin/make -j8 -f &quot;/mnt/c/Users/korna/CLionProjects/Laba2/cmake-build-debug-wsl/Tests/[binary_dir]/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make -j8 -f &quot;/mnt/c/Users/korna/CLionProjects/Laba2/cmake-build-debug-wsl/Tests/[binary_dir]/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make -j8 -f &quot;/mnt/c/Users/korna/CLionProjects/Laba2/cmake-build-debug-wsl/Tests/[binary_dir]/Makefile&quot;  VERBOSE=1 clean"/>
 				</MakeCommands>
 			</Target>
 			<Target title="gtest">
-				<Option output="/mnt/c/Users/korna/CLionProjects/Laba2/cmake-build-debug-wsl/[binary_dir]/libgtest.a" prefix_auto="0" extension_auto="0"/>
-				<Option working_dir="/mnt/c/Users/korna/CLionProjects/Laba2/cmake-build-debug-wsl/[binary_dir]"/>
+				<Option output="/mnt/c/Users/korna/CLionProjects/Laba2/cmake-build-debug-wsl/Tests/[binary_dir]/libgtest.a" prefix_auto="0" extension_auto="0"/>
+				<Option working_dir="/mnt/c/Users/korna/CLionProjects/Laba2/cmake-build-debug-wsl/Tests/[binary_dir]"/>
 				<Option object_output="./"/>
 				<Option type="2"/>
 				<Option compiler="gcc"/>
@@ -196,15 +242,15 @@
 					<Add directory="/usr/include"/>
 				</Compiler>
 				<MakeCommands>
-					<Build command="/usr/bin/make -j8 -f &quot;/mnt/c/Users/korna/CLionProjects/Laba2/cmake-build-debug-wsl/[binary_dir]/Makefile&quot;  VERBOSE=1 gtest"/>
-					<CompileFile command="/usr/bin/make -j8 -f &quot;/mnt/c/Users/korna/CLionProjects/Laba2/cmake-build-debug-wsl/[binary_dir]/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
-					<Clean command="/usr/bin/make -j8 -f &quot;/mnt/c/Users/korna/CLionProjects/Laba2/cmake-build-debug-wsl/[binary_dir]/Makefile&quot;  VERBOSE=1 clean"/>
-					<DistClean command="/usr/bin/make -j8 -f &quot;/mnt/c/Users/korna/CLionProjects/Laba2/cmake-build-debug-wsl/[binary_dir]/Makefile&quot;  VERBOSE=1 clean"/>
+					<Build command="/usr/bin/make -j8 -f &quot;/mnt/c/Users/korna/CLionProjects/Laba2/cmake-build-debug-wsl/Tests/[binary_dir]/Makefile&quot;  VERBOSE=1 gtest"/>
+					<CompileFile command="/usr/bin/make -j8 -f &quot;/mnt/c/Users/korna/CLionProjects/Laba2/cmake-build-debug-wsl/Tests/[binary_dir]/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make -j8 -f &quot;/mnt/c/Users/korna/CLionProjects/Laba2/cmake-build-debug-wsl/Tests/[binary_dir]/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make -j8 -f &quot;/mnt/c/Users/korna/CLionProjects/Laba2/cmake-build-debug-wsl/Tests/[binary_dir]/Makefile&quot;  VERBOSE=1 clean"/>
 				</MakeCommands>
 			</Target>
 			<Target title="gtest/fast">
-				<Option output="/mnt/c/Users/korna/CLionProjects/Laba2/cmake-build-debug-wsl/[binary_dir]/libgtest.a" prefix_auto="0" extension_auto="0"/>
-				<Option working_dir="/mnt/c/Users/korna/CLionProjects/Laba2/cmake-build-debug-wsl/[binary_dir]"/>
+				<Option output="/mnt/c/Users/korna/CLionProjects/Laba2/cmake-build-debug-wsl/Tests/[binary_dir]/libgtest.a" prefix_auto="0" extension_auto="0"/>
+				<Option working_dir="/mnt/c/Users/korna/CLionProjects/Laba2/cmake-build-debug-wsl/Tests/[binary_dir]"/>
 				<Option object_output="./"/>
 				<Option type="2"/>
 				<Option compiler="gcc"/>
@@ -221,14 +267,17 @@
 					<Add directory="/usr/include"/>
 				</Compiler>
 				<MakeCommands>
-					<Build command="/usr/bin/make -j8 -f &quot;/mnt/c/Users/korna/CLionProjects/Laba2/cmake-build-debug-wsl/[binary_dir]/Makefile&quot;  VERBOSE=1 gtest/fast"/>
-					<CompileFile command="/usr/bin/make -j8 -f &quot;/mnt/c/Users/korna/CLionProjects/Laba2/cmake-build-debug-wsl/[binary_dir]/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
-					<Clean command="/usr/bin/make -j8 -f &quot;/mnt/c/Users/korna/CLionProjects/Laba2/cmake-build-debug-wsl/[binary_dir]/Makefile&quot;  VERBOSE=1 clean"/>
-					<DistClean command="/usr/bin/make -j8 -f &quot;/mnt/c/Users/korna/CLionProjects/Laba2/cmake-build-debug-wsl/[binary_dir]/Makefile&quot;  VERBOSE=1 clean"/>
+					<Build command="/usr/bin/make -j8 -f &quot;/mnt/c/Users/korna/CLionProjects/Laba2/cmake-build-debug-wsl/Tests/[binary_dir]/Makefile&quot;  VERBOSE=1 gtest/fast"/>
+					<CompileFile command="/usr/bin/make -j8 -f &quot;/mnt/c/Users/korna/CLionProjects/Laba2/cmake-build-debug-wsl/Tests/[binary_dir]/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make -j8 -f &quot;/mnt/c/Users/korna/CLionProjects/Laba2/cmake-build-debug-wsl/Tests/[binary_dir]/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make -j8 -f &quot;/mnt/c/Users/korna/CLionProjects/Laba2/cmake-build-debug-wsl/Tests/[binary_dir]/Makefile&quot;  VERBOSE=1 clean"/>
 				</MakeCommands>
 			</Target>
 		</Build>
-		<Unit filename="/mnt/c/Users/korna/CLionProjects/Laba2/Tests.cpp">
+		<Unit filename="/mnt/c/Users/korna/CLionProjects/Laba2/Tests/Tests.cpp">
+			<Option target="Tests"/>
+		</Unit>
+		<Unit filename="/mnt/c/Users/korna/CLionProjects/Laba2/main.cpp">
 			<Option target="Laba2"/>
 		</Unit>
 		<Unit filename="/usr/src/gtest/src/gtest-all.cc">
@@ -239,6 +288,9 @@
 		</Unit>
 		<Unit filename="/mnt/c/Users/korna/CLionProjects/Laba2/CMakeLists.txt">
 			<Option virtualFolder="CMake Files\"/>
+		</Unit>
+		<Unit filename="/mnt/c/Users/korna/CLionProjects/Laba2/Tests/CMakeLists.txt">
+			<Option virtualFolder="CMake Files\Tests\"/>
 		</Unit>
 		<Unit filename="/mnt/c/Users/korna/CLionProjects/Laba2/../../../../../../usr/src/gtest/CMakeLists.txt">
 			<Option virtualFolder="CMake Files\..\..\..\..\..\..\usr\src\gtest\"/>

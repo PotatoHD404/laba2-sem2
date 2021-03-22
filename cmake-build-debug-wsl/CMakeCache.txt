@@ -239,7 +239,7 @@ ProcessorCount_cmd_nproc:FILEPATH=/usr/bin/nproc
 ProcessorCount_cmd_sysctl:FILEPATH=/sbin/sysctl
 
 //Value Computed by CMake
-gtest_BINARY_DIR:STATIC=/mnt/c/Users/korna/CLionProjects/Laba2/cmake-build-debug-wsl/[binary_dir]
+gtest_BINARY_DIR:STATIC=/mnt/c/Users/korna/CLionProjects/Laba2/cmake-build-debug-wsl/Tests/[binary_dir]
 
 //Dependencies for the target
 gtest_LIB_DEPENDS:STATIC=general;-lpthread;
@@ -387,7 +387,7 @@ CMAKE_MODULE_LINKER_FLAGS_RELWITHDEBINFO-ADVANCED:INTERNAL=1
 //ADVANCED property for variable: CMAKE_NM
 CMAKE_NM-ADVANCED:INTERNAL=1
 //number of local generators
-CMAKE_NUMBER_OF_MAKEFILES:INTERNAL=2
+CMAKE_NUMBER_OF_MAKEFILES:INTERNAL=3
 //ADVANCED property for variable: CMAKE_OBJCOPY
 CMAKE_OBJCOPY-ADVANCED:INTERNAL=1
 //ADVANCED property for variable: CMAKE_OBJDUMP

@@ -37,12 +37,12 @@ jobs:
       working-directory: ${{github.workspace}}/build
       shell: bash
       # Execute the build.  You can specify a specific target with "--target <NAME>"
-      run: cmake --build . --config $BUILD_TYPE --target Laba2
+      run: cmake --build . --config $BUILD_TYPE --target Tests
 
     - name: Test
       working-directory: ${{github.workspace}}/build
       shell: bash
       # Execute tests defined by the CMake configuration.  
       # See https://cmake.org/cmake/help/latest/manual/ctest.1.html for more detail
-      run: ./Laba2 --gtest_repeat=1 --gtest_color=no
+      run: ./Tests --gtest_repeat=1 --gtest_color=no
       

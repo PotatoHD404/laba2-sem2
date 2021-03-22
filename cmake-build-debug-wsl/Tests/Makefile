@@ -145,14 +145,14 @@ list_install_components/fast: list_install_components
 
 # The main all target
 all: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /mnt/c/Users/korna/CLionProjects/Laba2/cmake-build-debug-wsl/CMakeFiles /mnt/c/Users/korna/CLionProjects/Laba2/cmake-build-debug-wsl//CMakeFiles/progress.marks
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 all
+	cd /mnt/c/Users/korna/CLionProjects/Laba2/cmake-build-debug-wsl && $(CMAKE_COMMAND) -E cmake_progress_start /mnt/c/Users/korna/CLionProjects/Laba2/cmake-build-debug-wsl/CMakeFiles /mnt/c/Users/korna/CLionProjects/Laba2/cmake-build-debug-wsl/Tests//CMakeFiles/progress.marks
+	cd /mnt/c/Users/korna/CLionProjects/Laba2/cmake-build-debug-wsl && $(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 Tests/all
 	$(CMAKE_COMMAND) -E cmake_progress_start /mnt/c/Users/korna/CLionProjects/Laba2/cmake-build-debug-wsl/CMakeFiles 0
 .PHONY : all
 
 # The main clean target
 clean:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 clean
+	cd /mnt/c/Users/korna/CLionProjects/Laba2/cmake-build-debug-wsl && $(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 Tests/clean
 .PHONY : clean
 
 # The main clean target
@@ -162,97 +162,60 @@ clean/fast: clean
 
 # Prepare targets for installation.
 preinstall: all
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 preinstall
+	cd /mnt/c/Users/korna/CLionProjects/Laba2/cmake-build-debug-wsl && $(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 Tests/preinstall
 .PHONY : preinstall
 
 # Prepare targets for installation.
 preinstall/fast:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 preinstall
+	cd /mnt/c/Users/korna/CLionProjects/Laba2/cmake-build-debug-wsl && $(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 Tests/preinstall
 .PHONY : preinstall/fast
 
 # clear depends
 depend:
-	$(CMAKE_COMMAND) -S$(CMAKE_SOURCE_DIR) -B$(CMAKE_BINARY_DIR) --check-build-system CMakeFiles/Makefile.cmake 1
+	cd /mnt/c/Users/korna/CLionProjects/Laba2/cmake-build-debug-wsl && $(CMAKE_COMMAND) -S$(CMAKE_SOURCE_DIR) -B$(CMAKE_BINARY_DIR) --check-build-system CMakeFiles/Makefile.cmake 1
 .PHONY : depend
 
-#=============================================================================
-# Target rules for targets named Laba2
+# Convenience name for target.
+Tests/CMakeFiles/Tests.dir/rule:
+	cd /mnt/c/Users/korna/CLionProjects/Laba2/cmake-build-debug-wsl && $(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 Tests/CMakeFiles/Tests.dir/rule
+.PHONY : Tests/CMakeFiles/Tests.dir/rule
 
-# Build rule for target.
-Laba2: cmake_check_build_system
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 Laba2
-.PHONY : Laba2
+# Convenience name for target.
+Tests: Tests/CMakeFiles/Tests.dir/rule
 
-# fast build rule for target.
-Laba2/fast:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/Laba2.dir/build.make CMakeFiles/Laba2.dir/build
-.PHONY : Laba2/fast
-
-#=============================================================================
-# Target rules for targets named Tests
-
-# Build rule for target.
-Tests: cmake_check_build_system
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 Tests
 .PHONY : Tests
 
 # fast build rule for target.
 Tests/fast:
-	$(MAKE) $(MAKESILENT) -f Tests/CMakeFiles/Tests.dir/build.make Tests/CMakeFiles/Tests.dir/build
+	cd /mnt/c/Users/korna/CLionProjects/Laba2/cmake-build-debug-wsl && $(MAKE) $(MAKESILENT) -f Tests/CMakeFiles/Tests.dir/build.make Tests/CMakeFiles/Tests.dir/build
 .PHONY : Tests/fast
 
-#=============================================================================
-# Target rules for targets named gtest_main
+Tests.o: Tests.cpp.o
 
-# Build rule for target.
-gtest_main: cmake_check_build_system
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 gtest_main
-.PHONY : gtest_main
-
-# fast build rule for target.
-gtest_main/fast:
-	$(MAKE) $(MAKESILENT) -f Tests/[binary_dir]/CMakeFiles/gtest_main.dir/build.make Tests/[binary_dir]/CMakeFiles/gtest_main.dir/build
-.PHONY : gtest_main/fast
-
-#=============================================================================
-# Target rules for targets named gtest
-
-# Build rule for target.
-gtest: cmake_check_build_system
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 gtest
-.PHONY : gtest
-
-# fast build rule for target.
-gtest/fast:
-	$(MAKE) $(MAKESILENT) -f Tests/[binary_dir]/CMakeFiles/gtest.dir/build.make Tests/[binary_dir]/CMakeFiles/gtest.dir/build
-.PHONY : gtest/fast
-
-main.o: main.cpp.o
-
-.PHONY : main.o
+.PHONY : Tests.o
 
 # target to build an object file
-main.cpp.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/Laba2.dir/build.make CMakeFiles/Laba2.dir/main.cpp.o
-.PHONY : main.cpp.o
+Tests.cpp.o:
+	cd /mnt/c/Users/korna/CLionProjects/Laba2/cmake-build-debug-wsl && $(MAKE) $(MAKESILENT) -f Tests/CMakeFiles/Tests.dir/build.make Tests/CMakeFiles/Tests.dir/Tests.cpp.o
+.PHONY : Tests.cpp.o
 
-main.i: main.cpp.i
+Tests.i: Tests.cpp.i
 
-.PHONY : main.i
+.PHONY : Tests.i
 
 # target to preprocess a source file
-main.cpp.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/Laba2.dir/build.make CMakeFiles/Laba2.dir/main.cpp.i
-.PHONY : main.cpp.i
+Tests.cpp.i:
+	cd /mnt/c/Users/korna/CLionProjects/Laba2/cmake-build-debug-wsl && $(MAKE) $(MAKESILENT) -f Tests/CMakeFiles/Tests.dir/build.make Tests/CMakeFiles/Tests.dir/Tests.cpp.i
+.PHONY : Tests.cpp.i
 
-main.s: main.cpp.s
+Tests.s: Tests.cpp.s
 
-.PHONY : main.s
+.PHONY : Tests.s
 
 # target to generate assembly for a file
-main.cpp.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/Laba2.dir/build.make CMakeFiles/Laba2.dir/main.cpp.s
-.PHONY : main.cpp.s
+Tests.cpp.s:
+	cd /mnt/c/Users/korna/CLionProjects/Laba2/cmake-build-debug-wsl && $(MAKE) $(MAKESILENT) -f Tests/CMakeFiles/Tests.dir/build.make Tests/CMakeFiles/Tests.dir/Tests.cpp.s
+.PHONY : Tests.cpp.s
 
 # Help Target
 help:
@@ -266,13 +229,10 @@ help:
 	@echo "... install/strip"
 	@echo "... list_install_components"
 	@echo "... rebuild_cache"
-	@echo "... Laba2"
 	@echo "... Tests"
-	@echo "... gtest"
-	@echo "... gtest_main"
-	@echo "... main.o"
-	@echo "... main.i"
-	@echo "... main.s"
+	@echo "... Tests.o"
+	@echo "... Tests.i"
+	@echo "... Tests.s"
 .PHONY : help
 
 
@@ -284,6 +244,6 @@ help:
 # No rule that depends on this can have commands that come from listfiles
 # because they might be regenerated.
 cmake_check_build_system:
-	$(CMAKE_COMMAND) -S$(CMAKE_SOURCE_DIR) -B$(CMAKE_BINARY_DIR) --check-build-system CMakeFiles/Makefile.cmake 0
+	cd /mnt/c/Users/korna/CLionProjects/Laba2/cmake-build-debug-wsl && $(CMAKE_COMMAND) -S$(CMAKE_SOURCE_DIR) -B$(CMAKE_BINARY_DIR) --check-build-system CMakeFiles/Makefile.cmake 0
 .PHONY : cmake_check_build_system
 

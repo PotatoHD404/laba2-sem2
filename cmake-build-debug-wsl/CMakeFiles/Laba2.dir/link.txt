@@ -1,1 +1,1 @@
-/usr/bin/c++ -g CMakeFiles/Laba2.dir/Tests.cpp.o -o Laba2  [binary_dir]/libgtest.a [binary_dir]/libgtest_main.a [binary_dir]/libgtest.a -lpthread 
+/usr/bin/c++ -g CMakeFiles/Laba2.dir/main.cpp.o -o Laba2 
