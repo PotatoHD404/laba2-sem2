@@ -6,17 +6,17 @@
 
 #IncludeRegexTransform: 
 
-/mnt/c/Users/korna/CLionProjects/Laba2/ArraySequence.h
+/mnt/c/Users/korna/CLionProjects/Laba2/LinkedList.h
+iostream
+-
+cstring
+-
+
+/mnt/c/Users/korna/CLionProjects/Laba2/ListSequence.h
 Sequence.h
 /mnt/c/Users/korna/CLionProjects/Laba2/Sequence.h
-DynamicArray.h
-/mnt/c/Users/korna/CLionProjects/Laba2/DynamicArray.h
-iostream
--
-cstring
--
-
-/mnt/c/Users/korna/CLionProjects/Laba2/DynamicArray.h
+LinkedList.h
+/mnt/c/Users/korna/CLionProjects/Laba2/LinkedList.h
 iostream
 -
 cstring
@@ -24,11 +24,17 @@ cstring
 
 /mnt/c/Users/korna/CLionProjects/Laba2/Sequence.h
 
-/mnt/c/Users/korna/CLionProjects/Laba2/Tests/ArraySequenceTests.cpp
+/mnt/c/Users/korna/CLionProjects/Laba2/Tests/LinkedListTests.cpp
 gtest/gtest.h
 /mnt/c/Users/korna/CLionProjects/Laba2/Tests/gtest/gtest.h
-../ArraySequence.h
-/mnt/c/Users/korna/CLionProjects/Laba2/ArraySequence.h
+../LinkedList.h
+/mnt/c/Users/korna/CLionProjects/Laba2/LinkedList.h
+
+/mnt/c/Users/korna/CLionProjects/Laba2/Tests/ListSequenceTests.cpp
+gtest/gtest.h
+/mnt/c/Users/korna/CLionProjects/Laba2/Tests/gtest/gtest.h
+../ListSequence.h
+/mnt/c/Users/korna/CLionProjects/Laba2/ListSequence.h
 
 /usr/src/gtest/include/gtest/gtest-death-test.h
 gtest/internal/gtest-death-test-internal.h

@@ -21,11 +21,13 @@ private:
         node *res = new node();
         res->data = data;
         res->next = NULL;
+        return res;
     }
 
     node *CreateNode() {
         node *res = new node();
         res->next = NULL;
+        return res;
     }
 
     node *GetNode(int index) {
