@@ -18,13 +18,13 @@ private:
     int length;
 
     node *CreateNode(T data) {
-        node *res = new node[1];
+        node *res = new node();
         res->data = data;
         res->next = NULL;
     }
 
     node *CreateNode() {
-        node *res = new node[1]();
+        node *res = new node();
         res->next = NULL;
     }
 
@@ -173,7 +173,7 @@ public:
         }
         node *prev = GetNode(length - 2);
         tail = prev;
-        delete[] prev->next;
+        delete prev->next;
         --length;
     }
 
@@ -182,7 +182,7 @@ public:
             throw range_error("index < 0 or index >= length");
         node *prev = head;
         head = prev->next;
-        delete[] prev;
+        delete prev;
         --length;
         if (length == 0) {
             tail = NULL;
@@ -224,7 +224,7 @@ public:
 
         node *prev = GetNode(index);
         node *next = (prev->next)->next;
-        delete[] prev->next;
+        delete prev->next;
         prev->next = next;
         --length;
     }
