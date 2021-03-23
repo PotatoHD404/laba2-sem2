@@ -17,7 +17,7 @@ public:
 
     virtual T &At(int index) = 0;
 
-    virtual std::unique_ptr<Sequence<T>> GetSubsequence(int startIndex, int endIndex) = 0;
+    virtual Sequence<T> *GetSubsequence(int startIndex, int endIndex) = 0;
 
     virtual int GetLength() = 0;
 
@@ -36,8 +36,8 @@ public:
 
     virtual void RemoveAt(int index) = 0;
 
-    virtual std::unique_ptr<Sequence<T>> Concat(Sequence<T> &list) = 0;
+    virtual Sequence<T> *Concat(Sequence<T> &list) = 0;
 
-    virtual ~Sequence() { };
+    virtual ~Sequence() {};
 
 };

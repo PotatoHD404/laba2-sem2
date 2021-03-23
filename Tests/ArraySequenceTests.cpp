@@ -284,7 +284,7 @@ TEST(ArraySequence, Concat) {
     int a[] = {1, 2, 3, 4, 5};
     ArraySequence<int> arr1 = ArraySequence<int>(a, 5);
     ArraySequence<int> arr2 = ArraySequence<int>(arr1);
-    std::unique_ptr<Sequence<int>> arr3 = arr1.Concat(arr2);
+    std::unique_ptr<ArraySequence<int>> arr3 = std::unique_ptr<ArraySequence<int>>(arr1.Concat(arr2));
     ASSERT_EQ (arr1.GetLength() + arr2.GetLength(), arr3->GetLength());
     EXPECT_EQ (arr1[0], arr3->At(0));
     EXPECT_EQ (arr1[1], arr3->At(1));
@@ -298,7 +298,7 @@ TEST(ArraySequence, Concat) {
     EXPECT_EQ (arr2[4], arr3->At(9));
 
     ArraySequence<int> arr4 = ArraySequence<int>();
-    arr3 = arr1.Concat(arr4);
+    arr3 = std::unique_ptr<ArraySequence<int>>(arr1.Concat(arr4));
     ASSERT_EQ (arr1.GetLength() + arr4.GetLength(), arr3->GetLength());
     EXPECT_EQ (arr1[0], arr3->At(0));
     EXPECT_EQ (arr1[1], arr3->At(1));
@@ -310,22 +310,22 @@ TEST(ArraySequence, Concat) {
 TEST(ArraySequence, GetSubsequence) {
     int a[] = {1, 2, 3, 4, 5};
     ArraySequence<int> arr1 = ArraySequence<int>(a, 5);
-    std::unique_ptr<ArraySequence<int>>
-            arr2 = unique_ptr<ArraySequence<int>>(dynamic_cast<ArraySequence<int> *>(arr1.GetSubsequence(0, 0).release()));
+    unique_ptr<ArraySequence<int>>
+            arr2 = unique_ptr<ArraySequence<int>>(arr1.GetSubsequence(0, 0));
     ASSERT_EQ(arr2->GetLength(), 1);
     EXPECT_EQ (arr1[0], 1);
     EXPECT_ANY_THROW(arr2->At(1));
     EXPECT_ANY_THROW(arr1.GetSubsequence(-1, 0));
     EXPECT_ANY_THROW(arr1.GetSubsequence(1, 0));
     EXPECT_ANY_THROW(arr1.GetSubsequence(1, 5));
-    arr2 = unique_ptr<ArraySequence<int>>(dynamic_cast<ArraySequence<int> *>(arr1.GetSubsequence(0, 4).release()));
+    arr2 = unique_ptr<ArraySequence<int>>(arr1.GetSubsequence(0, 4));
     ASSERT_EQ(arr2->GetLength(), 5);
     EXPECT_EQ (arr1[0], arr2->At(0));
     EXPECT_EQ (arr1[1], arr2->At(1));
     EXPECT_EQ (arr1[2], arr2->At(2));
     EXPECT_EQ (arr1[3], arr2->At(3));
     EXPECT_EQ (arr1[4], arr2->At(4));
-    arr2 = unique_ptr<ArraySequence<int>>(dynamic_cast<ArraySequence<int> *>(arr1.GetSubsequence(2, 3).release()));
+    arr2 = unique_ptr<ArraySequence<int>>(arr1.GetSubsequence(2, 3));
     ASSERT_EQ(arr2->GetLength(), 2);
     EXPECT_EQ (arr1[2], arr2->At(0));
     EXPECT_EQ (arr1[3], arr2->At(1));

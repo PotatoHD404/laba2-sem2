@@ -7,69 +7,87 @@
 #include <cstring>
 
 using namespace std;
+
 template<class T>
-class LinkedListSequence : Sequence<T> {
+class ListSequence : public Sequence<T> {
 private:
-    LinkedList <T> *items;
+    LinkedList<T> items;
 
 public:
     //Creation of the object
-    LinkedListSequence() {
-        items(new LinkedList<T>());
+    ListSequence() {
+        items = LinkedList<T>();
     }
 
-    LinkedListSequence(T *items, int count) {
-        items(new LinkedList<T>(items, count));
+    explicit ListSequence(int count) {
+        items = LinkedList<T>(count);
     }
 
-    explicit LinkedListSequence(const LinkedList <T> &list) {
-        items(new LinkedList<T>(list));
+    ListSequence(T *items, int count) {
+        this->items = LinkedList<T>(items, count);
+    }
+
+    ListSequence(const ListSequence<T> &list) {
+        items = LinkedList<T>(list.items);
     }
 
     //Decomposition
 
-    T Get(int index) {
-        return items->At(index);
+    T &At(int index) {
+        return items.At(index);
     }
 
-    Sequence<T> *GetSubsequence(int startIndex, int endIndex) {
-        LinkedListSequence<T> *res;
-        res(new LinkedListSequence<T>());
+    ListSequence<T> *GetSubsequence(int startIndex, int endIndex) {
+        if (startIndex < 0 || startIndex >= items.GetLength())
+            throw range_error("index < 0 or index >= length");
+        if (startIndex > endIndex)
+            throw range_error("startIndex > endIndex");
+        if (endIndex >= items.GetLength())
+            throw range_error("endIndex >= length");
+        ListSequence<T> *res = new ListSequence<T>();
+        res->items = items.GetSubList(startIndex, endIndex);
         return res;
     }
 
     int GetLength() {
-        return items->GetLength();
+        return items.GetLength();
     }
 
     //Operations
     void Append(T item) {
-        items->Append(item);
+        items.Append(item);
     }
 
     void Prepend(T item) {
-        items->Prepend(item);
+        items.Prepend(item);
     }
 
     void InsertAt(T item, int index) {
-        items->InsertAt(item, index);
+        items.InsertAt(item, index);
     }
 
-    Sequence<T> *Concat(Sequence<T> *list) {
-        LinkedListSequence<T> *res;
-        res(new LinkedListSequence<T>());
-        for (int i = 0; i < items->GetLength(); ++i) {
-            res->Append(items->At(i));
+    void PopFirst() {
+        items.PopFirst();
+    }
+
+    void PopLast() {
+        items.PopLast();
+    }
+
+    void RemoveAt(int index) {
+        if (index < 0 || index >= items.GetLength())
+            throw range_error("index < 0 or index >= length");
+        items.RemoveAt(index);
+    }
+
+    ListSequence<T> *Concat(Sequence<T> &list) {
+        ListSequence<T> *res = new ListSequence<T>();
+        for (int i = 0; i < items.GetLength(); ++i) {
+            res->Append(items.At(i));
         }
-        for (int i = 0; i < list->items->GetLength(); ++i) {
-            res->Append(list->items->At(i));
+        for (int i = 0; i < list.GetLength(); ++i) {
+            res->Append(list[i]);
         }
         return res;
-    }
-
-    //Termination
-    ~LinkedListSequence() {
-        delete *items;
-        delete[] items;
     }
 };
