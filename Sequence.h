@@ -1,6 +1,8 @@
 //
 // Created by korna on 20.03.2021.
 //
+#ifndef LABA2_SEQUENCE_H
+#define LABA2_SEQUENCE_H
 
 template<class T>
 class Sequence {
@@ -38,6 +40,12 @@ public:
 
     virtual Sequence<T> *Concat(Sequence<T> &list) = 0;
 
+    Sequence<T> *Concat(const std::unique_ptr<Sequence<int>> &list) {
+        return Concat(*list);
+    }
+
     virtual ~Sequence() {};
 
 };
+
+#endif //LABA2_SEQUENCE_H

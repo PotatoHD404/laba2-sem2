@@ -31,6 +31,21 @@ public:
         items = LinkedList<T>(list.items);
     }
 
+    explicit ListSequence(Sequence<T> &list) : ListSequence((*dynamic_cast<ListSequence<T> *>(&list))) {
+    }
+
+    explicit ListSequence(Sequence<T> *list) : ListSequence(*list) {
+    }
+
+    explicit ListSequence(const ListSequence<T> *list) : ListSequence(*list) {
+    }
+
+    explicit ListSequence(const unique_ptr<Sequence<int>> &list) : ListSequence(list.get()) {
+    }
+
+    explicit ListSequence(const unique_ptr<ListSequence<int>> &list) : ListSequence(*list) {
+    }
+
     //Decomposition
 
     T &At(int index) {
@@ -90,4 +105,18 @@ public:
         }
         return res;
     }
+
+    ListSequence<T> *Concat(const Sequence<T> &list) {
+        return Concat(dynamic_cast<ListSequence<T>>(list));
+    }
+
+    ListSequence<T> *Concat(const ListSequence<T> *list) {
+        return Concat(*list);
+    }
+
+    ListSequence<T> &operator=(const ListSequence<T> &list) {
+        items = LinkedList<T>(list.items);
+        return *this;
+    }
+
 };

@@ -1,7 +1,6 @@
 //
 // Created by korna on 20.03.2021.
 //
-
 #include <iostream>
 #include <cstring>
 

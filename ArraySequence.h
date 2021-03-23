@@ -32,6 +32,21 @@ public:
         items = DynamicArray<T>(list.items);
     }
 
+    explicit ArraySequence(Sequence<T> &list) : ArraySequence((*dynamic_cast<ArraySequence<T> *>(&list))) {
+    }
+
+    explicit ArraySequence(Sequence<T> *list) : ArraySequence(*list) {
+    }
+
+    explicit ArraySequence(const ArraySequence<T> *list) : ArraySequence(*list) {
+    }
+
+    explicit ArraySequence(const unique_ptr<Sequence<int>> &list) : ArraySequence(list.get()) {
+    }
+
+    explicit ArraySequence(const unique_ptr<ArraySequence<int>> &list) : ArraySequence(*list) {
+    }
+
     //Decomposition
 
     T &At(int index) {
@@ -112,6 +127,14 @@ public:
             items.Set(i, items[i + 1]);
         }
         items.Resize(items.GetLength() - 1);
+    }
+
+    ArraySequence<T> *Concat(const Sequence<T> &list) {
+        return Concat(dynamic_cast<ArraySequence<T>>(list));
+    }
+
+    ArraySequence<T> *Concat(const ArraySequence<T> *list) {
+        return Concat(*list);
     }
 
     ArraySequence<T> &operator=(const ArraySequence<T> &list) {
