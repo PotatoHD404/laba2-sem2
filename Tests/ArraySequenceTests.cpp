@@ -310,22 +310,22 @@ TEST(ArraySequence, Concat) {
 TEST(ArraySequence, GetSubsequence) {
     int a[] = {1, 2, 3, 4, 5};
     ArraySequence<int> arr1 = ArraySequence<int>(a, 5);
-    std::unique_ptr<ArraySequence < int>>
-    arr2 = arr1.GetSubsequence(0, 0);
+    std::unique_ptr<ArraySequence<int>>
+            arr2 = unique_ptr<ArraySequence<int>>(dynamic_cast<ArraySequence<int> *>(arr1.GetSubsequence(0, 0).release()));
     ASSERT_EQ(arr2->GetLength(), 1);
     EXPECT_EQ (arr1[0], 1);
     EXPECT_ANY_THROW(arr2->At(1));
     EXPECT_ANY_THROW(arr1.GetSubsequence(-1, 0));
     EXPECT_ANY_THROW(arr1.GetSubsequence(1, 0));
     EXPECT_ANY_THROW(arr1.GetSubsequence(1, 5));
-    arr2 = arr1.GetSubsequence(0, 4);
+    arr2 = unique_ptr<ArraySequence<int>>(dynamic_cast<ArraySequence<int> *>(arr1.GetSubsequence(0, 4).release()));
     ASSERT_EQ(arr2->GetLength(), 5);
     EXPECT_EQ (arr1[0], arr2->At(0));
     EXPECT_EQ (arr1[1], arr2->At(1));
     EXPECT_EQ (arr1[2], arr2->At(2));
     EXPECT_EQ (arr1[3], arr2->At(3));
     EXPECT_EQ (arr1[4], arr2->At(4));
-    arr2 = arr1.GetSubsequence(2, 3);
+    arr2 = unique_ptr<ArraySequence<int>>(dynamic_cast<ArraySequence<int> *>(arr1.GetSubsequence(2, 3).release()));
     ASSERT_EQ(arr2->GetLength(), 2);
     EXPECT_EQ (arr1[2], arr2->At(0));
     EXPECT_EQ (arr1[3], arr2->At(1));

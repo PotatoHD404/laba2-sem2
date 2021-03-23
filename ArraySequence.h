@@ -45,7 +45,7 @@ public:
             throw range_error("startIndex > endIndex");
         if (endIndex >= items.GetLength())
             throw range_error("endIndex >= length");
-        ArraySequence<T> res = std::make_unique<ArraySequence>();
+        std::unique_ptr<ArraySequence<T>> res = std::make_unique<ArraySequence<T>>();
         for (int i = startIndex; i < endIndex + 1; ++i) {
             res->Append(items.At(i));
         }
@@ -84,7 +84,7 @@ public:
     }
 
     std::unique_ptr<Sequence<T>> Concat(Sequence<T> &list) {
-        ArraySequence<T> res = std::make_unique<ArraySequence>();
+        std::unique_ptr<ArraySequence<T>> res = std::make_unique<ArraySequence<T>>();
         for (int i = 0; i < items.GetLength(); ++i) {
             res->Append(items[i]);
         }
