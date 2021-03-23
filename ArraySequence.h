@@ -38,27 +38,23 @@ public:
         return items.At(index);
     }
 
-    ArraySequence<T> &GetSubsequence(int startIndex, int endIndex) {
+    std::unique_ptr<Sequence<T>> GetSubsequence(int startIndex, int endIndex) {
         if (startIndex < 0 || startIndex >= items.GetLength())
             throw range_error("index < 0 or index >= length");
         if (startIndex > endIndex)
             throw range_error("startIndex > endIndex");
         if (endIndex >= items.GetLength())
             throw range_error("endIndex >= length");
-        ArraySequence<T> *res = new ArraySequence<T>;
+        ArraySequence<T> res = std::make_unique<ArraySequence>();
         for (int i = startIndex; i < endIndex + 1; ++i) {
             res->Append(items.At(i));
         }
-        return *res;
+        return res;
     }
 
     int GetLength() {
         return items.GetLength();
     }
-
-//    T &GetFirst() { return (static_cast<Sequence<T>>(*this)).GetFirst(); }
-//
-//    T &GetLast() { return (static_cast<Sequence<T>>(*this)).GetFirst(); }
 
     //Operations
     void Append(T item) {
@@ -88,12 +84,12 @@ public:
     }
 
     std::unique_ptr<Sequence<T>> Concat(Sequence<T> &list) {
-        ArraySequence<T> res = ArraySequence<T>();
+        ArraySequence<T> res = std::make_unique<ArraySequence>();
         for (int i = 0; i < items.GetLength(); ++i) {
-            res.Append(items[i]);
+            res->Append(items[i]);
         }
         for (int i = 0; i < list.GetLength(); ++i) {
-            res.Append(list[i]);
+            res->Append(list[i]);
         }
         return res;
     }

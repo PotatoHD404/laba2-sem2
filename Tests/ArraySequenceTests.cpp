@@ -284,50 +284,49 @@ TEST(ArraySequence, Concat) {
     int a[] = {1, 2, 3, 4, 5};
     ArraySequence<int> arr1 = ArraySequence<int>(a, 5);
     ArraySequence<int> arr2 = ArraySequence<int>(arr1);
-    ArraySequence<int> arr3 = *(dynamic_cast<ArraySequence<int>*>(&(*arr1.Concat(arr2))));
-//    ASSERT_EQ (arr1.GetLength() + arr2.GetLength(), arr3.GetLength());
-//    EXPECT_EQ (arr1[0], arr3[0]);
-//    EXPECT_EQ (arr1[1], arr3[1]);
-//    EXPECT_EQ (arr1[2], arr3[2]);
-//    EXPECT_EQ (arr1[3], arr3[3]);
-//    EXPECT_EQ (arr1[4], arr3[4]);
-//    EXPECT_EQ (arr2[0], arr3[5]);
-//    EXPECT_EQ (arr2[1], arr3[6]);
-//    EXPECT_EQ (arr2[2], arr3[7]);
-//    EXPECT_EQ (arr2[3], arr3[8]);
-//    EXPECT_EQ (arr2[4], arr3[9]);
-//
-//    ArraySequence<int> arr4 = ArraySequence<int>();
-//    arr3 = arr1.Concat(arr4);
-//    ASSERT_EQ (arr1.GetLength() + arr4.GetLength(), arr3.GetLength());
-//    EXPECT_EQ (arr1[0], arr3[0]);
-//    EXPECT_EQ (arr1[1], arr3[1]);
-//    EXPECT_EQ (arr1[2], arr3[2]);
-//    EXPECT_EQ (arr1[3], arr3[3]);
-//    EXPECT_EQ (arr1[4], arr3[4]);
+    std::unique_ptr<Sequence<int>> arr3 = arr1.Concat(arr2);
+    ASSERT_EQ (arr1.GetLength() + arr2.GetLength(), arr3->GetLength());
+    EXPECT_EQ (arr1[0], arr3->At(0));
+    EXPECT_EQ (arr1[1], arr3->At(1));
+    EXPECT_EQ (arr1[2], arr3->At(2));
+    EXPECT_EQ (arr1[3], arr3->At(3));
+    EXPECT_EQ (arr1[4], arr3->At(4));
+    EXPECT_EQ (arr2[0], arr3->At(5));
+    EXPECT_EQ (arr2[1], arr3->At(6));
+    EXPECT_EQ (arr2[2], arr3->At(7));
+    EXPECT_EQ (arr2[3], arr3->At(8));
+    EXPECT_EQ (arr2[4], arr3->At(9));
+
+    ArraySequence<int> arr4 = ArraySequence<int>();
+    arr3 = arr1.Concat(arr4);
+    ASSERT_EQ (arr1.GetLength() + arr4.GetLength(), arr3->GetLength());
+    EXPECT_EQ (arr1[0], arr3->At(0));
+    EXPECT_EQ (arr1[1], arr3->At(1));
+    EXPECT_EQ (arr1[2], arr3->At(2));
+    EXPECT_EQ (arr1[3], arr3->At(3));
+    EXPECT_EQ (arr1[4], arr3->At(4));
 }
 
 TEST(ArraySequence, GetSubsequence) {
     int a[] = {1, 2, 3, 4, 5};
     ArraySequence<int> arr1 = ArraySequence<int>(a, 5);
-    ArraySequence<int> arr2 = arr1.GetSubsequence(0, 0);
-    ASSERT_EQ(arr2.GetLength(), 1);
+    std::unique_ptr<ArraySequence < int>>
+    arr2 = arr1.GetSubsequence(0, 0);
+    ASSERT_EQ(arr2->GetLength(), 1);
     EXPECT_EQ (arr1[0], 1);
-    EXPECT_ANY_THROW(arr2[1]);
+    EXPECT_ANY_THROW(arr2->At(1));
     EXPECT_ANY_THROW(arr1.GetSubsequence(-1, 0));
     EXPECT_ANY_THROW(arr1.GetSubsequence(1, 0));
     EXPECT_ANY_THROW(arr1.GetSubsequence(1, 5));
-
     arr2 = arr1.GetSubsequence(0, 4);
-    ASSERT_EQ(arr2.GetLength(), 5);
-    EXPECT_EQ (arr1[0], arr2[0]);
-    EXPECT_EQ (arr1[1], arr2[1]);
-    EXPECT_EQ (arr1[2], arr2[2]);
-    EXPECT_EQ (arr1[3], arr2[3]);
-    EXPECT_EQ (arr1[4], arr2[4]);
-
+    ASSERT_EQ(arr2->GetLength(), 5);
+    EXPECT_EQ (arr1[0], arr2->At(0));
+    EXPECT_EQ (arr1[1], arr2->At(1));
+    EXPECT_EQ (arr1[2], arr2->At(2));
+    EXPECT_EQ (arr1[3], arr2->At(3));
+    EXPECT_EQ (arr1[4], arr2->At(4));
     arr2 = arr1.GetSubsequence(2, 3);
-    ASSERT_EQ(arr2.GetLength(), 2);
-    EXPECT_EQ (arr1[2], arr2[0]);
-    EXPECT_EQ (arr1[3], arr2[1]);
+    ASSERT_EQ(arr2->GetLength(), 2);
+    EXPECT_EQ (arr1[2], arr2->At(0));
+    EXPECT_EQ (arr1[3], arr2->At(1));
 }
