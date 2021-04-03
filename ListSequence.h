@@ -1,6 +1,8 @@
 //
 // Created by korna on 20.03.2021.
 //
+#ifndef LABA2_LISTSEQUENCE_H
+#define LABA2_LISTSEQUENCE_H
 #include "Sequence.h"
 #include "LinkedList.h"
 #include <iostream>
@@ -120,3 +122,4 @@ public:
     }
 
 };
+#endif //LABA2_LISTSEQUENCE_H

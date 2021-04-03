@@ -1,6 +1,8 @@
 //
 // Created by korna on 20.03.2021.
 //
+#ifndef LABA2_DYNAMICARRAY_H
+#define LABA2_DYNAMICARRAY_H
 #include <iostream>
 #include <cstring>
 
@@ -99,3 +101,5 @@ public:
     ~DynamicArray() { delete[] actual_array; }
 
 };
+
+#endif //LABA2_DYNAMICARRAY_H

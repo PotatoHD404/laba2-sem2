@@ -32,4 +32,4 @@
 *.app
 *.cmake
 
-cmake-build-debug-wsl/
+cmake-build-debug*/

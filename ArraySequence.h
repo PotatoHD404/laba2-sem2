@@ -1,6 +1,9 @@
 //
 // Created by korna on 20.03.2021.
 //
+#ifndef LABA2_ARRAYSEQUENCE_H
+#define LABA2_ARRAYSEQUENCE_H
+
 #include "Sequence.h"
 #include "DynamicArray.h"
 #include <iostream>
@@ -142,3 +145,4 @@ public:
         return *this;
     }
 };
+#endif //LABA2_ARRAYSEQUENCE_H
