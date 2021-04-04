@@ -6,6 +6,7 @@ app = Flask(__name__)
 api = Api(app)
 
 
+# @app.route('/', methods=('GET'))
 class Product(Resource):
     @staticmethod
     def get():
@@ -13,7 +14,7 @@ class Product(Resource):
         client.set_missing_host_key_policy(paramiko.AutoAddPolicy())
         client.connect("core", username="user", password="password")
         # session = client.open_channel(kind='session')
-        ssh_stdin, ssh_stdout, ssh_stderr = client.exec_command("cd /app && ./Tests")
+        ssh_stdin, ssh_stdout, ssh_stderr = client.exec_command("cd /app && ./Tests ")
         # ssh_stdin, ssh_stdout, ssh_stderr = client.exec_command("ls")
         # ssh = client.invoke_shell()
         # response = ssh.send("Hentai")
