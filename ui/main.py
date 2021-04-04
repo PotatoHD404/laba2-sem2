@@ -6,7 +6,8 @@ api = Api(app)
 
 
 class Product(Resource):
-    def get(self):
+    @staticmethod
+    def get():
         return {'product': ['Ice cream', 'Chocolate', 'Fruit']}
 
 
