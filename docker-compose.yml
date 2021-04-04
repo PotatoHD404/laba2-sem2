@@ -16,3 +16,12 @@ services:
     depends_on:
       - core
 
+volumes:
+  run_vol:
+    driver_opts:
+      type: tmpfs
+      device: tmpfs
+  cache_vol:
+    driver_opts:
+      type: tmpfs
+      device: tmpfs
