@@ -32,4 +32,5 @@
 *.app
 *.cmake
 
-cmake-build-debug*/
+cmake-build*/
+venv/

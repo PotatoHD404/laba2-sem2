@@ -13,15 +13,20 @@ jobs:
     # cross-platform coverage.
     # See: https://docs.github.com/en/free-pro-team@latest/actions/learn-github-actions/managing-complex-workflows#using-a-build-matrix
     runs-on: ubuntu-latest
+
     steps:
       - uses: actions/checkout@v2
 
-      #      ${{github.workspace}}/build
       - name: Create Build Environment
-        working-directory: ${{github.workspace}}/build
         # Some projects don't allow in-source building, so create a separate build directory
         # We'll use this as our working directory for all subsequent commands
-        run: docker build -t ./container/remote-cpp-env:0.5 -f Dockerfile .
+        run: cmake -E make_directory ${{github.workspace}}/build
+
+      - name: Install gtest
+        run: sudo apt-get install libgtest-dev
+
+      - name: Install valgrind
+        run: sudo apt install -y valgrind
 
       - name: Configure CMake
         # Use a bash shell so we can use the same syntax for environment variable
@@ -31,23 +36,23 @@ jobs:
         # Note the current convention is to use the -S and -B options here to specify source
         # and build directories, but this is only available with CMake 3.13 and higher.
         # The CMake binaries on the Github Actions machines are (as of this writing) 3.12
-        run: docker run remote-cpp-env:0.5 cmake $GITHUB_WORKSPACE -DCMAKE_BUILD_TYPE=$BUILD_TYPE
+        run: cmake $GITHUB_WORKSPACE -DCMAKE_BUILD_TYPE=$BUILD_TYPE
 
       - name: Build tests
-        working-directory: ${{github.workspace}}/build
+        working-directory: ${{github.workspace}}/src/build
         shell: bash
         # Execute the build.  You can specify a specific target with "--target <NAME>"
-        run: docker run remote-cpp-env:0.5 cmake --build . --config $BUILD_TYPE --target Tests
+        run: cmake --build . --config $BUILD_TYPE --target Tests
 
       - name: Test
         working-directory: ${{github.workspace}}/build
         shell: bash
         # Execute tests defined by the CMake configuration.
         # See https://cmake.org/cmake/help/latest/manual/ctest.1.html for more detail
-        run: docker run remote-cpp-env:0.5 /usr/bin/valgrind --tool=memcheck --gen-suppressions=all --leak-check=full --leak-resolution=med --track-origins=yes --vgdb=no ${{github.workspace}}/build/Tests/Tests --gtest_repeat=1 --gtest_color=no
+        run: /usr/bin/valgrind --tool=memcheck --gen-suppressions=all --leak-check=full --leak-resolution=med --track-origins=yes --vgdb=no ${{github.workspace}}/build/Tests/Tests --gtest_repeat=1 --gtest_color=no
 
       - name: Build main
         working-directory: ${{github.workspace}}/build
         shell: bash
         # Execute the build.  You can specify a specific target with "--target <NAME>"
-        run: docker run remote-cpp-env:0.5 cmake --build . --config $BUILD_TYPE --target Laba2
+        run: cmake --build . --config $BUILD_TYPE --target Laba2

@@ -1,8 +1,8 @@
 # CLion remote docker environment (How to build docker container, run and stop it)
 #
 # Build and run:
-#   docker build -t clion/remote-cpp-env:0.5 -f Dockerfile .
-#   docker run -d --cap-add sys_ptrace -p127.0.0.1:2048:22 --name clion_remote_env clion/remote-cpp-env:0.5
+#   docker build -t remote-cpp-env -f Dockerfile .
+#   docker run -d --cap-add sys_ptrace -p127.0.0.1:2048:22 --name clion_remote_env potatohd/remote-cpp-env
 #   ssh-keygen -f "$HOME/.ssh/known_hosts" -R "[localhost]:2048"
 #
 # stop:
@@ -43,5 +43,3 @@ RUN useradd -m user \
 RUN usermod -s /bin/bash user
 
 CMD ["/usr/sbin/sshd", "-D", "-e", "-f", "/etc/ssh/sshd_config_test_clion"]
-
-ENTRYPOINT ["/entrypoint.sh"]
