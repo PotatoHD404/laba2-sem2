@@ -16,7 +16,7 @@ services:
     depends_on:
       - core
   test:
-    build: python:3.7
+    image: python:3.7
     command: python --version
     depends_on:
       - core
