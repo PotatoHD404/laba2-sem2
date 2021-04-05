@@ -17,6 +17,11 @@ public:
     //Creation of the object
     DynamicArray() : actual_array(new T[1]()), length(0) {}
 
+//    DynamicArray() {
+//        actual_array = new T[1]();
+//        length = 0;
+//    }
+
     explicit DynamicArray(int count) {
         if (count < 0)
             throw out_of_range("count < 0");

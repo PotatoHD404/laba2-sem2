@@ -40,7 +40,7 @@ public:
 
     virtual Sequence<T> *Concat(Sequence<T> &list) = 0;
 
-    Sequence<T> *Concat(const std::unique_ptr<Sequence<int>> &list) {
+    virtual Sequence<T> *Concat(const std::unique_ptr<Sequence<int>> &list) {
         return Concat(*list);
     }
 

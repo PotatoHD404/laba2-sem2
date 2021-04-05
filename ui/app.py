@@ -17,7 +17,6 @@ class Product(Resource):
         ssh_stdin, ssh_stdout, ssh_stderr = client.exec_command("cd /app && ./Tests ")
         # ssh_stdin, ssh_stdout, ssh_stderr = client.exec_command("ls")
         # ssh = client.invoke_shell()
-        # response = ssh.send("Hentai")
         # ssh.close()
         data = [[i[:-1] for i in ssh_stdout.readlines()], [i[:-1] for i in ssh_stderr.readlines()]]
         client.close()
