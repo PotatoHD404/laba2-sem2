@@ -1,4 +1,4 @@
-name: CMake Release
+name: Docker-compose
 
 on: [ push ]
 
@@ -14,4 +14,5 @@ jobs:
       - uses: KengoTODA/actions-setup-docker-compose@main
         with:
           version: '1.26.2'
-          run: docker-compose up
+      - name: Run docker-compose
+        run: docker-compose up
