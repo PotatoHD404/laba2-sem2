@@ -6,7 +6,7 @@ app = Flask(__name__)
 api = Api(app)
 
 
-@app.route('/api/tests', methods=['GET'])
+# @app.route('/api/tests', methods=['GET'])
 class Product(Resource):
     @staticmethod
     def get():
