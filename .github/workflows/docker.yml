@@ -16,4 +16,4 @@ jobs:
         with:
           version: '1.26.2'
       - name: Run docker-compose
-        run: docker-compose -f docker-compose.yml up --exit-code-from ui
+        run: docker-compose -f docker-compose.yml up --exit-code-from test
