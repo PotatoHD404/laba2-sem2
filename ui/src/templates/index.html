@@ -14,13 +14,13 @@
         <div class="col-6">
             <form>
                 <div class="form-group">
-                    <label for="exampleFormControlTextarea1">Console output</label>
-                    <textarea class="form-control" id="exampleFormControlTextarea1" rows="3" readonly></textarea>
+                    <label for="consoleOutput">Console output</label>
+                    <textarea class="form-control" id="consoleOutput" rows="3" readonly></textarea>
                 </div>
             </form>
         </div>
         <div class="col-4">
-            {{ request.cookies.get('token') }}
+            {{ variable  }}
         </div>
     </div>
 </div>

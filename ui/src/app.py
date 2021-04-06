@@ -11,14 +11,14 @@ app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = True
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///test.db'
 db = SQLAlchemy(app)
 migrate = Migrate(app, db)
-clientsList = []
+clientsList = {}
 
 
 class ConsoleText(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     content = db.Column(db.Text, nullable=False)
     date_created = db.Column(db.DateTime, default=datetime.utcnow)
-    cookie = db.Column(db.String(len(token_urlsafe(16))))
+    token = db.Column(db.String(len(token_urlsafe(16))), nullable=False)
 
     def __repr__(self):
         return '<Row %r>' % self.id
@@ -33,32 +33,47 @@ if __name__ == '__main__':
     channel.invoke_shell()
 
 
+# request.cookies.get('token')
 @app.route('/api/get_text', methods=['GET'])
 def resp():
     if not request.cookies.get('token'):
         res = make_response(redirect("/api/get_text"))
         res.set_cookie('token', token_urlsafe(16), max_age=60 * 60 * 24 * 30)
         return res
+
     res = ""
     tmp = b""
+
     if channel.recv_ready():
         tmp = channel.recv(4096)
     while len(tmp) == 4096:
         res += tmp.decode('utf-8')
         tmp = channel.recv(4096)
     res += tmp.decode('utf-8')
+    token = request.cookies.get('token')
+    if res != "":
+        if len(ConsoleText.query.filter_by(token=token).all()) > 0:
+            ConsoleText.query.filter_by(token=token).first().content += res
+        try:
+            db.session.commit()
+        except Exception:
+            'Pass'
+    try:
+        if len(ConsoleText.query.filter_by(token=token).all()) > 0:
+            res = ConsoleText.query.filter_by(token=token).first().content
+    except Exception:
+        'Pass'
     return res
 
 
-@app.route('/api/cookie', methods=['GET'])
-def cookie():
+def get_cookie(sender):
     if not request.cookies.get('token'):
         res = make_response("Setting a cookie")
         res.set_cookie('token', token_urlsafe(16), max_age=60 * 60 * 24 * 30)
     else:
         res = make_response(f"Value of cookie foo is {request.cookies.get('token')}")
 
-    return redirect('/')
+    return redirect(sender)
 
 
 def send(cmd):
@@ -71,26 +86,25 @@ def send(cmd):
         res += tmp.decode('utf-8')
         tmp = channel.recv(4096)
     res += tmp.decode('utf-8')
-    return res.split('\n')
+    return res
 
 
 @app.route('/', methods=['GET'])
 def index():
-
     if not request.cookies.get('token'):
-        res = make_response(redirect("/"))
-        res.set_cookie('token', token_urlsafe(16), max_age=60 * 60 * 24 * 30)
+        token = token_urlsafe(16)
+        res = make_response(render_template("index.html", variable=request.cookies.get('token')))
+        res.set_cookie('token', token, max_age=60 * 60 * 24 * 30)
         return res
 
-    return render_template("index.html")
+    return render_template("index.html", variable=request.cookies.get('token'))
 
 
 @app.route('/api/tests', methods=['GET'])
 def get():
     send("cd /app")
-    res = send("./Tests --gtest_repeat=1 --gtest_color=no")
-    data = res
-    return {"res": data}
+    send("./Tests --gtest_repeat=1 --gtest_color=no")
+    return "Ok"
 
 
 if __name__ == '__main__':
