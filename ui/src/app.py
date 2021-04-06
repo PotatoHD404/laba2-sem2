@@ -18,7 +18,7 @@ class ConsoleText(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     content = db.Column(db.Text, nullable=False)
     date_created = db.Column(db.DateTime, default=datetime.utcnow)
-    token = db.Column(db.String(len(token_urlsafe(16))), nullable=False)
+    token = db.Column(db.String(22), nullable=False)
 
     def __repr__(self):
         return '<Row %r>' % self.id
@@ -51,18 +51,28 @@ def resp():
         tmp = channel.recv(4096)
     res += tmp.decode('utf-8')
     token = request.cookies.get('token')
+    try:
+        exists = len(ConsoleText.query.filter_by(token=token).all()) > 0
+    except Exception:
+        exists = 0
     if res != "":
-        if len(ConsoleText.query.filter_by(token=token).all()) > 0:
+        if exists != 0:
             ConsoleText.query.filter_by(token=token).first().content += res
+        else:
+            new_text = ConsoleText(content=res, token=token)
+
         try:
+            if not exists:
+                db.session.add(new_text)
             db.session.commit()
+            if not exists:
+                exists += 1
         except Exception:
             'Pass'
-    try:
-        if len(ConsoleText.query.filter_by(token=token).all()) > 0:
-            res = ConsoleText.query.filter_by(token=token).first().content
-    except Exception:
-        'Pass'
+
+    if exists or res != "":
+        res = ConsoleText.query.filter_by(token=token).first().content
+
     return res
 
 
