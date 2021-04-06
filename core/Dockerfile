@@ -34,7 +34,7 @@ RUN cmake ../src && \
 # Запуск ---------------------------------------
 
 # В качестве базового образа используем ubuntu:latest
-FROM rikorose/gcc-cmake:latest
+FROM ubuntu:latest
 
 RUN DEBIAN_FRONTEND="noninteractive" apt-get update && apt-get -y install tzdata valgrind ssh
 

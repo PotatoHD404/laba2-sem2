@@ -10,14 +10,14 @@ services:
   ui:
     build: ./ui
     volumes:
-    - ./ui:/app
+    - ./ui/src:/app
     ports:
       - 5000:80
     depends_on:
       - core
   test:
     image: python:3.7
-    command: python --version
+    command: curl ui -o output.txt --connect-timeout 10 --max-time 10
     depends_on:
       - core
       - ui

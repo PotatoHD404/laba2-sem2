@@ -1,7 +1,8 @@
 from flask import Flask, render_template, url_for, request, redirect
-from flask_restful import Resource, Api
+# from flask_restful import Resource, Api
 from flask_sqlalchemy import SQLAlchemy
 from flask_migrate import Migrate
+from datetime import datetime
 import paramiko
 
 app = Flask(__name__)
@@ -14,6 +15,7 @@ migrate = Migrate(app, db)
 class Text(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     content = db.Column(db.TEXT(), nullable=False)
+    date_created = db.Column(db.DateTime, default=datetime.utcnow)
 
     def __repr__(self):
         return '<Row %r>' % self.id
@@ -65,21 +67,9 @@ def index():
 
 @app.route('/api/tests', methods=['GET'])
 def get():
-    res = send("cd /app")
-    # res = send(channel, "/usr/bin/valgrind --tool=memcheck --gen-suppressions=all --leak-check=full \
-    # --leak-resolution=med --track-origins=yes --vgdb=no /app/Tests --gtest_repeat=1 --gtest_color=no")
+    send("cd /app")
     res = send("./Tests --gtest_repeat=1 --gtest_color=no")
-    # res = send(channel, "./Tests")
-    # res1 = send(channel, "apt1")
-    # send_command(remote_conn, cmd='conf t')
-    # client.exec_command("cd /app")
-
-    # ssh_stdin, ssh_stdout, ssh_stderr = client.exec_command("./Tests")
-    #
-    # data = [i[:-1] for i in ssh_stdout.readlines()] + [i[:-1] for i in ssh_stderr.readlines()]
     data = res
-    # data = ""
-    # client.close()
     return {"res": data}
 
 
