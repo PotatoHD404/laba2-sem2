@@ -1,8 +1,9 @@
-from flask import Flask, render_template, url_for, request, redirect
+from flask import Flask, render_template, url_for, request, redirect, make_response
 # from flask_restful import Resource, Api
 from flask_sqlalchemy import SQLAlchemy
 from flask_migrate import Migrate
 from datetime import datetime
+from secrets import token_urlsafe
 import paramiko
 
 app = Flask(__name__)
@@ -10,11 +11,12 @@ app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = True
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///test.db'
 db = SQLAlchemy(app)
 migrate = Migrate(app, db)
+clientsList = []
 
 
-class Text(db.Model):
+class ConsoleText(db.Model):
     id = db.Column(db.Integer, primary_key=True)
-    content = db.Column(db.TEXT(), nullable=False)
+    content = db.Column(db.Text, nullable=False)
     date_created = db.Column(db.DateTime, default=datetime.utcnow)
 
     def __repr__(self):
@@ -44,6 +46,16 @@ def resp():
         res += tmp.decode('utf-8')
         tmp = channel.recv(4096)
     res += tmp.decode('utf-8')
+    return res
+
+
+@app.route('/cookie/', methods=['GET'])
+def cookie():
+    if not request.cookies.get('foo'):
+        res = make_response("Setting a cookie")
+        res.set_cookie('foo', 'bar', max_age=60 * 60 * 24 * 365 * 2)
+    else:
+        res = make_response("Value of cookie foo is {}".format(request.cookies.get('foo')))
     return res
 
 
