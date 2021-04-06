@@ -18,9 +18,9 @@ services:
     depends_on:
       - core
   test:
-    build: ./ui
+    build: ./test
     restart: "no"
-    command: echo Docker-test passed
+    command: -s -t 30 ui:80 -- bash -c "curl ui -o output.txt && echo Docker-test passed"
     depends_on:
       - core
       - ui

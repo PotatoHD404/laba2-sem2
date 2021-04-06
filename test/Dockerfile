@@ -1,5 +1,5 @@
-FROM willwill/wait-for-it
-RUN -s -t 30 ui:80 --
-
 FROM ubuntu:latest
-RUN curl ui -o output.txt
+ADD https://raw.githubusercontent.com/vishnubob/wait-for-it/master/wait-for-it.sh /wait-for-it.sh
+RUN chmod +x /wait-for-it.sh
+RUN apt-get update && apt-get install -y curl
+ENTRYPOINT ["/wait-for-it.sh"]

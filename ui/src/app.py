@@ -49,7 +49,7 @@ def resp():
     return res
 
 
-@app.route('/cookie/', methods=['GET'])
+@app.route('/api/cookie', methods=['GET'])
 def cookie():
     if not request.cookies.get('foo'):
         res = make_response("Setting a cookie")
