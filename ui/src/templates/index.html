@@ -1,6 +1,11 @@
 {% extends 'base.html' %}
 
-{% block styles %}{% endblock %}
+{% block styles %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/main.css') }}">
+{% endblock %}
+{% block scripts %}
+<script src="{{ url_for('static', filename='js/refresh.js') }}"></script>
+{% endblock %}
 {% block title %}Главная{% endblock %}
 
 {% block content %}
@@ -9,12 +14,13 @@
         <div class="col-6">
             <form>
                 <div class="form-group">
-                    <label for="exampleFormControlTextarea1">Example textarea</label>
+                    <label for="exampleFormControlTextarea1">Console output</label>
                     <textarea class="form-control" id="exampleFormControlTextarea1" rows="3" readonly></textarea>
                 </div>
             </form>
         </div>
-        <div class="col-2">
+        <div class="col-4">
+            {{ request.cookies.get('token') }}
         </div>
     </div>
 </div>

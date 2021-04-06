@@ -18,6 +18,7 @@ services:
     depends_on:
       - core
   test:
+    container_name: wait-for-it
     build: ./test
     restart: "no"
     command: -s -t 30 ui:80 -- bash -c "curl ui -o output.txt && echo Docker-test passed"
