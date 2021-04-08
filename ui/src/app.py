@@ -1,5 +1,5 @@
-from flask import Flask, render_template, url_for, request, redirect, make_response
-# from flask_restful import Resource, Api
+from flask import Flask, render_template, url_for, request, redirect, make_response, Response
+from flask_socketio import SocketIO, send, emit
 from flask_sqlalchemy import SQLAlchemy
 from flask_migrate import Migrate
 from datetime import datetime
@@ -7,10 +7,13 @@ from secrets import token_urlsafe
 import paramiko
 
 app = Flask(__name__)
+app.config['SECRET_KEY'] = 'LbcDtbci8PzffxMQHvgvgdWxjBPrzzoLxuBN4PzK014'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = True
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///test.db'
+app.config['SESSION_TYPE'] = 'sqlalchemy'
 db = SQLAlchemy(app)
 migrate = Migrate(app, db)
+socketio = SocketIO(app)
 clientsList = {}
 
 
@@ -76,16 +79,6 @@ def resp():
     return res
 
 
-def get_cookie(sender):
-    if not request.cookies.get('token'):
-        res = make_response("Setting a cookie")
-        res.set_cookie('token', token_urlsafe(16), max_age=60 * 60 * 24 * 30)
-    else:
-        res = make_response(f"Value of cookie foo is {request.cookies.get('token')}")
-
-    return redirect(sender)
-
-
 def send(cmd):
     channel.sendall(f'{cmd}\n')
     res = ""
@@ -110,12 +103,32 @@ def index():
     return render_template("index.html", variable=request.cookies.get('token'))
 
 
+@socketio.on('connect')
+def test_connect():
+    emit('my response', {'data': 'Connected'})
+
+
+@socketio.on('disconnect')
+def test_disconnect():
+    print('Client disconnected')
+
+
+@socketio.on('restart')
+def handle_json(json):
+    print('received json: ' + str(json))
+
+
+@socketio.on('command')
+def handle_json(json):
+    print('received json: ' + str(json))
+
+
 @app.route('/api/tests', methods=['GET'])
 def get():
     send("cd /app")
     send("./Tests --gtest_repeat=1 --gtest_color=no")
-    return "Ok"
+    return Response(status=200)
 
 
 if __name__ == '__main__':
-    app.run(host="0.0.0.0", port=80, debug=True)
+    socketio.run(app, host="0.0.0.0", port=80, debug=True)

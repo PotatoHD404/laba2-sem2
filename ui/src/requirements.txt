@@ -2,4 +2,5 @@ Flask
 flask-restful
 Flask-SQLAlchemy
 Flask-Migrate
+flask-socketio
 paramiko
