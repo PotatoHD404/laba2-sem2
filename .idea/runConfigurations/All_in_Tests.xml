@@ -1,5 +1,5 @@
 <component name="ProjectRunConfigurationManager">
-  <configuration default="false" name="All in Tests" type="CMakeGoogleTestRunConfigurationType" factoryName="Google Test" nameIsGenerated="true" PROGRAM_PARAMS="--gtest_repeat=1" REDIRECT_INPUT="false" ELEVATE="true" USE_EXTERNAL_CONSOLE="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="Project" TARGET_NAME="Tests" CONFIG_NAME="Debug" RUN_TARGET_PROJECT_NAME="Project" RUN_TARGET_NAME="Tests" TEST_MODE="SUITE_TEST">
+  <configuration default="false" name="All in Tests" type="CMakeGoogleTestRunConfigurationType" factoryName="Google Test" nameIsGenerated="true" PROGRAM_PARAMS="--gtest_repeat=1" REDIRECT_INPUT="false" ELEVATE="true" PASS_PARENT_ENVS_2="true" PROJECT_NAME="Laba2" TARGET_NAME="Tests" CONFIG_NAME="Debug" RUN_TARGET_PROJECT_NAME="Laba2" RUN_TARGET_NAME="Tests" TEST_MODE="SUITE_TEST">
     <method v="2">
       <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
       <option name="BeforeTestRunTask" enabled="true" />

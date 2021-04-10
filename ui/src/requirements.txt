@@ -2,5 +2,8 @@ Flask
 flask-restful
 Flask-SQLAlchemy
 Flask-Migrate
-flask-socketio
+Flask-Session
+Flask-SocketIO
+gevent
+gevent-websocket
 paramiko

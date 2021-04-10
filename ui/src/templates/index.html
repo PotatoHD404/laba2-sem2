@@ -4,7 +4,7 @@
 <link rel="stylesheet" href="{{ url_for('static', filename='css/main.css') }}">
 {% endblock %}
 {% block scripts %}
-<script src="{{ url_for('static', filename='js/refresh.js') }}"></script>
+<script src="{{ url_for('static', filename='js/index.js') }}"></script>
 {% endblock %}
 {% block title %}Главная{% endblock %}
 
@@ -15,12 +15,13 @@
             <form>
                 <div class="form-group">
                     <label for="consoleOutput">Console output</label>
-                    <textarea class="form-control" id="consoleOutput" rows="3" readonly></textarea>
+                    <textarea class="form-control" id="consoleOutput" rows="3" readonly>{{ text }}</textarea>
+                    <button type="button" onclick="tests()" class="btn btn-primary mt-3">Start tests</button>
                 </div>
             </form>
         </div>
-        <div class="col-4">
-            {{ variable  }}
+        <div class="col-4" id="token">
+            {{ token }}
         </div>
     </div>
 </div>

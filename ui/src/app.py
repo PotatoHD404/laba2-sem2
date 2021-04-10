@@ -1,19 +1,29 @@
-from flask import Flask, render_template, url_for, request, redirect, make_response, Response
-from flask_socketio import SocketIO, send, emit
+from flask import Flask, render_template, url_for, request, redirect, make_response, Response, session
+from flask_socketio import SocketIO, emit
 from flask_sqlalchemy import SQLAlchemy
 from flask_migrate import Migrate
+from flask_session import Session
 from datetime import datetime
 from secrets import token_urlsafe
 import paramiko
 
 app = Flask(__name__)
 app.config['SECRET_KEY'] = 'LbcDtbci8PzffxMQHvgvgdWxjBPrzzoLxuBN4PzK014'
-app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = True
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///test.db'
 app.config['SESSION_TYPE'] = 'sqlalchemy'
+app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = True  # not quiet warning message
+
 db = SQLAlchemy(app)
 migrate = Migrate(app, db)
-socketio = SocketIO(app)
+
+sess = Session(app)
+
+app.config['SESSION_SQLALCHEMY_TABLE'] = 'sessions'
+app.config['SESSION_SQLALCHEMY'] = db
+sess.app.session_interface.db.create_all()
+
+socketio = SocketIO(app, manage_session=False)
+
 clientsList = {}
 
 
@@ -27,18 +37,8 @@ class ConsoleText(db.Model):
         return '<Row %r>' % self.id
 
 
-if __name__ == '__main__':
-    client = paramiko.SSHClient()
-    client.load_system_host_keys()
-    client.set_missing_host_key_policy(paramiko.AutoAddPolicy())
-    client.connect("core", username="user", password="password")
-    channel = client.get_transport().open_session()
-    channel.invoke_shell()
-
-
-# request.cookies.get('token')
 @app.route('/api/get_text', methods=['GET'])
-def resp():
+def resp(channel):
     if not request.cookies.get('token'):
         res = make_response(redirect("/api/get_text"))
         res.set_cookie('token', token_urlsafe(16), max_age=60 * 60 * 24 * 30)
@@ -54,10 +54,7 @@ def resp():
         tmp = channel.recv(4096)
     res += tmp.decode('utf-8')
     token = request.cookies.get('token')
-    try:
-        exists = len(ConsoleText.query.filter_by(token=token).all()) > 0
-    except Exception:
-        exists = 0
+    exists = len(ConsoleText.query.filter_by(token=token).all()) > 0
     if res != "":
         if exists != 0:
             ConsoleText.query.filter_by(token=token).first().content += res
@@ -79,7 +76,13 @@ def resp():
     return res
 
 
-def send(cmd):
+def login():
+    if not session.get('token'):
+        token = token_urlsafe(16)
+        session['token'] = token
+
+
+def send(cmd, channel):
     channel.sendall(f'{cmd}\n')
     res = ""
     tmp = b""
@@ -94,40 +97,53 @@ def send(cmd):
 
 @app.route('/', methods=['GET'])
 def index():
-    if not request.cookies.get('token'):
-        token = token_urlsafe(16)
-        res = make_response(render_template("index.html", variable=request.cookies.get('token')))
-        res.set_cookie('token', token, max_age=60 * 60 * 24 * 30)
-        return res
-
-    return render_template("index.html", variable=request.cookies.get('token'))
+    login()
+    exists = len(ConsoleText.query.filter_by(token=session['token']).all()) > 0
+    token = session['token']
+    return render_template("index.html", token=token,
+                           text=ConsoleText.query.filter_by(token=token).first().content if exists else "")
 
 
 @socketio.on('connect')
-def test_connect():
-    emit('my response', {'data': 'Connected'})
+def connect():
+    login()
+    # if __name__ == '__main__':
+    #     client = paramiko.SSHClient()
+    # client.load_system_host_keys()
+    # client.set_missing_host_key_policy(paramiko.AutoAddPolicy())
+    # client.connect("core", username="user", password="password")
+    # # ssh_stdin, ssh_stdout, ssh_stderr = client.exec_command("cd /app && ./Tests")
+    # # client.exec_command("cd /app", get_pty=True)
+    # # ssh_stdin, ssh_stdout, ssh_stderr = client.exec_command("cd /app && ./Tests")
+    # channel = client.get_transport().open_session()
+    # # tmp = channel.get_pty()
+    # channel.invoke_shell()
+    exists = len(ConsoleText.query.filter_by(token=session['token']).all()) > 0
+    token = session['token']
+
+    emit('refresh', {'token': token,
+                     'text': ConsoleText.query.filter_by(token=token).first().content if exists else ""})
 
 
 @socketio.on('disconnect')
-def test_disconnect():
+def disconnect():
     print('Client disconnected')
 
 
 @socketio.on('restart')
-def handle_json(json):
+def restart(json):
     print('received json: ' + str(json))
 
 
 @socketio.on('command')
-def handle_json(json):
-    print('received json: ' + str(json))
+def command(json):
+    emit('response', 'Connected')
 
 
-@app.route('/api/tests', methods=['GET'])
+@socketio.on('tests')
 def get():
     send("cd /app")
     send("./Tests --gtest_repeat=1 --gtest_color=no")
-    return Response(status=200)
 
 
 if __name__ == '__main__':
