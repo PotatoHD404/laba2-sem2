@@ -1,5 +1,6 @@
 version: "3"
 
+
 services:
   core:
     build: ./core
@@ -11,21 +12,43 @@ services:
   ui:
     build: ./ui
     restart: unless-stopped
+    environment:
+      - FLASK_ENV=development
     volumes:
       - ./ui/src/static:/app/static
       - ./ui/src/templates:/app/templates
       - ./ui/src/app.py:/app/app.py
     ports:
-      - 5000:80
+      - "5000:80"
     depends_on:
       - core
+      - celery
+    command: python app.py
+  celery:
+    build:
+      context: ./ui
+    hostname: worker
+    command: celery -A app.celery worker --loglevel=info
+    volumes:
+      - ./ui/src/static:/app/static
+      - ./ui/src/templates:/app/templates
+      - ./ui/src/app.py:/app/app.py
+    links:
+      - redis-server
+    depends_on:
+      - redis-server
+  redis-server:
+    image: 'bitnami/redis:latest'
+    environment:
+      - ALLOW_EMPTY_PASSWORD=yes
+    ports:
+      - "5379:6379"
   test:
     container_name: wait-for-it
     build: ./test
     restart: "no"
     command: -s -t 30 ui:80 -- bash -c "curl ui -o output.txt && echo Docker-test passed"
     depends_on:
-      - core
       - ui
 
 volumes:

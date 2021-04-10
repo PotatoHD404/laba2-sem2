@@ -9,4 +9,3 @@ RUN flask db init
 RUN flask db migrate -m "Initial migration."
 RUN flask db upgrade
 
-CMD [ "python", "app.py"]

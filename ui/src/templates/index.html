@@ -15,8 +15,14 @@
             <form>
                 <div class="form-group">
                     <label for="consoleOutput">Console output</label>
-                    <textarea class="form-control" id="consoleOutput" rows="3" readonly>{{ text }}</textarea>
-                    <button type="button" onclick="tests()" class="btn btn-primary mt-3">Start tests</button>
+                    <textarea class="form-control" id="consoleOutput" rows="5" readonly>{{ text }}</textarea>
+                    <div class="row mt-3">
+                        <div class="col-12">
+                            <button type="button" onclick="run_tests()" class="btn btn-primary">Start tests</button>
+                            <button type="button" onclick="clear_console()" class="btn btn-primary">Clear console</button>
+                            <button type="button" onclick="command()" class="btn btn-primary">Command</button>
+                        </div>
+                    </div>
                 </div>
             </form>
         </div>

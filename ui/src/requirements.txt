@@ -6,4 +6,6 @@ Flask-Session
 Flask-SocketIO
 gevent
 gevent-websocket
+celery
+redis
 paramiko
