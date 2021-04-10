@@ -1,41 +1,56 @@
 from flask import Flask, render_template, url_for, request, redirect, make_response, Response, session
 from flask_socketio import SocketIO, emit
-from celery import Celery
 from flask_sqlalchemy import SQLAlchemy
 from flask_migrate import Migrate
 from flask_session import Session, SqlAlchemySessionInterface
 from datetime import datetime
 from secrets import token_urlsafe
-import threading
 from time import sleep
+from celery import Celery
 import paramiko
 
+
+def make_celery(app):
+    celery = Celery(app.import_name, backend=app.config['CELERY_BROKER_URL'],
+                    broker=app.config['CELERY_BROKER_URL'])
+    celery.conf.update(app.config)
+    TaskBase = celery.Task
+
+    class ContextTask(TaskBase):
+        abstract = True
+
+        def __call__(self, *args, **kwargs):
+            with app.app_context():
+                return TaskBase.__call__(self, *args, **kwargs)
+
+    celery.Task = ContextTask
+    return celery
+
+
 app = Flask(__name__)
-app.config['SECRET_KEY'] = 'LbcDtbci8PzffxMQHvgvgdWxjBPrzzoLxuBN4PzK014'
-app.secret_key = 'LbcDtbci8PzffxMQHvgvgdWxjBPrzzoLxuBN4PzK014'
-app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///test.db'
-app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = True  # not quiet warning message
+
+app.config.from_pyfile('config.py')
 
 db = SQLAlchemy(app)
 migrate = Migrate(app, db)
 
 sess = Session(app)
-SqlAlchemySessionInterface(app, db, "sessions", "sess_")
+app.config['SESSION_SQLALCHEMY'] = db
 sess.init_app(app)
-# sess.app.session_interface.db.create_all()
+
+celery = make_celery(app)
+# if __name__ == '__main__':
+#     session.app.session_interface.db.create_all()
 
 socketio = SocketIO(app, manage_session=False)
-
-app.config['CELERY_BROKER_URL'] = 'redis://redis-server:6379/0'
-celery = Celery(app.name, broker=app.config['CELERY_BROKER_URL'])
-celery.conf.update(app.config)
 
 clientsList = {}
 
 
-@celery.task(bind=True)
+@celery.task(name='thread_function')
 def thread_function():
     while True:
+        print("shiiiiiiiiiiiiiiiiiiiiiiet")
         for token, j in zip(clientsList.keys(), clientsList.values()):
             emit('log', 'working', room=j[1])
             # channel = j[0]
@@ -70,8 +85,8 @@ def thread_function():
 
 
 if __name__ == '__main__':
-    x = threading.Thread(target=thread_function)
-    x.start()
+    # celery.send_task('thread_function', args=[clientsList, emit], kwargs={})
+    thread_function.delay()
     client = paramiko.SSHClient()
     client.load_system_host_keys()
     client.set_missing_host_key_policy(paramiko.AutoAddPolicy())
@@ -153,6 +168,7 @@ def clear():
 @socketio.on('command')
 def command():
     token = session['token']
+    thread_function.delay()
     emit('log', str(clientsList))
     # emit('response', 'Connected')
 

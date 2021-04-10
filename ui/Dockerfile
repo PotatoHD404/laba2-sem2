@@ -3,6 +3,7 @@ FROM python:3.7
 WORKDIR /app
 
 COPY ./src .
+COPY ./gunicorn.sh ./../
 RUN pip install -r requirements.txt
 
 RUN flask db init
