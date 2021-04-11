@@ -1,9 +1,9 @@
 import eventlet
-from flask import Flask, render_template, url_for, request, redirect, make_response, Response, session
+from flask import Flask, render_template, request, session
 from flask_socketio import SocketIO, emit
 from flask_sqlalchemy import SQLAlchemy
 from flask_migrate import Migrate
-from flask_session import Session, SqlAlchemySessionInterface
+from flask_session import Session
 from datetime import datetime
 from secrets import token_urlsafe
 import paramiko
@@ -147,7 +147,7 @@ def command():
 def tests():
     channel = clientsList[session['token']][0]
     channel.sendall(f'cd /app\n')
-    channel.sendall(f'./Tests --gtest_repeat=1 --gtest_color=no\n')
+    channel.sendall(f'./Tests --gtest_repeat=1\n')
     emit('log', 'tests started')
 
 
