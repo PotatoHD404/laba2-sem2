@@ -1,5 +1,4 @@
 import eventlet
-
 from flask import Flask, render_template, url_for, request, redirect, make_response, Response, session
 from flask_socketio import SocketIO, emit
 from flask_sqlalchemy import SQLAlchemy
@@ -7,27 +6,9 @@ from flask_migrate import Migrate
 from flask_session import Session, SqlAlchemySessionInterface
 from datetime import datetime
 from secrets import token_urlsafe
-from time import sleep
-# from celery import Celery
 import paramiko
 
 eventlet.monkey_patch()
-# def make_celery(app):
-#     celery = Celery(app.import_name, backend=app.config['CELERY_BROKER_URL'],
-#                     broker=app.config['CELERY_BROKER_URL'])
-#     celery.conf.update(app.config)
-#     TaskBase = celery.Task
-#
-#     class ContextTask(TaskBase):
-#         abstract = True
-#
-#         def __call__(self, *args, **kwargs):
-#             with app.app_context():
-#                 return TaskBase.__call__(self, *args, **kwargs)
-#
-#     celery.Task = ContextTask
-#     return celery
-
 
 app = Flask(__name__)
 
@@ -40,61 +21,14 @@ sess = Session(app)
 app.config['SESSION_SQLALCHEMY'] = db
 sess.init_app(app)
 
-thread = None
-
-# celery = make_celery(app)
-# if __name__ == '__main__':
-#     session.app.session_interface.db.create_all()
-
 socketio = SocketIO(app, manage_session=False, logger=True, engineio_logger=True)
 
 clientsList = {}
 
 
-# @celery.task(name='thread_function')
-# def thread_function():
-#     global clientsList
-#     while True:
-#         print("heh")
-#         for token, j in zip(clientsList.keys(), clientsList.values()):
-#             print(token, j)
-#             socketio.emit('log', 'working', room=j[1])
-#             channel = j[0]
-#             res = ""
-#             tmp = b""
-#
-#             if channel.recv_ready():
-#                 tmp = channel.recv(4096)
-#             while len(tmp) == 4096:
-#                 res += tmp.decode('utf-8')
-#                 tmp = channel.recv(4096)
-#             res += tmp.decode('utf-8')
-#             exists = len(ConsoleText.query.filter_by(token=token).all()) > 0
-#             if res != "":
-#                 if exists:
-#                     ConsoleText.query.filter_by(token=token).first().content += res
-#                 else:
-#                     new_text = ConsoleText(content=res, token=token)
-#
-#                 try:
-#                     if not exists:
-#                         db.session.add(new_text)
-#                     db.session.commit()
-#                     if not exists:
-#                         exists += 1
-#                 except Exception:
-#                     'Pass'
-#                 emit('refresh', {'token': token,
-#                                  'text': ConsoleText.query.filter_by(token=token).first().content if exists else ""},
-#                      room=j[1])
-#         sleep(0.5)
-
-
 def bg_emit():
     for token in clientsList:
         j = clientsList[token]
-        # print(token, j)
-        # socketio.emit('log', token, room=j[1])
         channel = j[0]
         res = ""
         tmp = b""
@@ -106,7 +40,6 @@ def bg_emit():
             tmp = channel.recv(4096)
         res += tmp.decode('utf-8')
         exists = len(ConsoleText.query.filter_by(token=token).all()) > 0
-        # print(res)
         if res != "":
             if exists:
                 ConsoleText.query.filter_by(token=token).first().content += res
@@ -122,8 +55,8 @@ def bg_emit():
             except Exception:
                 'Pass'
             socketio.emit('refresh', {'token': token,
-                             'text': ConsoleText.query.filter_by(token=token).first().content if exists else ""},
-                 room=j[1])
+                                      'text': ConsoleText.query.filter_by(
+                                          token=token).first().content if exists else ""}, room=j[1])
 
 
 def listen():
@@ -174,15 +107,10 @@ def connect():
     exists = len(ConsoleText.query.filter_by(token=token).all()) > 0
 
     if token not in clientsList:
-        # ssh_stdin, ssh_stdout, ssh_stderr = client.exec_command("cd /app && ./Tests")
-        # client.exec_command("cd /app", get_pty=True)
-        # ssh_stdin, ssh_stdout, ssh_stderr = client.exec_command("cd /app && ./Tests")
         channel = client.get_transport().open_session()
-        # tmp = channel.get_pty()
         channel.invoke_shell()
         clientsList[token] = [channel, request.sid]
 
-    # emit('log', str(clientsList))
     emit('refresh', {'token': token,
                      'text': ConsoleText.query.filter_by(token=token).first().content if exists else ""})
 
@@ -194,11 +122,6 @@ def disconnect():
     if token in clientsList:
         del clientsList[token]
     print('Client disconnected')
-
-
-# @socketio.on('restart')
-# def restart(json):
-#     print('received json: ' + str(json))
 
 
 @socketio.on('clear')
