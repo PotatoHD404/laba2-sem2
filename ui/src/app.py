@@ -55,8 +55,9 @@ def bg_emit():
             except Exception:
                 'Pass'
             socketio.emit('refresh', {'token': token,
-                                      'text': ConsoleText.query.filter_by(
-                                          token=token).first().content if exists else ""}, room=j[1])
+                                      'text': (ConsoleText.query.filter_by(
+                                          token=token).first().content if exists else "").replace('\n', '\r\n')},
+                          room=j[1])
 
 
 def listen():
@@ -112,7 +113,8 @@ def connect():
         clientsList[token] = [channel, request.sid]
 
     emit('refresh', {'token': token,
-                     'text': ConsoleText.query.filter_by(token=token).first().content if exists else ""})
+                     'text': (ConsoleText.query.filter_by(
+                         token=token).first().content if exists else "").replace('\n', '\r\n')})
 
 
 @socketio.on('disconnect')
@@ -132,7 +134,8 @@ def clear():
         ConsoleText.query.filter_by(token=token).first().content = ""
         db.session.commit()
     emit('refresh', {'token': token,
-                     'text': ConsoleText.query.filter_by(token=token).first().content if exists else ""})
+                     'text': (ConsoleText.query.filter_by(
+                         token=token).first().content if exists else "").replace('\n', '\r\n')})
 
 
 @socketio.on('command')
