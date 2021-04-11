@@ -1,3 +1,5 @@
+import eventlet
+
 from flask import Flask, render_template, url_for, request, redirect, make_response, Response, session
 from flask_socketio import SocketIO, emit
 from flask_sqlalchemy import SQLAlchemy
@@ -6,25 +8,25 @@ from flask_session import Session, SqlAlchemySessionInterface
 from datetime import datetime
 from secrets import token_urlsafe
 from time import sleep
-from celery import Celery
+# from celery import Celery
 import paramiko
 
-
-def make_celery(app):
-    celery = Celery(app.import_name, backend=app.config['CELERY_BROKER_URL'],
-                    broker=app.config['CELERY_BROKER_URL'])
-    celery.conf.update(app.config)
-    TaskBase = celery.Task
-
-    class ContextTask(TaskBase):
-        abstract = True
-
-        def __call__(self, *args, **kwargs):
-            with app.app_context():
-                return TaskBase.__call__(self, *args, **kwargs)
-
-    celery.Task = ContextTask
-    return celery
+eventlet.monkey_patch()
+# def make_celery(app):
+#     celery = Celery(app.import_name, backend=app.config['CELERY_BROKER_URL'],
+#                     broker=app.config['CELERY_BROKER_URL'])
+#     celery.conf.update(app.config)
+#     TaskBase = celery.Task
+#
+#     class ContextTask(TaskBase):
+#         abstract = True
+#
+#         def __call__(self, *args, **kwargs):
+#             with app.app_context():
+#                 return TaskBase.__call__(self, *args, **kwargs)
+#
+#     celery.Task = ContextTask
+#     return celery
 
 
 app = Flask(__name__)
@@ -38,59 +40,104 @@ sess = Session(app)
 app.config['SESSION_SQLALCHEMY'] = db
 sess.init_app(app)
 
-celery = make_celery(app)
+thread = None
+
+# celery = make_celery(app)
 # if __name__ == '__main__':
 #     session.app.session_interface.db.create_all()
 
-socketio = SocketIO(app, manage_session=False)
+socketio = SocketIO(app, manage_session=False, logger=True, engineio_logger=True)
 
 clientsList = {}
 
 
-@celery.task(name='thread_function')
-def thread_function():
+# @celery.task(name='thread_function')
+# def thread_function():
+#     global clientsList
+#     while True:
+#         print("heh")
+#         for token, j in zip(clientsList.keys(), clientsList.values()):
+#             print(token, j)
+#             socketio.emit('log', 'working', room=j[1])
+#             channel = j[0]
+#             res = ""
+#             tmp = b""
+#
+#             if channel.recv_ready():
+#                 tmp = channel.recv(4096)
+#             while len(tmp) == 4096:
+#                 res += tmp.decode('utf-8')
+#                 tmp = channel.recv(4096)
+#             res += tmp.decode('utf-8')
+#             exists = len(ConsoleText.query.filter_by(token=token).all()) > 0
+#             if res != "":
+#                 if exists:
+#                     ConsoleText.query.filter_by(token=token).first().content += res
+#                 else:
+#                     new_text = ConsoleText(content=res, token=token)
+#
+#                 try:
+#                     if not exists:
+#                         db.session.add(new_text)
+#                     db.session.commit()
+#                     if not exists:
+#                         exists += 1
+#                 except Exception:
+#                     'Pass'
+#                 emit('refresh', {'token': token,
+#                                  'text': ConsoleText.query.filter_by(token=token).first().content if exists else ""},
+#                      room=j[1])
+#         sleep(0.5)
+
+
+def bg_emit():
+    for token in clientsList:
+        j = clientsList[token]
+        # print(token, j)
+        # socketio.emit('log', token, room=j[1])
+        channel = j[0]
+        res = ""
+        tmp = b""
+
+        if channel.recv_ready():
+            tmp = channel.recv(4096)
+        while len(tmp) == 4096:
+            res += tmp.decode('utf-8')
+            tmp = channel.recv(4096)
+        res += tmp.decode('utf-8')
+        exists = len(ConsoleText.query.filter_by(token=token).all()) > 0
+        # print(res)
+        if res != "":
+            if exists:
+                ConsoleText.query.filter_by(token=token).first().content += res
+            else:
+                new_text = ConsoleText(content=res, token=token)
+
+            try:
+                if not exists:
+                    db.session.add(new_text)
+                db.session.commit()
+                if not exists:
+                    exists += 1
+            except Exception:
+                'Pass'
+            socketio.emit('refresh', {'token': token,
+                             'text': ConsoleText.query.filter_by(token=token).first().content if exists else ""},
+                 room=j[1])
+
+
+def listen():
     while True:
-        print("shiiiiiiiiiiiiiiiiiiiiiiet")
-        for token, j in zip(clientsList.keys(), clientsList.values()):
-            emit('log', 'working', room=j[1])
-            # channel = j[0]
-            # res = ""
-            # tmp = b""
-            #
-            # if channel.recv_ready():
-            #     tmp = channel.recv(4096)
-            # while len(tmp) == 4096:
-            #     res += tmp.decode('utf-8')
-            #     tmp = channel.recv(4096)
-            # res += tmp.decode('utf-8')
-            # exists = len(ConsoleText.query.filter_by(token=token).all()) > 0
-            # if res != "":
-            #     if exists:
-            #         ConsoleText.query.filter_by(token=token).first().content += res
-            #     else:
-            #         new_text = ConsoleText(content=res, token=token)
-            #
-            #     try:
-            #         if not exists:
-            #             db.session.add(new_text)
-            #         db.session.commit()
-            #         if not exists:
-            #             exists += 1
-            #     except Exception:
-            #         'Pass'
-            #     emit('refresh', {'token': token,
-            #                      'text': ConsoleText.query.filter_by(token=token).first().content if exists else ""},
-            #          room=j[1])
-        sleep(0.5)
+        bg_emit()
+        eventlet.sleep(0.5)
 
 
 if __name__ == '__main__':
-    # celery.send_task('thread_function', args=[clientsList, emit], kwargs={})
-    thread_function.delay()
     client = paramiko.SSHClient()
     client.load_system_host_keys()
     client.set_missing_host_key_policy(paramiko.AutoAddPolicy())
     client.connect("core", username="user", password="password")
+    eventlet.spawn(listen)
 
 
 class ConsoleText(db.Model):
@@ -135,7 +182,7 @@ def connect():
         channel.invoke_shell()
         clientsList[token] = [channel, request.sid]
 
-    emit('log', str(clientsList))
+    # emit('log', str(clientsList))
     emit('refresh', {'token': token,
                      'text': ConsoleText.query.filter_by(token=token).first().content if exists else ""})
 
@@ -167,10 +214,7 @@ def clear():
 
 @socketio.on('command')
 def command():
-    token = session['token']
-    thread_function.delay()
     emit('log', str(clientsList))
-    # emit('response', 'Connected')
 
 
 @socketio.on('tests')

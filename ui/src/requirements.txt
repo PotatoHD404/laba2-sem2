@@ -4,8 +4,7 @@ Flask-SQLAlchemy
 Flask-Migrate
 Flask-Session
 Flask-SocketIO
-gevent
-gevent-websocket
+eventlet
 celery
 redis
 paramiko
