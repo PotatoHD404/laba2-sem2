@@ -6,7 +6,7 @@
 #define LABA2_IENUMERATOR_H
 
 template<class T>
-class IEnumerator {
+/*interface*/ class IEnumerator {
 public:
     virtual T &GetCurrent() = 0;
 

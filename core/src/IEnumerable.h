@@ -7,7 +7,7 @@
 #define LABA2_IENUMERABLE_H
 
 template<class T>
-class IEnumerable {
+/*interface*/ class IEnumerable {
 public:
     virtual IEnumerator<T> &GetEnumerator() = 0;
 

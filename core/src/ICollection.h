@@ -7,7 +7,7 @@
 
 template<class T>
 class ICollection {
-private:
+protected:
     int Count;
     bool ReadOnly;
 public:

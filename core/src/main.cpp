@@ -14,6 +14,7 @@ using namespace std;
 
 
 int main() {
+    DynamicArray<int> *a = new DynamicArray<int>();
 
     return 0;
 }

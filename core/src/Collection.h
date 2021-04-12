@@ -7,26 +7,24 @@
 #define LABA2_COLLECTION_H
 
 template<class T>
-class Collection : public IEnumerable<T>, public ICollection<T> {
+/*abstract*/
+class Enumerable : public IEnumerable<T>, public ICollection<T> {
 public:
 
-    template<class ChildClass>
-    ChildClass& Map(T (*mapper)(T), ChildClass collection) {
-        ChildClass res = ChildClass(collection.GetLength());
-        for (int i = 0; i < collection.GetLength(); i++)
-            res[i] = mapper(collection[i]);
+    Enumerable<T> *Where(bool(*predicate)(T)) {
+        Enumerable *res = new Enumerable();
+        for (int i = 0; i < this->GetLength(); i++)
+            res->At(i) = mapper(this->At(i));
+        return res;
+    }
+
+    Enumerable *Map(T (*mapper)(T), Enumerable<T> *collection) {
+        Enumerable *res = new Enumerable(collection->GetLength());
+        for (int i = 0; i < this->GetLength(); i++)
+            res->At(i) = mapper(this->At(i));
         return res;
     };
 
-//    template <typename Iterator>
-//    void advance_all (Iterator & iterator) {
-//        ++iterator;
-//    }
-//    template <typename Iterator, typename ... Iterators>
-//    void advance_all (Iterator & iterator, Iterators& ... iterators) {
-//        ++iterator;
-//        advance_all(iterators...);
-//    }
 //    template <typename Function, typename Iterator, typename ... Iterators>
 //    Function zip (Function func, Iterator begin,
 //                  Iterator end,
