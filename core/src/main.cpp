@@ -7,7 +7,7 @@
 #include "ICollection.h"
 #include "IEnumerable.h"
 #include "IEnumerator.h"
-#include "Collection.h"
+#include "Enumerable.h"
 #include "TestClass.h"
 
 using namespace std;

@@ -2,6 +2,7 @@
 // Created by korna on 03.04.2021.
 //
 #include "IEnumerable.h"
+#include "ICollection.h"
 
 #ifndef LABA2_COLLECTION_H
 #define LABA2_COLLECTION_H
@@ -12,14 +13,31 @@ class Enumerable : public IEnumerable<T>, public ICollection<T> {
 public:
 
     Enumerable<T> *Where(bool(*predicate)(T)) {
-        Enumerable *res = new Enumerable();
+        Enumerable<T> *res = this->Init();
         for (int i = 0; i < this->GetLength(); i++)
-            res->At(i) = mapper(this->At(i));
+            if (predicate(this->At(i)))
+                res->Append(this->At(i));
         return res;
     }
 
-    Enumerable *Map(T (*mapper)(T), Enumerable<T> *collection) {
-        Enumerable *res = new Enumerable(collection->GetLength());
+    T Reduce(T(*f)(T, T), T const c) {
+        T res = c;
+        for (int i = 0; i < this->GetLength(); ++i) {
+            res = f(this->At(i), res);
+        }
+        return res;
+    }
+
+    Enumerable<T> *Map(T (*mapper)(T)) {
+        Enumerable<T> *res = this->Init(this->GetLength());
+        for (int i = 0; i < this->GetLength(); i++)
+            res->At(i) = mapper(this->At(i));
+        return res;
+    };
+
+
+    Enumerable<T> *Zip(T (*mapper)(T)) {
+        Enumerable<Enumerable<T>> *res = this->Init(Enumerable<T>);
         for (int i = 0; i < this->GetLength(); i++)
             res->At(i) = mapper(this->At(i));
         return res;
@@ -91,7 +109,7 @@ public:
 
 
 
-    virtual ~Collection() {};
+    virtual ~Enumerable() {};
 
 };
 

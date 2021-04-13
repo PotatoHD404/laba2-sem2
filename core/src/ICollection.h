@@ -11,7 +11,13 @@ protected:
     int Count;
     bool ReadOnly;
 public:
-    virtual ICollection &clone() const = 0;
+    virtual ICollection<T> *Clone() const = 0;
+
+    virtual ICollection<T> *Init() const = 0;
+
+    virtual ICollection<T> *Init(class ClassName) const = 0;
+
+    virtual ICollection<T> *Init(int count) const = 0;
 
     //Decomposition
 
