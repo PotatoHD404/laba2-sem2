@@ -17,8 +17,6 @@ public:
 
     virtual ICollection<T> *Init() const = 0;
 
-    virtual ICollection<T> *InitEnumerable() const = 0;
-
     virtual ICollection<T> *Init(int count) const = 0;
 
     //Decomposition

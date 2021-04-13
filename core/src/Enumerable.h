@@ -19,6 +19,12 @@ private:
     }
 
 public:
+    auto Split(int point) {
+        auto res = make_tuple(this->Subsequence(0, point), this->Subsequence(point, this->GetLength()));
+        return res;
+    }
+
+    virtual Enumerable<T> *Subsequence(int begin, int end) = 0;
 
     Enumerable<T> *Where(bool(*predicate)(T)) {
         Enumerable<T> *res = this->Init();
@@ -41,144 +47,56 @@ public:
         for (int i = 0; i < this->GetLength(); i++)
             res->At(i) = mapper(this->At(i));
         return res;
-    };
+    }
 
     template<typename... Args>
     auto Zip(Args... args) {
         auto res = make_tuple(this->Init());
         int len = 0;
         for (int i = 0; i < this->GetLength(); i++)
-            res->At(len).Append(this->At(i));
-        return Zip(res, args...);
-    };
+            get<len>(res).Append(this->At(i));
+        return Zip(res, this->GetLength(), args...);
+    }
 
-    template<typename... Args>
-    auto Zip(Enumerable<Enumerable<T>> *res, Enumerable<T> current, Args... args) {
+    template<typename... Args, typename Tuple>
+    auto Zip(Tuple res, int min, Enumerable<T> current, Args... args) {
         int count = current->GetLength();
         int len = res->GetLength();
+        auto res2 = tuple_cat(res, make_tuple(this->Init()));
         res->Append(this->Init());
         for (int i = 0; i < this->GetLength(); i++)
-            res->At(len).Append(current->At(i));
-        for (int i = 0; i < len; ++i)
-            Resize(res->At(i), count);
-        Zip(res, args...);
-    };
+            get<len>(res2).Append(current->At(i));
+        if (min > count)
+            min = count;
+        return Zip(res2, min, args...);
+    }
 
-    void Zip(Enumerable<Enumerable<T>> *res, Enumerable<T> current) {
-
+    template<typename Tuple>
+    auto Zip(Tuple res, int min, Enumerable<T> current) {
         int count = current->GetLength();
         int len = res->GetLength();
-        res->Append(this->Init());
+        auto res2 = tuple_cat(res, make_tuple(this->Init()));
         for (int i = 0; i < this->GetLength(); i++)
-            res->At(len).Append(current->At(i));
+            get<len>(res2).Append(current->At(i));
+        if (min > count)
+            min = count;
         for (int i = 0; i < len; ++i)
-            Resize(res->At(i), count);
-    };
+            Resize(get<len>(res2), min);
 
-//    template<typename... Args>
-//    Enumerable<T> *Zip(Args... args) {
-//        Enumerable<Enumerable<T>> *res = this->InitEnumerable();
-//        int len = res->GetLength();
-//        res->Append(this->Init());
-//        for (int i = 0; i < this->GetLength(); i++)
-//            res->At(len).Append(this->At(i));
-//        Zip(res, args...);
-//        return res;
-//    };
-//
-//    template<typename... Args>
-//    void Zip(Enumerable<Enumerable<T>> *res, Enumerable<T> current, Args... args) {
-//        int count = current->GetLength();
-//        int len = res->GetLength();
-//        res->Append(this->Init());
-//        for (int i = 0; i < this->GetLength(); i++)
-//            res->At(len).Append(current->At(i));
-//        for (int i = 0; i < len; ++i)
-//            Resize(res->At(i), count);
-//        Zip(res, args...);
-//    };
-//
-//    void Zip(Enumerable<Enumerable<T>> *res, Enumerable<T> current) {
-//
-//        int count = current->GetLength();
-//        int len = res->GetLength();
-//        res->Append(this->Init());
-//        for (int i = 0; i < this->GetLength(); i++)
-//            res->At(len).Append(current->At(i));
-//        for (int i = 0; i < len; ++i)
-//            Resize(res->At(i), count);
-//    };
+        return res2;
+    }
 
-
-
-//    template <typename Function, typename Iterator, typename ... Iterators>
-//    Function zip (Function func, Iterator begin,
-//                  Iterator end,
-//                  Iterators ... iterators)
-//    {
-//        for(;begin != end; ++begin, advance_all(iterators...))
-//            func(*begin, *(iterators)... );
-//        //could also make this a tuple
-//        return func;
-//    }
-
-//    int main () {
-//        std::vector<int> v1{1,2,3};
-//        std::vector<int> v2{3,2,1};
-//        std::vector<float> v3{1.2,2.4,9.0};
-//        std::vector<float> v4{1.2,2.4,9.0};
-//        zip (
-//                [](int i,int j,float k,float l){
-//                    std::cout << i << " " << j << " " << k << " " << l << std::endl;
-//                },
-//                v1.begin(),v1.end(),v2.begin(),v3.begin(),v4.begin());
-//    }
-
-//    template<typename IteratorA, typename IteratorB, typename Zipper, typename P>
-//    void Zip(IteratorA a, IteratorA aEnd, IteratorB b, IteratorB bEnd, Zipper zipper, vector<P>& ret) {
-//        if (a == aEnd || b == bEnd) return;
-//        ret.push_back(zipper(*a, *b));
-//        zip(++a, aEnd, ++b, bEnd, zipper, ret);
-//    }
-//    template<typename IteratorA, typename IteratorB, typename Zipper, typename P>
-//    void UnZip(IteratorA a, IteratorA aEnd, IteratorB b, IteratorB bEnd, Zipper zipper, vector<P>& ret) {
-//        if (a == aEnd || b == bEnd) return;
-//        ret.push_back(zipper(*a, *b));
-//        zip(++a, aEnd, ++b, bEnd, zipper, ret);
-//    }
-//    template<typename IteratorA, typename IteratorB, typename Zipper, typename P>
-//    void Reduce(IteratorA a, IteratorA aEnd, IteratorB b, IteratorB bEnd, Zipper zipper, vector<P>& ret) {
-//        if (a == aEnd || b == bEnd) return;
-//        ret.push_back(zipper(*a, *b));
-//        zip(++a, aEnd, ++b, bEnd, zipper, ret);
-//    }
-//    template<typename IteratorA, typename IteratorB, typename Zipper, typename P>
-//    void Split(IteratorA a, IteratorA aEnd, IteratorB b, IteratorB bEnd, Zipper zipper, vector<P>& ret) {
-//        if (a == aEnd || b == bEnd) return;
-//        ret.push_back(zipper(*a, *b));
-//        zip(++a, aEnd, ++b, bEnd, zipper, ret);
-//    }
-//    TODO: where, concat, subsequence, zip/unzip, reduce, split
-//    void Where(IteratorA a, IteratorA aEnd, IteratorB b, IteratorB bEnd, Zipper zipper, vector<P>& ret) {
-//        if (a == aEnd || b == bEnd) return;
-//        ret.push_back(zipper(*a, *b));
-//        zip(++a, aEnd, ++b, bEnd, zipper, ret);
-//    }
-//    void Concat(IteratorA a, IteratorA aEnd, IteratorB b, IteratorB bEnd, Zipper zipper, vector<P>& ret) {
-//        if (a == aEnd || b == bEnd) return;
-//        ret.push_back(zipper(*a, *b));
-//        zip(++a, aEnd, ++b, bEnd, zipper, ret);
-//    }
-//    void Subsequence(IteratorA a, IteratorA aEnd, IteratorB b, IteratorB bEnd, Zipper zipper, vector<P>& ret) {
-//        if (a == aEnd || b == bEnd) return;
-//        ret.push_back(zipper(*a, *b));
-//        zip(++a, aEnd, ++b, bEnd, zipper, ret);
-//    }
-
+    auto Zip(Enumerable<T> current) {
+        auto res = make_tuple(this->Init());
+        int len = 0;
+        for (int i = 0; i < this->GetLength(); i++)
+            get<len>(res).Append(this->At(i));
+        return Zip(res, this->GetLength(), current);
+    }
 
 
     virtual ~Enumerable() {};
 
-};
+}
 
 #endif //LABA2_COLLECTION_H
