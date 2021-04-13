@@ -11,11 +11,13 @@ protected:
     int Count;
     bool ReadOnly;
 public:
+    ICollection(int Count, bool ReadOnly) : Count(Count), ReadOnly(ReadOnly) {}
+
     virtual ICollection<T> *Clone() const = 0;
 
     virtual ICollection<T> *Init() const = 0;
 
-    virtual ICollection<T> *Init(class ClassName) const = 0;
+    virtual ICollection<T> *InitEnumerable() const = 0;
 
     virtual ICollection<T> *Init(int count) const = 0;
 

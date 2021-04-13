@@ -3,6 +3,7 @@
 //
 #include "IEnumerable.h"
 #include "ICollection.h"
+#include <tuple>
 
 #ifndef LABA2_COLLECTION_H
 #define LABA2_COLLECTION_H
@@ -10,6 +11,13 @@
 template<class T>
 /*abstract*/
 class Enumerable : public IEnumerable<T>, public ICollection<T> {
+private:
+    void Resize(Enumerable<T> *enumerable, int len) {
+        int count = enumerable->GetLength();
+        while (count-- > len) enumerable->RemoveAt(count);
+        while (count++ < len) enumerable->Append(T());
+    }
+
 public:
 
     Enumerable<T> *Where(bool(*predicate)(T)) {
@@ -35,13 +43,73 @@ public:
         return res;
     };
 
-
-    Enumerable<T> *Zip(T (*mapper)(T)) {
-        Enumerable<Enumerable<T>> *res = this->Init(Enumerable<T>);
+    template<typename... Args>
+    auto Zip(Args... args) {
+        auto res = make_tuple(this->Init());
+        int len = 0;
         for (int i = 0; i < this->GetLength(); i++)
-            res->At(i) = mapper(this->At(i));
-        return res;
+            res->At(len).Append(this->At(i));
+        return Zip(res, args...);
     };
+
+    template<typename... Args>
+    auto Zip(Enumerable<Enumerable<T>> *res, Enumerable<T> current, Args... args) {
+        int count = current->GetLength();
+        int len = res->GetLength();
+        res->Append(this->Init());
+        for (int i = 0; i < this->GetLength(); i++)
+            res->At(len).Append(current->At(i));
+        for (int i = 0; i < len; ++i)
+            Resize(res->At(i), count);
+        Zip(res, args...);
+    };
+
+    void Zip(Enumerable<Enumerable<T>> *res, Enumerable<T> current) {
+
+        int count = current->GetLength();
+        int len = res->GetLength();
+        res->Append(this->Init());
+        for (int i = 0; i < this->GetLength(); i++)
+            res->At(len).Append(current->At(i));
+        for (int i = 0; i < len; ++i)
+            Resize(res->At(i), count);
+    };
+
+//    template<typename... Args>
+//    Enumerable<T> *Zip(Args... args) {
+//        Enumerable<Enumerable<T>> *res = this->InitEnumerable();
+//        int len = res->GetLength();
+//        res->Append(this->Init());
+//        for (int i = 0; i < this->GetLength(); i++)
+//            res->At(len).Append(this->At(i));
+//        Zip(res, args...);
+//        return res;
+//    };
+//
+//    template<typename... Args>
+//    void Zip(Enumerable<Enumerable<T>> *res, Enumerable<T> current, Args... args) {
+//        int count = current->GetLength();
+//        int len = res->GetLength();
+//        res->Append(this->Init());
+//        for (int i = 0; i < this->GetLength(); i++)
+//            res->At(len).Append(current->At(i));
+//        for (int i = 0; i < len; ++i)
+//            Resize(res->At(i), count);
+//        Zip(res, args...);
+//    };
+//
+//    void Zip(Enumerable<Enumerable<T>> *res, Enumerable<T> current) {
+//
+//        int count = current->GetLength();
+//        int len = res->GetLength();
+//        res->Append(this->Init());
+//        for (int i = 0; i < this->GetLength(); i++)
+//            res->At(len).Append(current->At(i));
+//        for (int i = 0; i < len; ++i)
+//            Resize(res->At(i), count);
+//    };
+
+
 
 //    template <typename Function, typename Iterator, typename ... Iterators>
 //    Function zip (Function func, Iterator begin,
