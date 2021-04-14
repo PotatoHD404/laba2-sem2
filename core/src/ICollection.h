@@ -8,10 +8,9 @@
 template<class T>
 class ICollection {
 protected:
-    int Count;
-    bool ReadOnly;
+//    bool ReadOnly;
 public:
-    ICollection(int Count, bool ReadOnly) : Count(Count), ReadOnly(ReadOnly) {}
+    ICollection() {}
 
     virtual ICollection<T> *Clone() const = 0;
 
@@ -23,13 +22,11 @@ public:
 
     virtual T &At(int index) = 0;
 
-    int GetLength() { return Count; }
+    virtual int GetLength()  = 0;
 
-    bool IsReadOnly() { return ReadOnly; }
+//    bool IsReadOnly() { return ReadOnly; }
 
     virtual bool Contains(T item) = 0;
-
-    virtual void CopyTo(T array[], int arrayIndex) = 0;
 
     //Operations
     virtual void Clear() = 0;

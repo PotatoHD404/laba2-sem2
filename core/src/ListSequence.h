@@ -3,10 +3,12 @@
 //
 #ifndef LABA2_LISTSEQUENCE_H
 #define LABA2_LISTSEQUENCE_H
+
 #include "Sequence.h"
 #include "LinkedList.h"
 #include <iostream>
 #include <cstring>
+#include "IEnumerator.h"
 
 using namespace std;
 
@@ -14,6 +16,32 @@ template<class T>
 class ListSequence : public Sequence<T> {
 private:
     LinkedList<T> items;
+
+    class Enumerator : public IEnumerator<T> {
+    private:
+        ListSequence<T> *items;
+        int pos;
+    public:
+        explicit Enumerator(ListSequence<T> *arr) {
+            items = arr;
+            pos = 0;
+        }
+
+        T &GetCurrent() {
+            return items->At(pos);
+        }
+
+        bool MoveNext() {
+            if (++pos < items->GetLength())
+                return true;
+            return false;
+        }
+
+        void Reset() {
+            pos = 0;
+        }
+
+    };
 
 public:
     //Creation of the object
@@ -31,6 +59,10 @@ public:
 
     ListSequence(const ListSequence<T> &list) {
         items = LinkedList<T>(list.items);
+    }
+
+    explicit ListSequence(const LinkedList<T> &list) {
+        items = LinkedList<T>(list);
     }
 
     explicit ListSequence(Sequence<T> &list) : ListSequence((*dynamic_cast<ListSequence<T> *>(&list))) {
@@ -54,7 +86,14 @@ public:
         return items.At(index);
     }
 
-    ListSequence<T> *GetSubsequence(int startIndex, int endIndex) {
+    bool Contains(T item) {
+        for (int i = 0; i < items.GetLength(); ++i)
+            if (items[i] == item)
+                return true;
+        return false;
+    }
+
+    ListSequence<T> *Subsequence(int startIndex, int endIndex) {
         if (startIndex < 0 || startIndex >= items.GetLength())
             throw range_error("index < 0 or index >= length");
         if (startIndex > endIndex)
@@ -71,6 +110,27 @@ public:
     }
 
     //Operations
+    void Clear() {
+        while (items.GetLength()) items.PopFirst();
+    }
+
+    ListSequence<T> *Clone() const {
+        return new ListSequence<T>(this->items);
+    }
+
+    ListSequence<T> *Init() const {
+        return new ListSequence<T>();
+    }
+
+    ListSequence<T> *Init(int count) const {
+        return new ListSequence<T>(count);
+    }
+
+    IEnumerator<T> *GetEnumerator() {
+        return new Enumerator(this);
+    }
+
+
     void Append(T item) {
         items.Append(item);
     }
@@ -122,4 +182,5 @@ public:
     }
 
 };
+
 #endif //LABA2_LISTSEQUENCE_H

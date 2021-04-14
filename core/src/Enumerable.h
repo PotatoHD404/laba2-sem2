@@ -4,6 +4,10 @@
 #include "IEnumerable.h"
 #include "ICollection.h"
 #include <tuple>
+#include <iostream>
+
+using namespace std;
+
 
 #ifndef LABA2_COLLECTION_H
 #define LABA2_COLLECTION_H
@@ -19,6 +23,8 @@ private:
     }
 
 public:
+    Enumerable() {}
+
     auto Split(int point) {
         auto res = make_tuple(this->Subsequence(0, point), this->Subsequence(point, this->GetLength()));
         return res;
@@ -58,25 +64,26 @@ public:
         return Zip(res, this->GetLength(), args...);
     }
 
-    template<typename... Args, typename Tuple>
-    auto Zip(Tuple res, int min, Enumerable<T> current, Args... args) {
+private:
+    template<typename... Args, typename Tuple, typename Current>
+    auto Zip(Tuple res, int min, Current current, Args... args) {
         int count = current->GetLength();
         int len = res->GetLength();
         auto res2 = tuple_cat(res, make_tuple(this->Init()));
         res->Append(this->Init());
-        for (int i = 0; i < this->GetLength(); i++)
+        for (int i = 0; i < min; i++)
             get<len>(res2).Append(current->At(i));
         if (min > count)
             min = count;
         return Zip(res2, min, args...);
     }
 
-    template<typename Tuple>
-    auto Zip(Tuple res, int min, Enumerable<T> current) {
+    template<typename Tuple, typename Current>
+    auto Zip(Tuple res, int min, Current current) {
         int count = current->GetLength();
         int len = res->GetLength();
         auto res2 = tuple_cat(res, make_tuple(this->Init()));
-        for (int i = 0; i < this->GetLength(); i++)
+        for (int i = 0; i < min; i++)
             get<len>(res2).Append(current->At(i));
         if (min > count)
             min = count;
@@ -86,8 +93,12 @@ public:
         return res2;
     }
 
-    auto Zip(Enumerable<T> current) {
-        auto res = make_tuple(this->Init());
+public:
+    template<typename Current>
+    auto Zip(Current current) {
+        auto tmp = this->Init();
+        auto res = make_tuple(*tmp);
+        delete tmp;
         int len = 0;
         for (int i = 0; i < this->GetLength(); i++)
             get<len>(res).Append(this->At(i));
@@ -97,6 +108,6 @@ public:
 
     virtual ~Enumerable() {};
 
-}
+};
 
 #endif //LABA2_COLLECTION_H

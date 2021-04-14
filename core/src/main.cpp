@@ -3,18 +3,18 @@
 //
 
 #include <iostream>
-#include "DynamicArray.h"
-#include "ICollection.h"
-#include "IEnumerable.h"
-#include "IEnumerator.h"
-#include "Enumerable.h"
-#include "TestClass.h"
+#include "ListSequence.h"
 
 using namespace std;
 
 
 int main() {
-    DynamicArray<int> *a = new DynamicArray<int>();
+    ListSequence<int> *a = new ListSequence<int>();
+    ListSequence<float> *b = new ListSequence<float>();
+    a->Append(0);
+    b->Append(3.14);
+
+    auto lulw = a->Zip(b);
 
     return 0;
 }
