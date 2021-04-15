@@ -32,9 +32,9 @@ int main() {
     b.Append(2.1);
 
 
-    auto lulw = ArraySequence<int>::Zip(a);
+    auto lulw = ArraySequence<int>::Zip(a, b);
 //    auto[c, d] = lulw;
-    cout << lulw.at(0) << endl;
+    cout << get<1>(lulw.at(0)) << endl;
 
 //    ArraySequence<int> a = ArraySequence<int>();
 //    a.Append(0);

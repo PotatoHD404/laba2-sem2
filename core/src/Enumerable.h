@@ -3,8 +3,7 @@
 //
 #include "IEnumerable.h"
 #include "ICollection.h"
-#include <tuple>
-#include <vector>
+#include <bits/stdc++.h>
 #include <iostream>
 
 using namespace std;
@@ -17,10 +16,10 @@ template<class T>
 /*abstract*/
 class Enumerable : public IEnumerable<T>, public ICollection<T> {
 private:
-    template<typename... Args, typename... Ts, template<typename> typename Current, typename ElType>
-    static auto _zip(vector<tuple<Ts...>> &res, int min, Current<ElType> current, Args... args) {
+    template<typename... Args, typename... Ts, typename Current>
+    static auto Zip(vector<tuple<Ts...>> &res, int min, Current current, Args... args) {
         int count = current.GetLength();
-        vector<tuple<ElType, Ts...>> res2;
+        auto res2 = CreateVector<Ts...>(current);;
         if (min > count)
             min = count;
         for (int i = 0; i < min; i++)
@@ -29,15 +28,16 @@ private:
         return Zip(res2, min, args...);
     }
 
-    template<typename... Ts, template<typename> typename Current, typename ElType>
-    static auto _zip(tuple<tuple<Ts...>> &res, int min, Current<ElType> current) {
+
+    template<typename... Args, typename... Ts, typename Current>
+    static auto Zip(vector<tuple<Ts...>> res, int min, Current current) {
         int count = current.GetLength();
-        vector<tuple<ElType, Ts...>> res2;
+        auto res2 = CreateVector<Ts...>(current);
         if (min > count)
             min = count;
         for (int i = 0; i < min; i++)
             res2.push_back(tuple_cat(res.at(i), make_tuple(current[i])));
-
+        res2.resize(min);
         return res2;
     }
 
@@ -82,15 +82,26 @@ public:
         return res;
     }
 
+//    template<template<class ElType> class Current, class ElType>
+//    static auto CreateVector(Current<ElType> tmp) {
+//        vector<tuple<ElType>> res;
+//        return res;
+//    }
 
-    template<typename... Args, template<typename ElType> typename Current, typename ElType>
-    static auto Zip(Current<ElType> current, Args... args) {
+    template<typename... Args, template<class> class Current, class ElType>
+    static auto CreateVector(Current<ElType> tmp) {
+        vector<tuple<Args..., ElType>> res;
+        return res;
+    }
+
+    template<typename... Args, class Current>
+    static auto Zip(Current current, Args... args) {
         const int count = current.GetLength();
-        vector<tuple<ElType>> res;
-        for (int i = 0; i < count; i++) {
+        auto res = CreateVector<>(current);
+        for (int i = 0; i < count; i++)
             res.push_back(make_tuple(current[i]));
-        }
-        return _zip(res, count, args...);
+
+        return Zip(res, count, args...);
     }
 
 
