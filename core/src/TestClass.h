@@ -1,7 +1,7 @@
 //
 // Created by korna on 11.04.2021.
 //
-#include "Collection.h"
+#include "Enumerable.h"
 
 #ifndef TEST_DB_TESTCLASS_H
 #define TEST_DB_TESTCLASS_H

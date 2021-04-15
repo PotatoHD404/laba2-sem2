@@ -307,25 +307,25 @@ TEST(ListSequence, Concat) {
     EXPECT_EQ (arr1[4], arr3->At(4));
 }
 
-TEST(ListSequence, GetSubsequence) {
+TEST(ListSequence, Subsequence) {
     int a[] = {1, 2, 3, 4, 5};
     ListSequence<int> arr1 = ListSequence<int>(a, 5);
     unique_ptr<ListSequence<int>>
-            arr2 = unique_ptr<ListSequence<int>>(arr1.GetSubsequence(0, 0));
+            arr2 = unique_ptr<ListSequence<int>>(arr1.Subsequence(0, 0));
     ASSERT_EQ(arr2->GetLength(), 1);
     EXPECT_EQ (arr1[0], 1);
     EXPECT_ANY_THROW(arr2->At(1));
-    EXPECT_ANY_THROW(arr1.GetSubsequence(-1, 0));
-    EXPECT_ANY_THROW(arr1.GetSubsequence(1, 0));
-    EXPECT_ANY_THROW(arr1.GetSubsequence(1, 5));
-    arr2 = unique_ptr<ListSequence<int>>(arr1.GetSubsequence(0, 4));
+    EXPECT_ANY_THROW(arr1.Subsequence(-1, 0));
+    EXPECT_ANY_THROW(arr1.Subsequence(1, 0));
+    EXPECT_ANY_THROW(arr1.Subsequence(1, 5));
+    arr2 = unique_ptr<ListSequence<int>>(arr1.Subsequence(0, 4));
     ASSERT_EQ(arr2->GetLength(), 5);
     EXPECT_EQ (arr1[0], arr2->At(0));
     EXPECT_EQ (arr1[1], arr2->At(1));
     EXPECT_EQ (arr1[2], arr2->At(2));
     EXPECT_EQ (arr1[3], arr2->At(3));
     EXPECT_EQ (arr1[4], arr2->At(4));
-    arr2 = unique_ptr<ListSequence<int>>(arr1.GetSubsequence(2, 3));
+    arr2 = unique_ptr<ListSequence<int>>(arr1.Subsequence(2, 3));
     ASSERT_EQ(arr2->GetLength(), 2);
     EXPECT_EQ (arr1[2], arr2->At(0));
     EXPECT_EQ (arr1[3], arr2->At(1));

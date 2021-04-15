@@ -3,6 +3,7 @@
 //
 #ifndef LABA2_LINKEDLIST_H
 #define LABA2_LINKEDLIST_H
+
 #include <iostream>
 #include <cstring>
 
@@ -27,8 +28,9 @@ private:
 
         explicit Node(T data) : Node(data, NULL) {}
 
-        explicit Node(T data, Node *next) : next(next), data(data) {}
+        Node(T data, Node *next) : next(next), data(data) {}
     };
+
     ///
     /// \param index - index of node
     /// \return - pointer to the node of index
@@ -36,7 +38,7 @@ private:
         if (index < 0 || index >= length || head == NULL)
             throw out_of_range("");
         Node *res = head;
-        for (int i = index - 1; i >= 0; --i) {
+        for (int i = 0; i < index; i++) {
             res = res->next;
         }
         return res;
@@ -202,31 +204,35 @@ public:
     }
 
     ///
-    void PopLast() {
+    /// \return
+    T PopLast() {
         if (length < 1)
-            throw range_error("index < 0 or index >= length");
+            throw range_error("length = 0");
         if (length == 1) {
-            this->PopFirst();
-            return;
+            return this->PopFirst();
         }
         Node *prev = GetNode(length - 2);
         tail = prev;
+        T data = prev->next->data;
         delete prev->next;
         --length;
+        return data;
     }
 
     ///
-    void PopFirst() {
+    T PopFirst() {
         if (length < 1)
-            throw range_error("index < 0 or index >= length");
+            throw range_error("length = 0");
         Node *prev = head;
         head = prev->next;
+        T data = prev->data;
         delete prev;
         --length;
         if (length == 0) {
             tail = NULL;
             head = NULL;
         }
+        return data;
     }
 
     ///

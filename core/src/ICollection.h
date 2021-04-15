@@ -7,23 +7,29 @@
 
 template<class T>
 class ICollection {
-private:
-    int Count;
-    bool ReadOnly;
+protected:
+//    bool ReadOnly;
 public:
-    virtual ICollection &clone() const = 0;
+    ICollection() {}
 
+
+protected:
+//    template<typename ChildType>
+//    auto Init(ChildType tmp) { return ChildType(); };
+
+//    template<typename ChildType>
+//    ChildType Init(int count) { return new ChildType(count); };
+
+public:
     //Decomposition
 
     virtual T &At(int index) = 0;
 
-    int GetLength() { return Count; }
+    virtual int GetLength() = 0;
 
-    bool IsReadOnly() { return ReadOnly; }
+//    bool IsReadOnly() { return ReadOnly; }
 
     virtual bool Contains(T item) = 0;
-
-    virtual void CopyTo(T array[], int arrayIndex) = 0;
 
     //Operations
     virtual void Clear() = 0;

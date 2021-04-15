@@ -4,14 +4,21 @@
 #ifndef LABA2_SEQUENCE_H
 #define LABA2_SEQUENCE_H
 
+#include "Enumerable.h"
+#include <iostream>
+#include <memory>
+
+using namespace std;
+
 template<class T>
-class Sequence {
+class Sequence : public Enumerable<T> {
 public:
+    Sequence() {}
 
     //Decomposition
     T &GetFirst() { return At(0); }
 
-    T &GetLast() { return At(GetLength() - 1); }
+    T &GetLast() { return At(this->GetLength() - 1); }
 
     void Set(int index, T value) {
         At(index) = value;
@@ -19,9 +26,7 @@ public:
 
     virtual T &At(int index) = 0;
 
-    virtual Sequence<T> *GetSubsequence(int startIndex, int endIndex) = 0;
-
-    virtual int GetLength() = 0;
+//    virtual int GetLength() = 0;
 
     T &operator[](unsigned int index) { return At(index); }
 
@@ -40,7 +45,7 @@ public:
 
     virtual Sequence<T> *Concat(Sequence<T> &list) = 0;
 
-    virtual Sequence<T> *Concat(const std::unique_ptr<Sequence<int>> &list) {
+    virtual Sequence<T> *Concat(const unique_ptr<Sequence<T>> &list) {
         return Concat(*list);
     }
 

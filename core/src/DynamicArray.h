@@ -70,6 +70,19 @@ public:
         At(index) = value;
     }
 
+    DynamicArray<T> GetSubArray(int startIndex, int endIndex) {
+        if (startIndex < 0 || startIndex >= length)
+            throw range_error("index < 0 or index >= length");
+        if (startIndex > endIndex)
+            throw range_error("startIndex > endIndex");
+        if (endIndex >= length)
+            throw range_error("endIndex >= length");
+        int len = startIndex - endIndex - 1;
+        T arr[len];
+        memcpy(arr, this->actual_array + startIndex, len);
+        return DynamicArray(arr, len);
+    }
+
     int GetLength() { return length; }
 
     T &operator[](int index) { return At(index); }
