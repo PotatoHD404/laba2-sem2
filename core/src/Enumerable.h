@@ -15,12 +15,7 @@ using namespace std;
 template<class T>
 /*abstract*/
 class Enumerable : public IEnumerable<T>, public ICollection<T> {
-private:
-    void Resize(Enumerable<T> *enumerable, int len) {
-        int count = enumerable->GetLength();
-        while (count-- > len) enumerable->RemoveAt(count);
-        while (count++ < len) enumerable->Append(T());
-    }
+
 
 public:
     Enumerable() {}
@@ -55,59 +50,121 @@ public:
         return res;
     }
 
-    template<typename... Args>
-    auto Zip(Args... args) {
-        auto res = make_tuple(this->Init());
-        int len = 0;
-        for (int i = 0; i < this->GetLength(); i++)
-            get<len>(res).Append(this->At(i));
-        return Zip(res, this->GetLength(), args...);
-    }
 
-private:
-    template<typename... Args, typename Tuple, typename Current>
-    auto Zip(Tuple res, int min, Current current, Args... args) {
-        int count = current->GetLength();
-        int len = res->GetLength();
-        auto res2 = tuple_cat(res, make_tuple(this->Init()));
-        res->Append(this->Init());
-        for (int i = 0; i < min; i++)
-            get<len>(res2).Append(current->At(i));
-        if (min > count)
-            min = count;
-        return Zip(res2, min, args...);
-    }
 
-    template<typename Tuple, typename Current>
-    auto Zip(Tuple res, int min, Current current) {
-        int count = current->GetLength();
-        int len = res->GetLength();
-        auto res2 = tuple_cat(res, make_tuple(this->Init()));
-        for (int i = 0; i < min; i++)
-            get<len>(res2).Append(current->At(i));
-        if (min > count)
-            min = count;
-        for (int i = 0; i < len; ++i)
-            Resize(get<len>(res2), min);
+//    template<class ChildType>
+//    auto Init(ChildType *tmp) { return ChildType(); };
 
-        return res2;
-    }
 
-public:
-    template<typename Current>
-    auto Zip(Current current) {
-        auto tmp = this->Init();
-        auto res = make_tuple(*tmp);
-        delete tmp;
-        int len = 0;
-        for (int i = 0; i < this->GetLength(); i++)
-            get<len>(res).Append(this->At(i));
-        return Zip(res, this->GetLength(), current);
-    }
+//public:
+//    template<typename Current>
+//    auto Zip(Current current) {
+//        auto ahahnt = this->Init(*this);
+//        tuple<Current> curr(ahahnt);
+//        for (int i = 0; i < this->GetLength(); i++)
+//            get<0>(curr); //.Append(this->At(i))
+//        return Zip(curr, this->GetLength(), current);
+//    }
 
 
     virtual ~Enumerable() {};
 
 };
+
+template<typename... Args, typename Current>
+auto Zip(Current current, Args... args) {
+    tuple<Current> res((Current()));
+    int count = current.GetLength();
+    for (int i = 0; i < count; i++)
+        get<0>(res).Append(current[i]);
+    return Zip(res, count, args...);
+}
+
+template<typename... Args, typename Tuple, typename Current>
+auto Zip(Tuple res, int min, Current current, Args... args) {
+    int count = current.GetLength();
+    tuple<Current> curr((Current()));
+    auto res2 = tuple_cat(res, curr);
+    if (min > count)
+        min = count;
+    for (int i = 0; i < min; i++)
+        get<tuple_size<decltype(res)>::value>(res2).Append(current.At(i));
+
+    return Zip(res2, min, args...);
+}
+
+
+template<size_t I = 0, typename... Ts>
+constexpr void Foreach(tuple<Ts...> &tup, int min) {
+    // If we have iterated through all elements
+    if
+    constexpr(I == sizeof...(Ts)) {
+        // Last case, if nothing is left to
+        // iterate, then exit the functiopn
+        return;
+    } else {
+        int count = get<I>(tup).GetLength();
+        while (count-- > min) get<I>(tup).RemoveAt(count);
+
+        // Going for next element.
+        Foreach<I + 1, Ts...>(tup, min);
+    }
+}
+
+//template<int i = 0, typename... Ts>
+//void Foreach(tuple<Ts...> tup, int min) {
+//    // If we have iterated through all elements
+//    cout << i << endl;
+//    if (i == sizeof...(Ts)) {
+//        // Last case, if nothing is left to
+//        // iterate, then exit the functiopn
+//        return;
+//    } else {
+//        // Print the tuple and go to next element
+////        cout << get<i>(tup) << " ";
+////        int count = get<i>(tup).GetLength();
+////        cout << count << " " << min << endl;
+////        while (count-- > min) get<i>(tup).RemoveAt(count);
+////        cout << count << endl;
+////        get<i>(tup) = el;
+//
+//        // Going for next element.
+//        Foreach<i + 1, Ts...>(tup, min);
+//    }
+//}
+
+
+template<typename Tuple, typename Current>
+auto Zip(Tuple res, int min, Current current) {
+    int count = current.GetLength();
+    tuple<Current> curr((Current()));
+//        int len =
+    auto res2 = tuple_cat(res, curr);
+    if (min > count)
+        min = count;
+    for (int i = 0; i < min; i++)
+        get<tuple_size<decltype(res)>::value>(res2).Append(current.At(i));
+
+    Foreach(res2, min);
+//    for (int i = 0; i < tuple_size<decltype(res)>::value; ++i)
+//        Resize(get<i>(res2), min);
+
+    return res2;
+}
+//
+// Created by korna on 15.04.2021.
+//
+
+//template<typename... Args, typename Tuple, typename Current>
+//auto Zip(Tuple res, int min, Current current, Args... args);
+//
+//template<int i = 0, typename... Ts>
+//void Foreach(tuple<Ts...> tup, int min);
+//
+//template<class T>
+//void Resize(Enumerable<T> *enumerable, int len);
+//
+//template<typename Tuple, typename Current>
+//auto Zip(Tuple res, int min, Current current);
 
 #endif //LABA2_COLLECTION_H

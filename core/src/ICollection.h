@@ -12,17 +12,20 @@ protected:
 public:
     ICollection() {}
 
-    virtual ICollection<T> *Clone() const = 0;
 
-    virtual ICollection<T> *Init() const = 0;
+protected:
+//    template<typename ChildType>
+//    auto Init(ChildType tmp) { return ChildType(); };
 
-    virtual ICollection<T> *Init(int count) const = 0;
+//    template<typename ChildType>
+//    ChildType Init(int count) { return new ChildType(count); };
 
+public:
     //Decomposition
 
     virtual T &At(int index) = 0;
 
-    virtual int GetLength()  = 0;
+    virtual int GetLength() = 0;
 
 //    bool IsReadOnly() { return ReadOnly; }
 

@@ -91,6 +91,14 @@ public:
     /// \param list
     LinkedList(const LinkedList<T> &list) : LinkedList() {
         if (list.length > 0) {
+//            int len = list.length;
+//            this->length = len;
+//            Node *tmp = list.head;
+//            for (int i = 0; i < len; ++i) {
+//                this->Append(tmp->data);
+//                tmp = tmp->next;
+//            }
+
             Node *tmp = list.head;
             head = new Node(tmp->data);
             Node *prev = head;

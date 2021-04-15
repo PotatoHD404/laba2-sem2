@@ -45,7 +45,7 @@ public:
 
     virtual Sequence<T> *Concat(Sequence<T> &list) = 0;
 
-    virtual Sequence<T> *Concat(const unique_ptr<Sequence<int>> &list) {
+    virtual Sequence<T> *Concat(const unique_ptr<Sequence<T>> &list) {
         return Concat(*list);
     }
 
