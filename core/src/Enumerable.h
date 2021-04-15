@@ -4,6 +4,7 @@
 #include "IEnumerable.h"
 #include "ICollection.h"
 #include <tuple>
+#include <vector>
 #include <iostream>
 
 using namespace std;
@@ -16,52 +17,30 @@ template<class T>
 /*abstract*/
 class Enumerable : public IEnumerable<T>, public ICollection<T> {
 private:
-    template<typename... Args, typename... Ts, typename Current>
-    static auto Zip(tuple<Ts...> res, int min, Current current, Args... args) {
+    template<typename... Args, typename... Ts, template<typename> typename Current, typename ElType>
+    static auto _zip(vector<tuple<Ts...>> &res, int min, Current<ElType> current, Args... args) {
         int count = current.GetLength();
-        tuple<Current> curr((Current()));
-        auto res2 = tuple_cat(res, curr);
+        vector<tuple<ElType, Ts...>> res2;
         if (min > count)
             min = count;
         for (int i = 0; i < min; i++)
-            get<sizeof...(Ts)>(res2).Append(current.At(i));
+            res2.push_back(tuple_cat(res.at(i), make_tuple(current[i])));
 
         return Zip(res2, min, args...);
     }
 
-
-    template<size_t i = 0, typename... Ts>
-    static constexpr void Foreach(tuple<Ts...> &tup, int min) {
-        // If we have iterated through all elements
-        if
-        constexpr(i == sizeof...(Ts)) {
-            // Last case, if nothing is left to
-            // iterate, then exit the function
-            return;
-        } else {
-            int count = get<i>(tup).GetLength();
-            while (count-- > min) get<i>(tup).RemoveAt(count);
-
-            // Going for next element.
-            Foreach<i + 1, Ts...>(tup, min);
-        }
-    }
-
-
-    template<typename... Ts, typename Current>
-    static auto Zip(tuple<Ts...> res, int min, Current current) {
+    template<typename... Ts, template<typename> typename Current, typename ElType>
+    static auto _zip(tuple<tuple<Ts...>> &res, int min, Current<ElType> current) {
         int count = current.GetLength();
-        tuple<Current> curr((Current()));
-        auto res2 = tuple_cat(res, curr);
+        vector<tuple<ElType, Ts...>> res2;
         if (min > count)
             min = count;
         for (int i = 0; i < min; i++)
-            get<sizeof...(Ts)>(res2).Append(current.At(i));
-
-        Foreach(res2, min);
+            res2.push_back(tuple_cat(res.at(i), make_tuple(current[i])));
 
         return res2;
     }
+
 
 public:
     Enumerable() {}
@@ -104,13 +83,14 @@ public:
     }
 
 
-    template<typename... Args, typename Current>
-    static auto Zip(Current current, Args... args) {
-        tuple<Current> res((Current()));
-        int count = current.GetLength();
-        for (int i = 0; i < count; i++)
-            get<0>(res).Append(current[i]);
-        return Zip(res, count, args...);
+    template<typename... Args, template<typename ElType> typename Current, typename ElType>
+    static auto Zip(Current<ElType> current, Args... args) {
+        const int count = current.GetLength();
+        vector<tuple<ElType>> res;
+        for (int i = 0; i < count; i++) {
+            res.push_back(make_tuple(current[i]));
+        }
+        return _zip(res, count, args...);
     }
 
 
