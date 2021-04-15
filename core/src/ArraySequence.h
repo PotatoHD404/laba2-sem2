@@ -8,6 +8,7 @@
 #include "DynamicArray.h"
 #include <iostream>
 #include <cstring>
+#include "IEnumerator.h"
 
 using namespace std;
 
@@ -74,6 +75,18 @@ public:
         return items.GetLength();
     }
 
+    ArraySequence<T> *Subsequence(int startIndex, int endIndex) {
+        if (startIndex < 0 || startIndex >= items.GetLength())
+            throw range_error("index < 0 or index >= length");
+        if (startIndex > endIndex)
+            throw range_error("startIndex > endIndex");
+        if (endIndex >= items.GetLength())
+            throw range_error("endIndex >= length");
+        ArraySequence<T> *res = new ArraySequence<T>();
+        res->items = items.GetSubArray(startIndex, endIndex);
+        return res;
+    }
+
     //Operations
     void Append(T item) {
         items.Resize(items.GetLength() + 1);
@@ -112,6 +125,10 @@ public:
         return res;
     }
 
+    IEnumerator<T> *GetEnumerator() {
+        return new typename IEnumerable<T>::Enumerator(this);
+    }
+
     void PopFirst() {
         for (int i = 0; i < items.GetLength() - 1; ++i) {
             items.Set(i, items[i + 1]);
@@ -132,6 +149,10 @@ public:
         items.Resize(items.GetLength() - 1);
     }
 
+    void Clear() {
+        items.Resize(0);
+    }
+
     ArraySequence<T> *Concat(const Sequence<T> &list) {
         return Concat(dynamic_cast<ArraySequence<T>>(list));
     }
@@ -145,4 +166,5 @@ public:
         return *this;
     }
 };
+
 #endif //LABA2_ARRAYSEQUENCE_H

@@ -17,31 +17,7 @@ class ListSequence : public Sequence<T> {
 private:
     LinkedList<T> items;
 
-    class Enumerator : public IEnumerator<T> {
-    private:
-        ListSequence<T> *items;
-        int pos;
-    public:
-        explicit Enumerator(ListSequence<T> *arr) {
-            items = arr;
-            pos = 0;
-        }
 
-        T &GetCurrent() {
-            return items->At(pos);
-        }
-
-        bool MoveNext() {
-            if (++pos < items->GetLength())
-                return true;
-            return false;
-        }
-
-        void Reset() {
-            pos = 0;
-        }
-
-    };
 
 public:
     //Creation of the object
@@ -86,13 +62,6 @@ public:
         return items.At(index);
     }
 
-    bool Contains(T item) {
-        for (int i = 0; i < items.GetLength(); ++i)
-            if (items[i] == item)
-                return true;
-        return false;
-    }
-
     ListSequence<T> *Subsequence(int startIndex, int endIndex) {
         if (startIndex < 0 || startIndex >= items.GetLength())
             throw range_error("index < 0 or index >= length");
@@ -127,7 +96,7 @@ public:
     }
 
     IEnumerator<T> *GetEnumerator() {
-        return new Enumerator(this);
+        return new typename IEnumerable<T>::Enumerator(this);
     }
 
 
