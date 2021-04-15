@@ -22,20 +22,30 @@ int main() {
 //    auto lulw = Zip(a, b);
 //    cout << get<0>(lulw).At(1) << endl;
 
+//    ArraySequence<int> a = ArraySequence<int>();
+//    ArraySequence<float> b = ArraySequence<float>();
+//    a.Append(0);
+//    a.Append(1);
+//    a.Append(2);
+//    b.Append(3.14);
+//    b.Append(2.1);
+//
+//
+//    auto lulw = ArraySequence<int>::Zip(a, b);
+//    auto[c, d] = lulw;
+//    cout << c.At(1) << endl;
+
     ArraySequence<int> a = ArraySequence<int>();
-    ArraySequence<float> b = ArraySequence<float>();
     a.Append(0);
     a.Append(1);
     a.Append(2);
-    b.Append(3.14);
-    b.Append(2.1);
 
-    auto lulw = ArraySequence<int>::Zip(a, b);
-    cout << get<0>(lulw).At(1) << endl;
-
-
-
-
+    IEnumerator<int> *enumerator = a.GetEnumerator();
+    cout << enumerator->GetCurrent() << " " << enumerator->MoveNext() << " " << enumerator->GetCurrent() << endl;
+    enumerator->MoveNext();
+    cout << enumerator->MoveNext() << " " << enumerator->GetCurrent() << endl;
+    enumerator->Reset();
+    cout << enumerator->GetCurrent() << endl;
 
     return 0;
 }

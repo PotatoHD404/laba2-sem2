@@ -28,6 +28,7 @@ protected:
         bool MoveNext() {
             if (++pos < items->GetLength())
                 return true;
+            pos--;
             return false;
         }
 
