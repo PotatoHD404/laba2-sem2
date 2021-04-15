@@ -33,8 +33,9 @@ int main() {
 
 
     auto lulw = ArraySequence<int>::Zip(a, b);
+    auto [d, e] = ArraySequence<int>::UnZip<ArraySequence>(lulw);
 //    auto[c, d] = lulw;
-    cout << get<1>(lulw.at(0)) << endl;
+    cout << e.At(1) << endl;
 
 //    ArraySequence<int> a = ArraySequence<int>();
 //    a.Append(0);
