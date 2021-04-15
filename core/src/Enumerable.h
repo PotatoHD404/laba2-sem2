@@ -32,21 +32,26 @@ private:
             min = count;
         for (int i = 0; i < min; i++)
             res2.push_back(tuple_cat(res.at(i), make_tuple(current[i])));
-
-        return Zip(res2, min, args...);
+        if
+        constexpr (sizeof...(Args) == 0) {
+            res2.resize(min);
+            return res2;
+        } else
+            return Zip(res2, min, args...);
     }
 
+    template<template<typename> typename ChildClass, int num, class Current, typename... Ts, typename... Args, typename... Ts1>
+    static auto UnZip(vector<tuple<Ts1...>> &input, Args... args) {
+        int length = input.size();
+        auto res = ChildClass<Current>();
+        for (int i = 0; i < length; i++)
+            res.Append(get<num>(input.at(i)));
 
-    template<typename... Args, typename... Ts, typename Current>
-    static auto Zip(vector<tuple<Ts...>> &res, int min, Current current) {
-        int count = current.GetLength();
-        auto res2 = CreateVector<Ts...>(current);
-        if (min > count)
-            min = count;
-        for (int i = 0; i < min; i++)
-            res2.push_back(tuple_cat(res.at(i), make_tuple(current[i])));
-        res2.resize(min);
-        return res2;
+        if
+        constexpr (sizeof...(Ts) == 0)
+            return make_tuple(args..., res);
+        else
+            return UnZip<ChildClass, num + 1, Ts...>(input, args..., res);
     }
 
 
@@ -100,31 +105,6 @@ public:
 
         return Zip(res, count, args...);
     }
-    template<template<typename> typename ChildClass, int num, typename... Args, class Current>
-    static auto UnZip(vector<tuple<Current>> &input, Args... args) {
-        int length = input.size();
-        auto res = ChildClass<Current>(length);
-        for (int i = 0; i < length; i++)
-            res.Append(get<num>(input.at(i)));
-
-
-        return make_tuple(res, args...);
-
-    }
-
-    template<template<typename> typename ChildClass, int num, class Current,typename... Ts,typename... Args,  typename... Ts1>
-    static auto UnZip(vector<tuple<Ts1...>> &input, Args... args) {
-        int length = input.size();
-        auto res = ChildClass<Current>();
-        for (int i = 0; i < length; i++)
-            res.Append(get<num>(input.at(i)));
-
-        if
-        constexpr (sizeof...(Ts) == 0)
-            return make_tuple(args..., res);
-        else
-            return UnZip<ChildClass, num + 1,Ts...>(input, args..., res);
-    }
 
     template<template<typename> typename ChildClass, typename... Args, class Current, typename... Ts>
     static auto UnZip(vector<tuple<Current, Ts...>> input, Args... args) {
@@ -137,10 +117,8 @@ public:
         constexpr (sizeof...(Ts) == 0)
             return make_tuple(res, args...);
         else
-            return UnZip<ChildClass, 1,Ts...>(input, args..., res);
+            return UnZip<ChildClass, 1, Ts...>(input, args..., res);
     }
-
-
 
 
     virtual ~Enumerable() {};
