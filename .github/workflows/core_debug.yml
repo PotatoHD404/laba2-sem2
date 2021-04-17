@@ -67,4 +67,5 @@ jobs:
         run: gcov Tests.c
 
       - name: Collect coverage
+        working-directory: ${{github.workspace}}/build/Tests
         run: bash <(curl -s https://codecov.io/bash) || echo "Codecov did not collect coverage reports"
