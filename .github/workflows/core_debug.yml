@@ -64,7 +64,7 @@ jobs:
         working-directory: ${{github.workspace}}/build/Tests
         shell: bash
         # Execute the build.  You can specify a specific target with "--target <NAME>"
-        run: gcov Tests.c
+        run: gcov Tests.cpp
 
       - name: Collect coverage
         working-directory: ${{github.workspace}}/build/Tests
