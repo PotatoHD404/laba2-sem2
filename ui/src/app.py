@@ -30,8 +30,8 @@ def bg_emit():
     for token in clientsList:
         j = clientsList[token]
         channel = j[0]
-        res = ""
-        tmp = b""
+        res = ''
+        tmp = b''
 
         if channel.recv_ready():
             tmp = channel.recv(4096)
@@ -40,23 +40,21 @@ def bg_emit():
             tmp = channel.recv(4096)
         res += tmp.decode('utf-8')
         exists = len(ConsoleText.query.filter_by(token=token).all()) > 0
-        if res != "":
-            if exists:
-                ConsoleText.query.filter_by(token=token).first().content += res
-            else:
-                new_text = ConsoleText(content=res, token=token)
-
+        if res != '':
             try:
                 if not exists:
+                    new_text = ConsoleText(content=res, token=token)
                     db.session.add(new_text)
+                else:
+                    ConsoleText.query.filter_by(token=token).first().content += res
                 db.session.commit()
                 if not exists:
                     exists += 1
             except Exception:
-                'Pass'
+                print('Exception happened')
             socketio.emit('refresh', {'token': token,
                                       'text': (ConsoleText.query.filter_by(
-                                          token=token).first().content if exists else "").replace('\n', '\r\n')},
+                                          token=token).first().content if exists else '').replace('\n', '\r\n')},
                           room=j[1])
 
 
@@ -70,7 +68,7 @@ if __name__ == '__main__':
     client = paramiko.SSHClient()
     client.load_system_host_keys()
     client.set_missing_host_key_policy(paramiko.AutoAddPolicy())
-    client.connect("core", username="user", password="password")
+    client.connect('core', username='user', password='password')
     eventlet.spawn(listen)
 
 
@@ -81,6 +79,7 @@ class ConsoleText(db.Model):
     token = db.Column(db.String(22), nullable=False)
 
     def __repr__(self):
+        """Get data representation"""
         return '<Row %r>' % self.id
 
 
@@ -95,8 +94,8 @@ def index():
     login()
     exists = len(ConsoleText.query.filter_by(token=session['token']).all()) > 0
     token = session['token']
-    return render_template("index.html", token=token,
-                           text=ConsoleText.query.filter_by(token=token).first().content if exists else "")
+    return render_template('index.html', token=token,
+                           text=ConsoleText.query.filter_by(token=token).first().content if exists else '')
 
 
 @socketio.on('connect')
@@ -114,7 +113,7 @@ def connect():
 
     emit('refresh', {'token': token,
                      'text': (ConsoleText.query.filter_by(
-                         token=token).first().content if exists else "").replace('\n', '\r\n')})
+                         token=token).first().content if exists else '').replace('\n', '\r\n')})
 
 
 @socketio.on('disconnect')
@@ -131,11 +130,11 @@ def clear():
     token = session['token']
     exists = len(ConsoleText.query.filter_by(token=token).all()) > 0
     if exists:
-        ConsoleText.query.filter_by(token=token).first().content = ""
+        ConsoleText.query.filter_by(token=token).first().content = ''
         db.session.commit()
     emit('refresh', {'token': token,
                      'text': (ConsoleText.query.filter_by(
-                         token=token).first().content if exists else "").replace('\n', '\r\n')})
+                         token=token).first().content if exists else '').replace('\n', '\r\n')})
 
 
 @socketio.on('command')
@@ -146,10 +145,10 @@ def command():
 @socketio.on('tests')
 def tests():
     channel = clientsList[session['token']][0]
-    channel.sendall(f'cd /app\n')
-    channel.sendall(f'./Tests --gtest_repeat=1\n')
+    channel.sendall('cd /app\n')
+    channel.sendall('./Tests --gtest_repeat=1\n')
     emit('log', 'tests started')
 
 
 if __name__ == '__main__':
-    socketio.run(app, host="0.0.0.0", port=80, debug=True)
+    socketio.run(app, host='ui', port=80)

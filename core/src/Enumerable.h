@@ -32,8 +32,7 @@ private:
             min = count;
         for (int i = 0; i < min; i++)
             res2.push_back(tuple_cat(res.at(i), make_tuple(current[i])));
-        if
-        constexpr (sizeof...(Args) == 0) {
+        if constexpr (sizeof...(Args) == 0) {
             res2.resize(min);
             return res2;
         } else
@@ -47,8 +46,7 @@ private:
         for (int i = 0; i < length; i++)
             res.Append(get<num>(input.at(i)));
 
-        if
-        constexpr (sizeof...(Ts) == 0)
+        if constexpr (sizeof...(Ts) == 0)
             return make_tuple(args..., res);
         else
             return UnZip<ChildClass, num + 1, Ts...>(input, args..., res);
@@ -113,8 +111,7 @@ public:
         for (int i = 0; i < length; i++)
             res.Append(get<0>(input.at(i)));
 
-        if
-        constexpr (sizeof...(Ts) == 0)
+        if constexpr (sizeof...(Ts) == 0)
             return make_tuple(res, args...);
         else
             return UnZip<ChildClass, 1, Ts...>(input, args..., res);
