@@ -3,12 +3,7 @@ name: CMake Debug
 on:
   # Trigger the workflow on push or pull request,
   # but only for the main branch
-  push:
-    branches:
-      - master
-  pull_request:
-    branches:
-      - master
+  [ push, pull_request ]
 
 env:
   # Customize the CMake build type here (Release, Debug, RelWithDebInfo, etc.)
@@ -60,4 +55,13 @@ jobs:
         working-directory: ${{github.workspace}}/build
         shell: bash
         # Execute the build.  You can specify a specific target with "--target <NAME>"
-        run: cmake --build . --config $BUILD_TYPE --target Laba2
+        run: cmake -DCODE_COVERAGE=ON -DENABLE_TEST_COVERAGE=1 & cmake --build . --config $BUILD_TYPE --target Laba2 -- -j $(nproc)
+
+      - name: Generate coverage xml files
+        working-directory: ${{github.workspace}}/build/Tests
+        shell: bash
+        # Execute the build.  You can specify a specific target with "--target <NAME>"
+        run: gcov Tests.c
+      
+      - name: Collect coverage
+        run: bash <(curl -s https://codecov.io/bash) || echo "Codecov did not collect coverage reports"
