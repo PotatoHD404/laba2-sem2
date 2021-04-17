@@ -1,11 +1,13 @@
 //
 // Created by korna on 03.04.2021.
 //
-#include "IEnumerator.h"
-#include "ICollection.h"
+
 
 #ifndef LABA2_IENUMERABLE_H
 #define LABA2_IENUMERABLE_H
+
+#include "IEnumerator.h"
+#include "ICollection.h"
 
 template<class T>
 /*interface*/

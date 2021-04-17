@@ -1,6 +1,10 @@
 //
-// Created by korna on 22.03.2021.
+// Created by korna on 17.04.2021.
 //
+
+#ifndef TEST_DB_LISTSEQUENCETESTS_H
+#define TEST_DB_LISTSEQUENCETESTS_H
+
 #include "gtest/gtest.h"
 #include "../ListSequence.h"
 
@@ -330,3 +334,6 @@ TEST(ListSequence, Subsequence) {
     EXPECT_EQ (arr1[2], arr2->At(0));
     EXPECT_EQ (arr1[3], arr2->At(1));
 }
+
+
+#endif //TEST_DB_LISTSEQUENCETESTS_H

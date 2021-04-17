@@ -1,10 +1,12 @@
 //
 // Created by korna on 11.04.2021.
 //
-#include "Enumerable.h"
-
 #ifndef TEST_DB_TESTCLASS_H
 #define TEST_DB_TESTCLASS_H
+
+#include "Enumerable.h"
+
+
 
 template<class T>
 class TestClass : public Collection<T> {

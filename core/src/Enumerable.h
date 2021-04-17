@@ -1,6 +1,9 @@
 //
 // Created by korna on 03.04.2021.
 //
+#ifndef LABA2_ENUMERABLE_H
+#define LABA2_ENUMERABLE_H
+
 #include "IEnumerable.h"
 #include "ICollection.h"
 #include <vector>
@@ -9,10 +12,6 @@
 //#include <variant>
 
 using namespace std;
-
-
-#ifndef LABA2_COLLECTION_H
-#define LABA2_COLLECTION_H
 
 template<class T>
 /*abstract*/
@@ -123,4 +122,4 @@ public:
 };
 
 
-#endif //LABA2_COLLECTION_H
+#endif //LABA2_ENUMERABLE_H

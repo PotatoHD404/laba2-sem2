@@ -1,6 +1,10 @@
 //
-// Created by korna on 22.03.2021.
+// Created by korna on 17.04.2021.
 //
+
+#ifndef TEST_DB_ARRAYSEQUENCETESTS_H
+#define TEST_DB_ARRAYSEQUENCETESTS_H
+
 #include "gtest/gtest.h"
 #include "../ArraySequence.h"
 
@@ -329,4 +333,6 @@
 //    ASSERT_EQ(arr2->GetLength(), 2);
 //    EXPECT_EQ (arr1[2], arr2->At(0));
 //    EXPECT_EQ (arr1[3], arr2->At(1));
-//}
+//
+
+#endif //TEST_DB_ARRAYSEQUENCETESTS_H
