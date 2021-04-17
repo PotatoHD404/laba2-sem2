@@ -3,16 +3,14 @@ name: CMake Debug
 on:
   # Trigger the workflow on push or pull request,
   # but only for the main branch
-  push:
-    branches:
-      - master
-  pull_request:
-    branches:
-      - master
+  [ push, pull_request ]
 
 env:
   # Customize the CMake build type here (Release, Debug, RelWithDebInfo, etc.)
-  BUILD_TYPE: Debug
+  BUILD_TYPE: DEBUG
+  CTEST_OUTPUT_ON_FAILURE: 1
+  CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
+
 
 jobs:
   build:
@@ -41,7 +39,7 @@ jobs:
         # Note the current convention is to use the -S and -B options here to specify source
         # and build directories, but this is only available with CMake 3.13 and higher.
         # The CMake binaries on the Github Actions machines are (as of this writing) 3.12
-        run: cmake ${{github.workspace}}/core/src -DCMAKE_BUILD_TYPE=$BUILD_TYPE
+        run: cmake ${{github.workspace}}/core/src -DCMAKE_BUILD_TYPE=$BUILD_TYPE -DCODE_COVERAGE=ON -DENABLE_TEST_COVERAGE=1
 
       - name: Build tests
         working-directory: ${{github.workspace}}/build
@@ -60,4 +58,11 @@ jobs:
         working-directory: ${{github.workspace}}/build
         shell: bash
         # Execute the build.  You can specify a specific target with "--target <NAME>"
-        run: cmake --build . --config $BUILD_TYPE --target Laba2
+        run: cmake --build . --config $BUILD_TYPE --target Laba2 -- -j $(nproc)
+
+      - name: Generate coverage
+        working-directory: ${{github.workspace}}/core/src
+        shell: bash
+        # Execute the build.  You can specify a specific target with "--target <NAME>"
+#        run: gcov main.cpp
+        run: bash <(curl -s https://codecov.io/bash) || echo "Codecov did not collect coverage reports"
