@@ -64,5 +64,5 @@ jobs:
         working-directory: ${{github.workspace}}/core/src
         shell: bash
         # Execute the build.  You can specify a specific target with "--target <NAME>"
-        run: gcov main.cpp
-#        run: bash <(curl -s https://codecov.io/bash) || echo "Codecov did not collect coverage reports"
+#        run: gcov main.cpp
+        run: bash <(curl -s https://codecov.io/bash) || echo "Codecov did not collect coverage reports"
