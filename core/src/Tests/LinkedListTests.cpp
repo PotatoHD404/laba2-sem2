@@ -1,6 +1,10 @@
 //
-// Created by korna on 22.03.2021.
+// Created by korna on 17.04.2021.
 //
+
+#ifndef TEST_DB_LINKEDLISTTESTS_H
+#define TEST_DB_LINKEDLISTTESTS_H
+
 #include "gtest/gtest.h"
 #include "../LinkedList.h"
 
@@ -332,3 +336,5 @@ TEST(LinkedList, GetSubList) {
     EXPECT_EQ (arr1[3], arr2[1]);
 }
 
+
+#endif //TEST_DB_LINKEDLISTTESTS_H
