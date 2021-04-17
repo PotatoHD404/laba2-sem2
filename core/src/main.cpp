@@ -4,8 +4,9 @@
 
 #include <iostream>
 #include "ArraySequence.h"
-//#include "ListSequence.h"
+#include "ListSequence.h"
 //#include "Enumerable.cpp"
+
 
 using namespace std;
 

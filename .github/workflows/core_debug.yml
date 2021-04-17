@@ -61,7 +61,8 @@ jobs:
         run: cmake --build . --config $BUILD_TYPE --target Laba2 -- -j $(nproc)
 
       - name: Generate coverage
-        working-directory: ${{github.workspace}}/core/src/Tests
+        working-directory: ${{github.workspace}}/core/src
         shell: bash
         # Execute the build.  You can specify a specific target with "--target <NAME>"
-        run: bash <(curl -s https://codecov.io/bash) || echo "Codecov did not collect coverage reports"
+        run: gcov main.cpp
+#        run: bash <(curl -s https://codecov.io/bash) || echo "Codecov did not collect coverage reports"
