@@ -1,18 +1,15 @@
-name: CMake Debug
+name: CMake-Debug
 
 on:
   # Trigger the workflow on push or pull request,
   # but only for the main branch
-  push:
-    branches:
-      - master
-  pull_request:
-    branches:
-      - master
+  [ push, pull_request ]
 
 env:
   # Customize the CMake build type here (Release, Debug, RelWithDebInfo, etc.)
   BUILD_TYPE: Debug
+#  CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
+
 
 jobs:
   build:
@@ -31,7 +28,7 @@ jobs:
         run: cmake -E make_directory ${{github.workspace}}/build
 
       - name: Install dependencies
-        run: sudo apt-get install -y  libgtest-dev valgrind
+        run: sudo apt-get install -y libgtest-dev valgrind lcov
 
       - name: Configure CMake
         # Use a bash shell so we can use the same syntax for environment variable
@@ -61,3 +58,41 @@ jobs:
         shell: bash
         # Execute the build.  You can specify a specific target with "--target <NAME>"
         run: cmake --build . --config $BUILD_TYPE --target Laba2
+
+      - name: Generate code coverage reports
+        working-directory: ${{github.workspace}}/build/Tests/CMakeFiles/Tests.dir
+        shell: bash
+        # Execute the build.  You can specify a specific target with "--target <NAME>"
+#        run: gcov --xml main.gcno
+        run: |
+          lcov --directory . --capture --output-file coverage.info &&\
+          lcov --remove coverage.info '/usr/*' "${HOME}"'/.cache/*' '${{github.workspace}}/core/src/Tests/*' --output-file coverage.info &&\
+          lcov --list coverage.info &&\
+          mkdir ${{github.workspace}}/coverage && cp coverage.info ${{github.workspace}}/coverage/lcov.info
+#          bash <(curl -s https://codecov.io/bash) -f coverage.info || echo "Codecov did not collect coverage reports"
+      - name: Publish to coveralls.io
+        uses: coverallsapp/github-action@v1.1.2
+        with:
+          github-token: ${{ github.token }}
+
+
+#  - lcov --directory . --capture --output-file coverage.info
+#  # filter out system and extra files.
+#  # To also not include test code in coverage add them with full path to the patterns: '*/tests/*'
+#  - lcov --remove coverage.info '/usr/*' "${HOME}"'/.cache/*' --output-file coverage.info
+#  # output coverage data for debugging (optional)
+#  - lcov --list coverage.info
+#  # Uploading to CodeCov
+#  # '-f' specifies file(s) to use and disables manual coverage gathering and file search which has already been done above
+#  - bash <(curl -s https://codecov.io/bash) -f coverage.info || echo "Codecov did not collect coverage reports"
+
+#      - uses: codecov/codecov-action@v1
+#        with:
+#          token: ${{ secrets.CODECOV_TOKEN }} # not required for public repos
+#          files: ./coverage1.xml,./coverage2.xml # optional
+#          flags: gtest, gcc # optional
+#          name: codecov-umbrella # optional
+#          fail_ci_if_error: true # optional (default = false)
+#          verbose: true # optional (default = false)
+
+

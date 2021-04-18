@@ -1,7 +1,7 @@
 # Сборка ---------------------------------------
 
 # В качестве базового образа для сборки используем gcc:latest
-FROM rikorose/gcc-cmake:latest as build
+FROM rikorose/gcc-cmake:gcc-10 as build
 
 # Установим рабочую директорию для сборки GoogleTest
 WORKDIR /gtest_build
@@ -20,7 +20,7 @@ RUN DEBIAN_FRONTEND="noninteractive" apt-get update && \
     mv lib*.a /usr/lib
 
 # Скопируем директорию /src в контейнер
-ADD src /app/src
+COPY ./src /app/src
 
 # Установим рабочую директорию для сборки проекта
 WORKDIR /app/build
@@ -34,7 +34,7 @@ RUN cmake ../src && \
 # Запуск ---------------------------------------
 
 # В качестве базового образа используем ubuntu:latest
-FROM ubuntu:latest
+FROM ubuntu:20.04
 
 RUN DEBIAN_FRONTEND="noninteractive" apt-get update && apt-get -y install tzdata valgrind ssh
 

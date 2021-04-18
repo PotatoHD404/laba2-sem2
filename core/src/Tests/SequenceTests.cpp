@@ -1,7 +1,11 @@
-////
-//// Created by korna on 22.03.2021.
-////
-//#include "gtest/gtest.h"
+//
+// Created by korna on 17.04.2021.
+//
+
+#ifndef TEST_DB_SEQUENCETESTS_H
+#define TEST_DB_SEQUENCETESTS_H
+
+#include "gtest/gtest.h"
 //#include "../ListSequence.h"
 //#include "../ArraySequence.h"
 //
@@ -656,3 +660,5 @@
 //    EXPECT_EQ (arr1->At(2), arr2->At(0));
 //    EXPECT_EQ (arr1->At(3), arr2->At(1));
 //}
+
+#endif //TEST_DB_SEQUENCETESTS_H

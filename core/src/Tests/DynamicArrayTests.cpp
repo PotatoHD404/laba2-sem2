@@ -1,6 +1,10 @@
 //
-// Created by korna on 22.03.2021.
+// Created by korna on 17.04.2021.
 //
+
+#ifndef TEST_DB_DYNAMICARRAYTESTS_H
+#define TEST_DB_DYNAMICARRAYTESTS_H
+
 #include "gtest/gtest.h"
 #include "../DynamicArray.h"
 
@@ -90,3 +94,6 @@ TEST(DynamicArray, InitFromDynamicArray) {
     arr2 = DynamicArray<int>(arr1);
     ASSERT_EQ (0, arr2.GetLength());
 }
+
+
+#endif //TEST_DB_DYNAMICARRAYTESTS_H
