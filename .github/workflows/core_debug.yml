@@ -1,4 +1,4 @@
-name: CMake Debug
+name: CMake-Debug
 
 on:
   # Trigger the workflow on push or pull request,
@@ -8,7 +8,7 @@ on:
 env:
   # Customize the CMake build type here (Release, Debug, RelWithDebInfo, etc.)
   BUILD_TYPE: Debug
-  CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
+#  CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
 
 
 jobs:
@@ -66,9 +66,9 @@ jobs:
 #        run: gcov --xml main.gcno
         run: |
           lcov --directory . --capture --output-file coverage.info &&\
-          lcov --remove coverage.info '/usr/*' "${HOME}"'/.cache/*' --output-file coverage.info &&\
+          lcov --remove coverage.info '/usr/*' "${HOME}"'/.cache/*' '${{github.workspace}}/core/src/Tests/*' --output-file coverage.info &&\
           lcov --list coverage.info &&\
-          cp coverage.info ./${{github.workspace}}/coverage.info
+          mkdir ${{github.workspace}}/coverage && cp coverage.info ${{github.workspace}}/coverage/lcov.info
 #          bash <(curl -s https://codecov.io/bash) -f coverage.info || echo "Codecov did not collect coverage reports"
       - name: Publish to coveralls.io
         uses: coverallsapp/github-action@v1.1.2
