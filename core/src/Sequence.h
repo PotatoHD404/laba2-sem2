@@ -50,7 +50,6 @@ public:
     }
 
     virtual ~Sequence() {};
-
 };
 
 #endif //LABA2_SEQUENCE_H

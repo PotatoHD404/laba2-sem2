@@ -39,7 +39,6 @@ public:
     virtual void RemoveAt(int index) = 0;
 
     virtual ~ICollection() {};
-
 };
 
 #endif //LABA2_ICOLLECTION_H

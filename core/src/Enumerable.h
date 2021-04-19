@@ -118,7 +118,6 @@ public:
 
 
     virtual ~Enumerable() {};
-
 };
 
 

@@ -149,7 +149,6 @@ public:
         items = LinkedList<T>(list.items);
         return *this;
     }
-
 };
 
 #endif //LABA2_LISTSEQUENCE_H

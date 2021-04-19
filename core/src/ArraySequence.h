@@ -14,7 +14,6 @@ using namespace std;
 
 template<class T>
 class ArraySequence : public Sequence<T> {
-
 private:
     DynamicArray<T> items;
 
@@ -111,7 +110,6 @@ public:
             items.Set(index, item);
         else
             items.Set(items.GetLength() - 1, item);
-
     }
 
     ArraySequence<T> *Concat(Sequence<T> &list) {

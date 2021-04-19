@@ -63,7 +63,6 @@ TEST(ListSequence_int, Append) {
     EXPECT_EQ (3, arr[2]);
     EXPECT_EQ (1, arr.GetFirst());
     EXPECT_EQ (3, arr.GetLast());
-
 }
 
 TEST(ListSequence_int, Prepend) {

@@ -18,11 +18,6 @@ public:
     //Creation of the object
     DynamicArray() : actual_array(new T[1]()), length(0) {}
 
-//    DynamicArray() {
-//        actual_array = new T[1]();
-//        length = 0;
-//    }
-
     explicit DynamicArray(int count) {
         if (count < 0)
             throw out_of_range("count < 0");
@@ -32,7 +27,6 @@ public:
         else
             actual_array = new T[1]();
         length = count;
-
     }
 
     DynamicArray(T *items, int count) {
@@ -119,7 +113,6 @@ public:
 
     //Termination
     ~DynamicArray() { delete[] actual_array; }
-
 };
 
 #endif //LABA2_DYNAMICARRAY_H

@@ -13,7 +13,6 @@ public:
     virtual bool MoveNext() = 0;
 
     virtual void Reset() = 0;
-
 };
 
 #endif //LABA2_IENUMERATOR_H
