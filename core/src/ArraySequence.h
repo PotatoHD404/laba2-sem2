@@ -176,6 +176,21 @@ public:
         items.Resize(items.GetLength() - 1);
     }
 
+    template<typename T1>
+    ArraySequence<T1> Map(T1 (*mapper)(T)) {
+        ArraySequence<T1> *res = dynamic_cast<ArraySequence<T1> *>(Enumerable<T>::template Map<T1, ArraySequence>(mapper));
+        auto res1 = ArraySequence<T1>(res);
+        delete res;
+        return res1;
+    }
+
+    ArraySequence<T> Where(bool(*predicate)(T)) {
+        ArraySequence<T> *res = dynamic_cast<ArraySequence<T> *>(Enumerable<T>::template Where<ArraySequence>(predicate));
+        auto res1 = ArraySequence<T>(res);
+        delete res;
+        return res1;
+    }
+
     void Clear() {
         items.Resize(0);
     }

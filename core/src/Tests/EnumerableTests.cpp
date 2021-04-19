@@ -75,49 +75,56 @@ bool IsEven(int x) {
     return x % 2 == 0;
 }
 
+
 TEST(Enumerable, ListSequence_Map) {
     ListSequence<int> arr = {11, 12, 3, 4, -5};
-    ListSequence<int>* res = dynamic_cast<ListSequence<int> *>(arr.Map(Pow));
-    EXPECT_TRUE(*res == ListSequence<int> ({121, 144, 9, 16, 25 }));
-//unique_ptr<Sequence<int>> arr1 = unique_ptr<Sequence<int>>(new ListSequence<int>(a, 5));
-//unique_ptr<Sequence<int>> arr2 = unique_ptr<Sequence<int>>(new ListSequence<int>(arr1));
-//unique_ptr<Sequence<int>> arr3 = unique_ptr<Sequence<int>>(arr1->Concat(arr2));
-//ASSERT_EQ (arr1->GetLength() + arr2->GetLength(), arr3->GetLength());
-//EXPECT_EQ (arr1->At(0), arr3->At(0));
+    ListSequence<int> res = arr.Map(Pow);
+    EXPECT_TRUE(res == ListSequence<int>({121, 144, 9, 16, 25}));
+    ListSequence<int> res1 = ListSequence<int>({}).Map(Pow);
+    EXPECT_TRUE(res1 == ListSequence<int>({}));
+    ListSequence<bool> res2 = ListSequence<int>({11, 12, 3, 4, 6}).Map(IsEven);
+    EXPECT_TRUE(res2 == ListSequence<bool>({false, true, false, true, true}));
+    int (*wrong)(int) = nullptr;
+    EXPECT_ANY_THROW(arr.Map(wrong));
+}
+
+int f(int x, int y) {
+    return x + y;
 }
 
 TEST(Enumerable, ListSequence_Reduce) {
-//int a[] = {1, 2, 3, 4, 5};
-//unique_ptr<Sequence<int>> arr1 = unique_ptr<Sequence<int>>(new ListSequence<int>(a, 5));
-//unique_ptr<Sequence<int>> arr2 = unique_ptr<Sequence<int>>(new ListSequence<int>(arr1));
-//unique_ptr<Sequence<int>> arr3 = unique_ptr<Sequence<int>>(arr1->Concat(arr2));
-//ASSERT_EQ (arr1->GetLength() + arr2->GetLength(), arr3->GetLength());
-//EXPECT_EQ (arr1->At(0), arr3->At(0));
+    ListSequence<int> arr = {11, 12, 3, 4, -5};
+    EXPECT_EQ(arr.Reduce(f, 0), 25);
+    int res2 = ListSequence<int>({}).Reduce(f, -1);
+    EXPECT_EQ(res2, -1);
+    int (*wrong)(int, int) = nullptr;
+    EXPECT_ANY_THROW(arr.Reduce(wrong, 0));
 }
 
 TEST(Enumerable, ListSequence_Where) {
-//int a[] = {1, 2, 3, 4, 5};
-//unique_ptr<Sequence<int>> arr1 = unique_ptr<Sequence<int>>(new ListSequence<int>(a, 5));
-//unique_ptr<Sequence<int>> arr2 = unique_ptr<Sequence<int>>(new ListSequence<int>(arr1));
-//unique_ptr<Sequence<int>> arr3 = unique_ptr<Sequence<int>>(arr1->Concat(arr2));
-//ASSERT_EQ (arr1->GetLength() + arr2->GetLength(), arr3->GetLength());
-//EXPECT_EQ (arr1->At(0), arr3->At(0));
+    ListSequence<int> arr = {11, 12, 3, 4, -5};
+    EXPECT_TRUE(arr.Where(IsEven) == ListSequence<int>({12, 4}));
+    ListSequence<int> res2 = ListSequence<int>({}).Where(IsEven);
+    EXPECT_TRUE(res2 == ListSequence<int>());
+    bool (*wrong)(int) = nullptr;
+    EXPECT_ANY_THROW(arr.Where(wrong));
 }
 
 TEST(Enumerable, ListSequence_Contains) {
-//int a[] = {1, 2, 3, 4, 5};
-//unique_ptr<Sequence<int>> arr1 = unique_ptr<Sequence<int>>(new ListSequence<int>(a, 5));
-//unique_ptr<Sequence<int>> arr2 = unique_ptr<Sequence<int>>(new ListSequence<int>(arr1));
-//unique_ptr<Sequence<int>> arr3 = unique_ptr<Sequence<int>>(arr1->Concat(arr2));
-//ASSERT_EQ (arr1->GetLength() + arr2->GetLength(), arr3->GetLength());
-//EXPECT_EQ (arr1->At(0), arr3->At(0));
+    ListSequence<int> arr = {11, 12, 3, 4, -5};
+    EXPECT_TRUE(arr.Contains(11));
+    EXPECT_TRUE(arr.Contains(12));
+    EXPECT_TRUE(arr.Contains(-5));
+    EXPECT_FALSE(arr.Contains(7));
+    arr = {};
+    EXPECT_FALSE(arr.Contains(-5));
 }
 
 TEST(Enumerable, ListSequence_Split) {
-//int a[] = {1, 2, 3, 4, 5};
-//unique_ptr<Sequence<int>> arr1 = unique_ptr<Sequence<int>>(new ListSequence<int>(a, 5));
-//unique_ptr<Sequence<int>> arr2 = unique_ptr<Sequence<int>>(new ListSequence<int>(arr1));
-//unique_ptr<Sequence<int>> arr3 = unique_ptr<Sequence<int>>(arr1->Concat(arr2));
-//ASSERT_EQ (arr1->GetLength() + arr2->GetLength(), arr3->GetLength());
-//EXPECT_EQ (arr1->At(0), arr3->At(0));
+    ListSequence<int> arr = {11, 12, 3, 4, -5};
+    auto[a, b] = arr.Split(0);
+    EXPECT_TRUE(*dynamic_cast<ListSequence<int> *>(a) == ListSequence<int>({11}));
+    EXPECT_TRUE(*dynamic_cast<ListSequence<int> *>(b) == ListSequence<int>({12, 3, 4, -5}));
+    delete a;
+    delete b;
 }

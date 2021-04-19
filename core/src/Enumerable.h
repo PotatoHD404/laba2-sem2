@@ -61,11 +61,26 @@ private:
     }
 
 protected:
-    template<typename T1, typename<typename>ChildClass>
+
+    template<typename T1, template<typename> class ChildClass>
     Enumerable<T1> *Map(T1 (*mapper)(T)) {
-        Enumerable<T1> *res = new ChildClass<T1>();
-        for (int i = 0; i < this->GetLength(); i++)
+        if (mapper == nullptr)
+            throw std::invalid_argument("mapper is NULL");
+        int length = this->GetLength();
+        Enumerable<T1> *res = new ChildClass<T1>(length);
+        for (int i = 0; i < length; i++)
             res->At(i) = mapper(this->At(i));
+        return res;
+    }
+
+    template<template<typename> class ChildClass>
+    Enumerable<T> *Where(bool(*predicate)(T)) {
+        if (predicate == nullptr)
+            throw std::invalid_argument("predicate is NULL");
+        Enumerable<T> *res = new ChildClass<T>();
+        for (int i = 0; i < this->GetLength(); i++)
+            if (predicate(this->At(i)))
+                res->Append(this->At(i));
         return res;
     }
 
@@ -73,7 +88,7 @@ public:
     Enumerable() {}
 
     auto Split(int point) {
-        auto res = make_tuple(this->Subsequence(0, point), this->Subsequence(point, this->GetLength()));
+        auto res = make_tuple(this->Subsequence(0, point), this->Subsequence(point + 1, this->GetLength() - 1));
         return res;
     }
 
@@ -86,15 +101,9 @@ public:
 
     virtual Enumerable<T> *Subsequence(int begin, int end) = 0;
 
-    Enumerable<T> *Where(bool(*predicate)(T)) {
-        Enumerable<T> *res = this->template Init<T>();
-        for (int i = 0; i < this->GetLength(); i++)
-            if (predicate(this->At(i)))
-                res->Append(this->At(i));
-        return res;
-    }
-
     T Reduce(T(*f)(T, T), T const c) {
+        if (f == nullptr)
+            throw std::invalid_argument("mapper is NULL");
         T res = c;
         for (int i = 0; i < this->GetLength(); ++i) {
             res = f(this->At(i), res);

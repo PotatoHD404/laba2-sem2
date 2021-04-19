@@ -9,6 +9,7 @@
 #include <iostream>
 #include <cstring>
 #include "IEnumerator.h"
+#include "Enumerable.h"
 
 using namespace std;
 
@@ -104,10 +105,12 @@ public:
     ListSequence<T> *Clone() const {
         return new ListSequence<T>(this->items);
     }
+
     template<typename T1>
     ListSequence<T1> *Init() const {
         return new ListSequence<T1>();
     }
+
     template<typename T1>
     ListSequence<T1> *Init(int count) const {
         return new ListSequence<T1>(count);
@@ -117,6 +120,20 @@ public:
         return new typename IEnumerable<T>::Enumerator(this);
     }
 
+    template<typename T1>
+    ListSequence<T1> Map(T1 (*mapper)(T)) {
+        ListSequence<T1> *res = dynamic_cast<ListSequence<T1> *>(Enumerable<T>::template Map<T1, ListSequence>(mapper));
+        auto res1 = ListSequence<T1>(res);
+        delete res;
+        return res1;
+    }
+
+    ListSequence<T> Where(bool(*predicate)(T)) {
+        ListSequence<T> *res = dynamic_cast<ListSequence<T> *>(Enumerable<T>::template Where<ListSequence>(predicate));
+        auto res1 = ListSequence<T>(res);
+        delete res;
+        return res1;
+    }
 
     void Append(T item) {
         items.Append(item);
