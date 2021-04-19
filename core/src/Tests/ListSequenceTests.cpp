@@ -260,6 +260,30 @@ TEST(ListSequence_int, InitFromArr) {
     EXPECT_EQ (5, arr[4]);
     arr = ListSequence<int>(a, 0);
     ASSERT_EQ (0, arr.GetLength());
+
+    arr = ListSequence<int>(a);
+    ASSERT_EQ (5, arr.GetLength());
+
+    arr.Append(6);
+    ASSERT_EQ (6, arr.GetLength());
+    EXPECT_EQ (1, arr[0]);
+    EXPECT_EQ (2, arr[1]);
+    EXPECT_EQ (3, arr[2]);
+    EXPECT_EQ (4, arr[3]);
+    EXPECT_EQ (5, arr[4]);
+    EXPECT_EQ (6, arr[5]);
+
+    arr = ListSequence<int>({1, 2, 3, 4, 5});
+    ASSERT_EQ (5, arr.GetLength());
+
+    arr.Append(6);
+    ASSERT_EQ (6, arr.GetLength());
+    EXPECT_EQ (1, arr[0]);
+    EXPECT_EQ (2, arr[1]);
+    EXPECT_EQ (3, arr[2]);
+    EXPECT_EQ (4, arr[3]);
+    EXPECT_EQ (5, arr[4]);
+    EXPECT_EQ (6, arr[5]);
 }
 
 TEST(ListSequence_int, InitFromListSequence) {

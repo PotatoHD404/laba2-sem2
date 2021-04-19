@@ -18,7 +18,6 @@ private:
     LinkedList<T> items;
 
 
-
 public:
     //Creation of the object
     ListSequence() {
@@ -35,6 +34,13 @@ public:
 
     ListSequence(const ListSequence<T> &list) {
         items = LinkedList<T>(list.items);
+    }
+
+    explicit ListSequence(T items[]) : ListSequence(items, sizeof(items)) {}
+
+    ListSequence(initializer_list<T> items) : ListSequence() {
+        for (T item : items)
+            this->Append(item);
     }
 
     explicit ListSequence(const LinkedList<T> &list) {

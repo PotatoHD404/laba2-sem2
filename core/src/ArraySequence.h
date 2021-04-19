@@ -31,6 +31,13 @@ public:
         this->items = DynamicArray<T>(items, count);
     }
 
+    explicit ArraySequence(T items[]) : ArraySequence(items, sizeof(items)) {}
+
+    ArraySequence(initializer_list<T> items) : ArraySequence() {
+        for (T item : items)
+            this->Append(item);
+    }
+
     ArraySequence(const ArraySequence<T> &list) {
         items = DynamicArray<T>(list.items);
     }
