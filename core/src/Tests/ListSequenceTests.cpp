@@ -743,11 +743,13 @@ TEST(ListSequence_int, Equals) {
     ListSequence<int> arr{1, 2, 3};
     ListSequence<int> arr1{1, 2};
     ListSequence<int> arr2{1, 2, 3};
+    ListSequence<int> arr3{3, 2};
     EXPECT_TRUE(arr == arr2);
     EXPECT_FALSE(arr == arr1);
-    ListSequence<int> arr3{};
+    EXPECT_FALSE(arr == arr3);
     ListSequence<int> arr4{};
-    EXPECT_TRUE(arr3 == arr4);
+    ListSequence<int> arr5{};
+    EXPECT_TRUE(arr4 == arr5);
 }
 
 #endif //TEST_DB_LISTSEQUENCETESTS_H
