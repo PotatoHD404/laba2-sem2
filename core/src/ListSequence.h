@@ -36,7 +36,8 @@ public:
         items = LinkedList<T>(list.items);
     }
 
-    explicit ListSequence(T items[]) : ListSequence(items, sizeof(items)) {}
+    template<int N>
+    explicit ListSequence(T (&items)[N]) : ListSequence(items, N) {}
 
     ListSequence(initializer_list<T> items) : ListSequence() {
         for (T item : items)

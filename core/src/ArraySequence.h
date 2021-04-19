@@ -31,7 +31,8 @@ public:
         this->items = DynamicArray<T>(items, count);
     }
 
-    explicit ArraySequence(T items[]) : ArraySequence(items, sizeof(items)) {}
+    template<int N>
+    explicit ArraySequence(T (&items)[N]) : ArraySequence(items, N) {}
 
     ArraySequence(initializer_list<T> items) : ArraySequence() {
         for (T item : items)

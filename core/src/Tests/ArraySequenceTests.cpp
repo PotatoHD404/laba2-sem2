@@ -717,8 +717,19 @@ TEST(ArraySequence_float, GetSubsequence) {
 }
 
 TEST(ArraySequence_int, GetEnumerator) {
-    ArraySequence<int> arr1 = ArraySequence<int>({1, 2, 3, 4, 5});
+    ArraySequence<int> arr{1, 2, 3};
+    IEnumerator<int> *enumerator = arr.GetEnumerator();
+    ASSERT_EQ(enumerator->GetLength(), 3);
+    EXPECT_EQ(enumerator->GetCurrent(), arr[0]);
+    EXPECT_EQ(enumerator->MoveNext(), true);
+    EXPECT_EQ(enumerator->GetCurrent(), arr[1]);
+    EXPECT_EQ(enumerator->MoveNext(), true);
+    EXPECT_EQ(enumerator->GetCurrent(), arr[2]);
+    EXPECT_EQ(enumerator->MoveNext(), false);
+    enumerator->Reset();
+    EXPECT_EQ(enumerator->GetCurrent(), arr[0]);
 
+    delete enumerator;
 }
 
 

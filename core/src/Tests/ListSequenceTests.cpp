@@ -614,6 +614,30 @@ TEST(ListSequence_float, InitFromArr) {
     EXPECT_EQ (5, arr[4]);
     arr = ListSequence<float>(a, 0);
     ASSERT_EQ (0, arr.GetLength());
+
+    arr = ListSequence<float>(a);
+    ASSERT_EQ (5, arr.GetLength());
+
+    arr.Append(6);
+    ASSERT_EQ (6, arr.GetLength());
+    EXPECT_EQ (1, arr[0]);
+    EXPECT_EQ (2, arr[1]);
+    EXPECT_EQ (3, arr[2]);
+    EXPECT_EQ (4, arr[3]);
+    EXPECT_EQ (5, arr[4]);
+    EXPECT_EQ (6, arr[5]);
+
+    arr = ListSequence<float>({1, 2, 3, 4, 5});
+    ASSERT_EQ (5, arr.GetLength());
+
+    arr.Append(6);
+    ASSERT_EQ (6, arr.GetLength());
+    EXPECT_EQ (1, arr[0]);
+    EXPECT_EQ (2, arr[1]);
+    EXPECT_EQ (3, arr[2]);
+    EXPECT_EQ (4, arr[3]);
+    EXPECT_EQ (5, arr[4]);
+    EXPECT_EQ (6, arr[5]);
 }
 
 TEST(ListSequence_float, InitFromListSequence) {
@@ -690,6 +714,22 @@ TEST(ListSequence_float, Subsequence) {
     ASSERT_EQ(arr2->GetLength(), 2);
     EXPECT_EQ (arr1[2], arr2->At(0));
     EXPECT_EQ (arr1[3], arr2->At(1));
+}
+
+TEST(ListSequence_int, GetEnumerator) {
+    ListSequence<int> arr{1, 2, 3};
+    IEnumerator<int> *enumerator = arr.GetEnumerator();
+    ASSERT_EQ(enumerator->GetLength(), 3);
+    EXPECT_EQ(enumerator->GetCurrent(), arr[0]);
+    EXPECT_EQ(enumerator->MoveNext(), true);
+    EXPECT_EQ(enumerator->GetCurrent(), arr[1]);
+    EXPECT_EQ(enumerator->MoveNext(), true);
+    EXPECT_EQ(enumerator->GetCurrent(), arr[2]);
+    EXPECT_EQ(enumerator->MoveNext(), false);
+    enumerator->Reset();
+    EXPECT_EQ(enumerator->GetCurrent(), arr[0]);
+
+    delete enumerator;
 }
 
 #endif //TEST_DB_LISTSEQUENCETESTS_H
