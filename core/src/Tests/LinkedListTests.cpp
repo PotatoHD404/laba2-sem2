@@ -59,7 +59,6 @@ TEST(LinkedList, Append) {
     EXPECT_EQ (3, arr[2]);
     EXPECT_EQ (1, arr.GetFirst());
     EXPECT_EQ (3, arr.GetLast());
-
 }
 
 TEST(LinkedList, Prepend) {
@@ -99,6 +98,8 @@ TEST(LinkedList, InsertAt) {
     arr[1] = 2;
     arr[2] = 3;
     arr.InsertAt(4, 1);
+    EXPECT_ANY_THROW(arr.InsertAt(4, -1));
+    EXPECT_ANY_THROW(arr.InsertAt(4, 4));
     ASSERT_EQ (4, arr.GetLength());
     EXPECT_EQ (1, arr[0]);
     EXPECT_EQ (4, arr[1]);

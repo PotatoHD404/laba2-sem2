@@ -17,6 +17,7 @@ protected:
     private:
         ICollection<T> *items;
         int pos;
+
     public:
         explicit Enumerator(ICollection<T> *arr) {
             items = arr;
@@ -25,6 +26,10 @@ protected:
 
         T &GetCurrent() {
             return items->At(pos);
+        }
+
+        int GetLength() {
+            return items->GetLength();
         }
 
         bool MoveNext() {
@@ -37,7 +42,6 @@ protected:
         void Reset() {
             pos = 0;
         }
-
     };
 
 public:
@@ -46,7 +50,6 @@ public:
     virtual IEnumerator<T> *GetEnumerator() = 0;
 
     virtual ~IEnumerable() {};
-
 };
 
 #endif //LABA2_IENUMERABLE_H

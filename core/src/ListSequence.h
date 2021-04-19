@@ -9,6 +9,7 @@
 #include <iostream>
 #include <cstring>
 #include "IEnumerator.h"
+#include "Enumerable.h"
 
 using namespace std;
 
@@ -16,7 +17,6 @@ template<class T>
 class ListSequence : public Sequence<T> {
 private:
     LinkedList<T> items;
-
 
 
 public:
@@ -35,6 +35,14 @@ public:
 
     ListSequence(const ListSequence<T> &list) {
         items = LinkedList<T>(list.items);
+    }
+
+    template<int N>
+    explicit ListSequence(T (&items)[N]) : ListSequence(items, N) {}
+
+    ListSequence(initializer_list<T> items) : ListSequence() {
+        for (T item : items)
+            this->Append(item);
     }
 
     explicit ListSequence(const LinkedList<T> &list) {
@@ -78,6 +86,17 @@ public:
         return items.GetLength();
     }
 
+    bool operator==(ListSequence<T> list) {
+        int len = list.GetLength();
+        if (len != this->items.GetLength())
+            return false;
+        for (int i = 0; i < len; ++i)
+            if (this->At(i) != list.At(i))
+                return false;
+
+        return true;
+    }
+
     //Operations
     void Clear() {
         while (items.GetLength()) items.PopFirst();
@@ -87,18 +106,34 @@ public:
         return new ListSequence<T>(this->items);
     }
 
-    ListSequence<T> *Init() const {
-        return new ListSequence<T>();
+    template<typename T1>
+    ListSequence<T1> *Init() const {
+        return new ListSequence<T1>();
     }
 
-    ListSequence<T> *Init(int count) const {
-        return new ListSequence<T>(count);
+    template<typename T1>
+    ListSequence<T1> *Init(int count) const {
+        return new ListSequence<T1>(count);
     }
 
     IEnumerator<T> *GetEnumerator() {
         return new typename IEnumerable<T>::Enumerator(this);
     }
 
+    template<typename T1>
+    ListSequence<T1> Map(T1 (*mapper)(T)) {
+        ListSequence<T1> *res = dynamic_cast<ListSequence<T1> *>(Enumerable<T>::template Map<T1, ListSequence>(mapper));
+        auto res1 = ListSequence<T1>(res);
+        delete res;
+        return res1;
+    }
+
+    ListSequence<T> Where(bool(*predicate)(T)) {
+        ListSequence<T> *res = dynamic_cast<ListSequence<T> *>(Enumerable<T>::template Where<ListSequence>(predicate));
+        auto res1 = ListSequence<T>(res);
+        delete res;
+        return res1;
+    }
 
     void Append(T item) {
         items.Append(item);
@@ -149,7 +184,6 @@ public:
         items = LinkedList<T>(list.items);
         return *this;
     }
-
 };
 
 #endif //LABA2_LISTSEQUENCE_H

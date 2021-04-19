@@ -95,5 +95,30 @@ TEST(DynamicArray, InitFromDynamicArray) {
     ASSERT_EQ (0, arr2.GetLength());
 }
 
+TEST(DynamicArray, GetSubArray) {
+    int a[] = {1, 2, 3, 4, 5};
+    DynamicArray<int> arr1 = DynamicArray<int>(a, 5);
+    DynamicArray<int> arr2 = arr1.GetSubArray(0, 0);
+    ASSERT_EQ(arr2.GetLength(), 1);
+    EXPECT_EQ (arr1[0], 1);
+    EXPECT_ANY_THROW(arr2[1]);
+    EXPECT_ANY_THROW(arr1.GetSubArray(-1, 0));
+    EXPECT_ANY_THROW(arr1.GetSubArray(1, 0));
+    EXPECT_ANY_THROW(arr1.GetSubArray(1, 5));
+
+    arr2 = arr1.GetSubArray(0, 4);
+    ASSERT_EQ(arr2.GetLength(), 5);
+    EXPECT_EQ (arr1[0], arr2[0]);
+    EXPECT_EQ (arr1[1], arr2[1]);
+    EXPECT_EQ (arr1[2], arr2[2]);
+    EXPECT_EQ (arr1[3], arr2[3]);
+    EXPECT_EQ (arr1[4], arr2[4]);
+
+    arr2 = arr1.GetSubArray(2, 3);
+    ASSERT_EQ(arr2.GetLength(), 2);
+    EXPECT_EQ (arr1[2], arr2[0]);
+    EXPECT_EQ (arr1[3], arr2[1]);
+}
+
 
 #endif //TEST_DB_DYNAMICARRAYTESTS_H

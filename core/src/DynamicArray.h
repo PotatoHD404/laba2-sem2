@@ -3,6 +3,7 @@
 //
 #ifndef LABA2_DYNAMICARRAY_H
 #define LABA2_DYNAMICARRAY_H
+
 #include <iostream>
 #include <cstring>
 
@@ -13,14 +14,10 @@ class DynamicArray {
 private:
     T *actual_array;
     int length;
+
 public:
     //Creation of the object
     DynamicArray() : actual_array(new T[1]()), length(0) {}
-
-//    DynamicArray() {
-//        actual_array = new T[1]();
-//        length = 0;
-//    }
 
     explicit DynamicArray(int count) {
         if (count < 0)
@@ -31,7 +28,6 @@ public:
         else
             actual_array = new T[1]();
         length = count;
-
     }
 
     DynamicArray(T *items, int count) {
@@ -77,9 +73,10 @@ public:
             throw range_error("startIndex > endIndex");
         if (endIndex >= length)
             throw range_error("endIndex >= length");
-        int len = startIndex - endIndex - 1;
+        int len = endIndex - startIndex + 1;
+
         T arr[len];
-        memcpy(arr, this->actual_array + startIndex, len);
+        memcpy(arr, this->actual_array + startIndex, len * sizeof(T));
         return DynamicArray(arr, len);
     }
 
@@ -117,7 +114,6 @@ public:
 
     //Termination
     ~DynamicArray() { delete[] actual_array; }
-
 };
 
 #endif //LABA2_DYNAMICARRAY_H

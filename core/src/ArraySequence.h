@@ -14,7 +14,6 @@ using namespace std;
 
 template<class T>
 class ArraySequence : public Sequence<T> {
-
 private:
     DynamicArray<T> items;
 
@@ -30,6 +29,14 @@ public:
 
     ArraySequence(T *items, int count) {
         this->items = DynamicArray<T>(items, count);
+    }
+
+    template<int N>
+    explicit ArraySequence(T (&items)[N]) : ArraySequence(items, N) {}
+
+    ArraySequence(initializer_list<T> items) : ArraySequence() {
+        for (T item : items)
+            this->Append(item);
     }
 
     ArraySequence(const ArraySequence<T> &list) {
@@ -87,7 +94,28 @@ public:
         return res;
     }
 
+    bool operator==(ArraySequence<T> &list) {
+        int len = list.GetLength();
+        if (len != this->items.GetLength())
+            return false;
+        for (int i = 0; i < len; ++i)
+            if (this->At(i) != list.At(i))
+                return false;
+
+        return true;
+    }
+
+
     //Operations
+    template<typename T1>
+    ArraySequence<T1> *Init() const {
+        return new ArraySequence<T1>();
+    }
+    template<typename T1>
+    ArraySequence<T1> *Init(int count) const {
+        return new ArraySequence<T1>(count);
+    }
+
     void Append(T item) {
         items.Resize(items.GetLength() + 1);
         items.Set(items.GetLength() - 1, item);
@@ -111,7 +139,6 @@ public:
             items.Set(index, item);
         else
             items.Set(items.GetLength() - 1, item);
-
     }
 
     ArraySequence<T> *Concat(Sequence<T> &list) {
@@ -147,6 +174,21 @@ public:
             items.Set(i, items[i + 1]);
         }
         items.Resize(items.GetLength() - 1);
+    }
+
+    template<typename T1>
+    ArraySequence<T1> Map(T1 (*mapper)(T)) {
+        ArraySequence<T1> *res = dynamic_cast<ArraySequence<T1> *>(Enumerable<T>::template Map<T1, ArraySequence>(mapper));
+        auto res1 = ArraySequence<T1>(res);
+        delete res;
+        return res1;
+    }
+
+    ArraySequence<T> Where(bool(*predicate)(T)) {
+        ArraySequence<T> *res = dynamic_cast<ArraySequence<T> *>(Enumerable<T>::template Where<ArraySequence>(predicate));
+        auto res1 = ArraySequence<T>(res);
+        delete res;
+        return res1;
     }
 
     void Clear() {
