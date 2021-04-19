@@ -746,7 +746,7 @@ TEST(ArraySequence_int, Equals) {
     ArraySequence<int> arr3{3, 2};
     EXPECT_TRUE(arr == arr2);
     EXPECT_FALSE(arr == arr1);
-    EXPECT_FALSE(arr == arr3);
+    EXPECT_FALSE(arr1 == arr3);
     ArraySequence<int> arr4{};
     ArraySequence<int> arr5{};
     EXPECT_TRUE(arr4 == arr5);
