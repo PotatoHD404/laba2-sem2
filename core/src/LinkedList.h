@@ -35,8 +35,6 @@ private:
     /// \param index - index of node
     /// \return - pointer to the node of index
     Node *GetNode(int index) {
-        if (index < 0 || index >= length || head == NULL)
-            throw out_of_range("");
         Node *res = head;
         for (int i = 0; i < index; i++) {
             res = res->next;
@@ -328,5 +326,3 @@ public:
 };
 
 #endif //LABA2_LINKEDLIST_H
-
-
