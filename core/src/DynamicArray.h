@@ -14,6 +14,7 @@ class DynamicArray {
 private:
     T *actual_array;
     int length;
+    
 public:
     //Creation of the object
     DynamicArray() : actual_array(new T[1]()), length(0) {}

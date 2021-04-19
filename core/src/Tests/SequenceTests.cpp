@@ -63,7 +63,6 @@ TEST(Sequence, ListSequence_Append) {
     EXPECT_EQ (3, arr->At(2));
     EXPECT_EQ (1, arr->GetFirst());
     EXPECT_EQ (3, arr->GetLast());
-
 }
 
 TEST(Sequence, ListSequence_Prepend) {
