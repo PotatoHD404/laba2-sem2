@@ -7,23 +7,14 @@
 
 template<class T>
 class ICollection {
-protected:
-//    bool ReadOnly;
 public:
     ICollection() {}
 
-
-protected:
-
-
-public:
-    //DecompositionS
+    //Decomposition
 
     virtual T &At(int index) = 0;
 
     virtual int GetLength() = 0;
-
-//    bool IsReadOnly() { return ReadOnly; }
 
     virtual bool Contains(T item) = 0;
 

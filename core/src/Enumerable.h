@@ -17,7 +17,6 @@ template<class T>
 /*abstract*/
 class Enumerable : public IEnumerable<T>, public ICollection<T> {
 private:
-
     template<typename Base, typename T1>
     inline constexpr static bool instanceof(const T1 *) {
         return is_base_of<Base, T1>::value;
@@ -61,7 +60,6 @@ private:
     }
 
 protected:
-
     template<typename T1, template<typename> class ChildClass>
     Enumerable<T1> *Map(T1 (*mapper)(T)) {
         if (mapper == nullptr)
@@ -124,7 +122,6 @@ public:
 
             return Zip(res, count, args...);
         }
-
     }
 
     template<template<typename> typename ChildClass, typename... Args, typename Current, typename... Ts>
