@@ -638,6 +638,13 @@ TEST(ArraySequence_float, InitFromArr) {
     EXPECT_EQ (4, arr[3]);
     EXPECT_EQ (5, arr[4]);
     EXPECT_EQ (6, arr[5]);
+
+    arr = {};
+    ASSERT_EQ (0, arr.GetLength());
+    arr.Append(6);
+    ASSERT_EQ (1, arr.GetLength());
+    EXPECT_EQ (6, arr[0]);
+    EXPECT_ANY_THROW(arr[1]);
 }
 
 TEST(ArraySequence_float, InitFromArraySequence) {
@@ -730,6 +737,17 @@ TEST(ArraySequence_int, GetEnumerator) {
     EXPECT_EQ(enumerator->GetCurrent(), arr[0]);
 
     delete enumerator;
+}
+
+TEST(ArraySequence_int, Equals) {
+    ArraySequence<int> arr{1, 2, 3};
+    ArraySequence<int> arr1{1, 2};
+    ArraySequence<int> arr2{1, 2, 3};
+    EXPECT_TRUE(arr == arr2);
+    EXPECT_FALSE(arr == arr1);
+    ArraySequence<int> arr3{};
+    ArraySequence<int> arr4{};
+    EXPECT_TRUE(arr3 == arr4);
 }
 
 

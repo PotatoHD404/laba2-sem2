@@ -85,6 +85,17 @@ public:
         return items.GetLength();
     }
 
+    bool operator==(ListSequence<T> list) {
+        int len = list.GetLength();
+        if (len != this->items.GetLength())
+            return false;
+        for (int i = 0; i < len; ++i)
+            if (this->At(i) != list.At(i))
+                return false;
+
+        return true;
+    }
+
     //Operations
     void Clear() {
         while (items.GetLength()) items.PopFirst();
@@ -93,13 +104,13 @@ public:
     ListSequence<T> *Clone() const {
         return new ListSequence<T>(this->items);
     }
-
-    ListSequence<T> *Init() const {
-        return new ListSequence<T>();
+    template<typename T1>
+    ListSequence<T1> *Init() const {
+        return new ListSequence<T1>();
     }
-
-    ListSequence<T> *Init(int count) const {
-        return new ListSequence<T>(count);
+    template<typename T1>
+    ListSequence<T1> *Init(int count) const {
+        return new ListSequence<T1>(count);
     }
 
     IEnumerator<T> *GetEnumerator() {

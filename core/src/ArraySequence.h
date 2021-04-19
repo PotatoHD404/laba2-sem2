@@ -94,7 +94,28 @@ public:
         return res;
     }
 
+    bool operator==(ArraySequence<T> &list) {
+        int len = list.GetLength();
+        if (len != this->items.GetLength())
+            return false;
+        for (int i = 0; i < len; ++i)
+            if (this->At(i) != list.At(i))
+                return false;
+
+        return true;
+    }
+
+
     //Operations
+    template<typename T1>
+    ArraySequence<T1> *Init() const {
+        return new ArraySequence<T1>();
+    }
+    template<typename T1>
+    ArraySequence<T1> *Init(int count) const {
+        return new ArraySequence<T1>(count);
+    }
+
     void Append(T item) {
         items.Resize(items.GetLength() + 1);
         items.Set(items.GetLength() - 1, item);

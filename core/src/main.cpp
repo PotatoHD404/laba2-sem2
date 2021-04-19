@@ -24,22 +24,22 @@ int main() {
 //    cout << get<0>(lulw).At(1) << endl;
 //    ArraySequence<int> a = ArraySequence<int>();
 
-    ArraySequence<int> a = ArraySequence<int>();
-    ArraySequence<float> b = ArraySequence<float>();
-    ArraySequence<float> c = ArraySequence<float>();
-    ArraySequence<double> d = ArraySequence<double>();
-    d.Append(0.1);
-    a.Append(0);
-    a.Append(1);
-    a.Append(2);
-    b.Append(3.14);
-    b.Append(2.1);
+//    ArraySequence<int> a = ArraySequence<int>();
+//    ArraySequence<float> b = ArraySequence<float>();
+//    ArraySequence<float> c = ArraySequence<float>();
+//    ArraySequence<double> d = ArraySequence<double>();
+//    d.Append(0.1);
+//    a.Append(0);
+//    a.Append(1);
+//    a.Append(2);
+//    b.Append(3.14);
+//    b.Append(2.1);
 
 
-    auto res = ArraySequence<int>::Zip(a, b);
+//    auto res = ArraySequence<int>::Zip(a, b);
 //    auto[d, e] = ArraySequence<int>::UnZip<ArraySequence>(lulw);
 //    cout << e.At(1) << endl;
-    cout << b.At(0) << endl;
+//    cout << b.At(0) << endl;
 //    ArraySequence<int> a = ArraySequence<int>();
 //    a.Append(0);
 //    a.Append(1);
@@ -51,6 +51,14 @@ int main() {
 //    cout << enumerator->MoveNext() << " " << enumerator->GetCurrent() << endl;
 //    enumerator->Reset();
 //    cout << enumerator->GetCurrent() << endl;
+
+
+//    ArraySequence<int> a = {0, 1, 2};
+//    ArraySequence<int> b = {3, 2};
+//    vector<tuple<int, int>> res = ArraySequence<int>::Zip(a, b);
+//    for (auto[x1, x2] : res)
+//        cout << x1 << " " << x2 << endl;
+
 
     return 0;
 }

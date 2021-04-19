@@ -14,14 +14,10 @@ public:
 
 
 protected:
-//    template<typename ChildType>
-//    auto Init(ChildType tmp) { return ChildType(); };
 
-//    template<typename ChildType>
-//    ChildType Init(int count) { return new ChildType(count); };
 
 public:
-    //Decomposition
+    //DecompositionS
 
     virtual T &At(int index) = 0;
 
@@ -38,7 +34,7 @@ public:
 
     virtual void RemoveAt(int index) = 0;
 
-    virtual ~ICollection() {};
+    virtual ~ICollection() = default;
 };
 
 #endif //LABA2_ICOLLECTION_H

@@ -638,6 +638,13 @@ TEST(ListSequence_float, InitFromArr) {
     EXPECT_EQ (4, arr[3]);
     EXPECT_EQ (5, arr[4]);
     EXPECT_EQ (6, arr[5]);
+
+    arr = {};
+    ASSERT_EQ (0, arr.GetLength());
+    arr.Append(6);
+    ASSERT_EQ (1, arr.GetLength());
+    EXPECT_EQ (6, arr[0]);
+    EXPECT_ANY_THROW(arr[1]);
 }
 
 TEST(ListSequence_float, InitFromListSequence) {
@@ -730,6 +737,17 @@ TEST(ListSequence_int, GetEnumerator) {
     EXPECT_EQ(enumerator->GetCurrent(), arr[0]);
 
     delete enumerator;
+}
+
+TEST(ListSequence_int, Equals) {
+    ListSequence<int> arr{1, 2, 3};
+    ListSequence<int> arr1{1, 2};
+    ListSequence<int> arr2{1, 2, 3};
+    EXPECT_TRUE(arr == arr2);
+    EXPECT_FALSE(arr == arr1);
+    ListSequence<int> arr3{};
+    ListSequence<int> arr4{};
+    EXPECT_TRUE(arr3 == arr4);
 }
 
 #endif //TEST_DB_LISTSEQUENCETESTS_H
