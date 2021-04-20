@@ -44,7 +44,7 @@ public:
         length = count;
     }
 
-    DynamicArray(const DynamicArray<T> &dynamicArray) {
+    DynamicArray(DynamicArray<T> const &dynamicArray) {
         length = dynamicArray.length;
         if (length > 0) {
             actual_array = new T[length]();

@@ -39,7 +39,7 @@ public:
             this->Append(item);
     }
 
-    ArraySequence(const ArraySequence<T> &list) {
+    ArraySequence(ArraySequence<T> const &list) {
         items = DynamicArray<T>(list.items);
     }
 
