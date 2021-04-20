@@ -10,9 +10,9 @@
 using namespace std;
 
 class Complex {
-private:
-    float real, imaginary;
 public:
+    float real, imaginary;
+
     Complex() : real(), imaginary() {}
 
     Complex(float real, float imaginary) {
@@ -65,9 +65,9 @@ public:
 
     friend ostream &operator<<(ostream &out, const Complex &x) {
         if (x.imaginary < 0)
-            out << x.real << "-i" << -x.imaginary;
+            out << "(" << x.real << x.imaginary << "*i)";
         else
-            out << x.real << "+i" << x.imaginary;
+            out << "(" << x.real << "+" << x.imaginary << "*i)";
         return out;
     }
 
@@ -81,7 +81,7 @@ public:
             throw runtime_error("Wrong input");
     }
 
-    bool operator==(Complex x) const { return !(*this != x); }
+    bool operator==(const Complex &x) const { return !(*this != x); }
 
     bool operator!=(const Complex &x) const {
         if (abs(this->real - x.real) >= numeric_limits<float>::epsilon() ||
@@ -99,11 +99,19 @@ public:
         return (*this != (float) x);
     }
 
-    bool operator>(float &num) const {
+    bool operator>(float num) const {
         if (this->real > num)
             return true;
         else
             return false;
+    }
+
+    bool operator<=(float num) const {
+        return !(*this > num);
+    }
+
+    bool operator<(float num) const {
+        return *this <= num && *this != Complex(num, 0.0);
     }
 
     bool operator>=(float num) const {

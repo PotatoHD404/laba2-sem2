@@ -28,15 +28,15 @@ private:
     }
 
     template<typename... Args, typename... Ts, template<typename> class Current, typename ElType>
-    static auto Zip(vector<tuple<Ts...>> &res, int min, Current<ElType> current, Args... args) {
+    static auto Zip(vector<tuple<Ts...>> &res, size_t min, Current<ElType> current, Args... args) {
         if constexpr (static_cast<ICollection<ElType> *>(&current) == nullptr)
             throw std::runtime_error("Wrong type");
         else {
-            int count = current.GetLength();
+            size_t count = current.GetLength();
             vector<tuple<Ts..., ElType>> res2;
             if (min > count)
                 min = count;
-            for (int i = 0; i < min; i++)
+            for (size_t i = 0; i < min; i++)
                 res2.push_back(tuple_cat(res.at(i), make_tuple(current[i])));
             if constexpr (sizeof...(Args) == 0) {
                 res2.resize(min);
@@ -46,11 +46,11 @@ private:
         }
     }
 
-    template<template<typename> typename ChildClass, int num, class Current, typename... Ts, typename... Args, typename... Ts1>
+    template<template<typename> typename ChildClass, size_t num, class Current, typename... Ts, typename... Args, typename... Ts1>
     static auto UnZip(vector<tuple<Ts1...>> &input, Args... args) {
-        int length = input.size();
+        size_t length = input.size();
         auto res = ChildClass<Current>();
-        for (int i = 0; i < length; i++)
+        for (size_t i = 0; i < length; i++)
             res.Append(get<num>(input.at(i)));
 
         if constexpr (sizeof...(Ts) == 0)
@@ -64,9 +64,9 @@ protected:
     Enumerable<T1> *Map(T1 (*mapper)(T)) {
         if (mapper == nullptr)
             throw std::invalid_argument("mapper is NULL");
-        int length = this->GetLength();
+        size_t length = this->GetLength();
         Enumerable<T1> *res = new ChildClass<T1>(length);
-        for (int i = 0; i < length; i++)
+        for (size_t i = 0; i < length; i++)
             res->At(i) = mapper(this->At(i));
         return res;
     }
@@ -76,7 +76,7 @@ protected:
         if (predicate == nullptr)
             throw std::invalid_argument("predicate is NULL");
         Enumerable<T> *res = new ChildClass<T>();
-        for (int i = 0; i < this->GetLength(); i++)
+        for (size_t i = 0; i < this->GetLength(); i++)
             if (predicate(this->At(i)))
                 res->Append(this->At(i));
         return res;
@@ -85,25 +85,25 @@ protected:
 public:
     Enumerable() {}
 
-    auto Split(int point) {
-        auto res = make_tuple(this->Subsequence(0, point), this->Subsequence(point + 1, this->GetLength() - 1));
+    auto Split(size_t posize_t) {
+        auto res = make_tuple(this->Subsequence(0, posize_t), this->Subsequence(posize_t + 1, this->GetLength() - 1));
         return res;
     }
 
     bool Contains(T item) {
-        for (int i = 0; i < this->GetLength(); ++i)
+        for (size_t i = 0; i < this->GetLength(); ++i)
             if (this->At(i) == item)
                 return true;
         return false;
     }
 
-    virtual Enumerable<T> *Subsequence(int begin, int end) = 0;
+    virtual Enumerable<T> *Subsequence(size_t begin, size_t end) = 0;
 
     T Reduce(T(*f)(T, T), T const c) {
         if (f == nullptr)
             throw std::invalid_argument("mapper is NULL");
         T res = c;
-        for (int i = 0; i < this->GetLength(); ++i) {
+        for (size_t i = 0; i < this->GetLength(); ++i) {
             res = f(this->At(i), res);
         }
         return res;
@@ -115,9 +115,9 @@ public:
         if constexpr(IsBadType(&current))
             throw std::runtime_error("Wrong type");
         else {
-            const int count = current.GetLength();
+            const size_t count = current.GetLength();
             vector<tuple<ElType>> res;
-            for (int i = 0; i < count; i++)
+            for (size_t i = 0; i < count; i++)
                 res.push_back(make_tuple(current[i]));
 
             return Zip(res, count, args...);
@@ -126,11 +126,11 @@ public:
 
     template<template<typename> typename ChildClass, typename... Args, typename Current, typename... Ts>
     static auto UnZip(vector<tuple<Current, Ts...>> input, Args... args) {
-        int length = input.size();
+        size_t length = input.size();
         if (length == 0)
             throw std::runtime_error("Wrong size of input vector");
         auto res = ChildClass<Current>();
-        for (int i = 0; i < length; i++)
+        for (size_t i = 0; i < length; i++)
             res.Append(get<0>(input.at(i)));
 
         if constexpr (sizeof...(Ts) == 0)

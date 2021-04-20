@@ -20,30 +20,34 @@ public:
         this->coefficients = ArraySequence<T>({x});
     }
 
-    Polynomial(T *items, int count) {
+    Polynomial(T *items, size_t count) {
         this->coefficients = ArraySequence<T>(items, count);
     }
 
     explicit Polynomial(ArraySequence<T> x) {
-        this->coefficients = ArraySequence<T>(x);
+        this->coefficients = ArraySequence<T>();
+        for (int i = 0; i < x.GetLength(); ++i)
+            coefficients.Prepend(x[i]);
     }
 
-    template<int N>
+    template<size_t N>
     explicit Polynomial(T (&items)[N]) : Polynomial(items, N) {}
 
     Polynomial(initializer_list<T> items) {
         this->coefficients = ArraySequence<T>();
         for (T item : items)
-            coefficients.Append(item);
+            coefficients.Prepend(item);
     }
 
-    T &At(int index) {
+    size_t GetDimension() { return coefficients.GetLength(); }
+
+    T &At(size_t index) {
         return this->coefficients[coefficients.GetLength() - 1 - index];
     }
 
     bool operator==(Polynomial<T> &x) { return x.coefficients == this->coefficients; }
 
-    T &operator[](unsigned int index) { return At(index); }
+    T &operator[](size_t index) { return At(index); }
 
     Polynomial(Polynomial<T> const &x) {
         this->coefficients = ArraySequence<T>(x.coefficients);
@@ -52,7 +56,7 @@ public:
     T Calculate(T x) {
         T res = coefficients[0];
         T tmp = x;
-        for (int i = 1; i < coefficients.GetLength(); ++i) {
+        for (size_t i = 1; i < coefficients.GetLength(); ++i) {
             res = res + coefficients[i] * x;
             tmp = tmp * x;
         }
@@ -61,17 +65,18 @@ public:
 
     Polynomial<T> operator*(T x) {
         Polynomial<T> res = Polynomial<T>(*this);
-        for (int i = 0; i < res.coefficients.GetLength(); ++i) {
+        for (size_t i = 0; i < res.coefficients.GetLength(); ++i) {
             res.coefficients[i] = res.coefficients[i] * x;
         }
         return res;
     }
 
-    Polynomial<T> operator*(Polynomial<T> x) const {
-        Polynomial<T> res = Polynomial<T>(*this);
-        for (int i = 0; i < res.coefficients.GetLength(); ++i) {
-            Polynomial<T> tmp = res * x.coefficients[i];
-            for (int j = 0; j < i; ++j) {
+    Polynomial<T> operator*(Polynomial<T> &x) const {
+        Polynomial<T> res = Polynomial<T>();
+        Polynomial<T> y = Polynomial<T>(*this);
+        for (size_t i = 0; i < x.coefficients.GetLength(); ++i) {
+            Polynomial<T> tmp = y * x.coefficients[i];
+            for (size_t j = 0; j < i; ++j) {
                 tmp.coefficients.Prepend(T());
             }
             res = res + tmp;
@@ -83,7 +88,7 @@ public:
     Polynomial<T> operator+(Polynomial<T> x) const {
         Polynomial<T> res = Polynomial<T>(*this);
 
-        for (int i = 0; i < res.coefficients.GetLength(); ++i) {
+        for (size_t i = 0; i < x.coefficients.GetLength(); ++i) {
             if (res.coefficients.GetLength() <= i)
                 res.coefficients.Append(x.coefficients[i]);
             else {
@@ -95,7 +100,7 @@ public:
 
     Polynomial<T> operator-() const {
         Polynomial<T> res = Polynomial<T>(*this);
-        for (int i = 0; i < this->coefficients.GetLength(); ++i) {
+        for (size_t i = 0; i < this->coefficients.GetLength(); ++i) {
             res.coefficients[i] = -this->coefficients[i];
         }
         return res;
@@ -106,15 +111,25 @@ public:
     }
 
 
-
     friend ostream &operator<<(ostream &out, Polynomial<T> x) {
-        for (int i = x.coefficients.GetLength() - 1; i > 0; --i) {
+        if(x.coefficients[x.coefficients.GetLength() - 1] < 0)
+            out << "-";
+        for (size_t i = x.coefficients.GetLength() - 1; i > 0; --i) {
             if (x.coefficients[i] != 0) {
-                out << x.coefficients[i] << "*x^" << i;
-                if (x.coefficients[i] >= 0.0f)
+                if (x.coefficients[i] < 0)
+                    x.coefficients[i] = -x.coefficients[i];
+                out << x.coefficients[i] << "*x";
+                if (i > 1)
+                    out << "^" << i;
+                if (x.coefficients[i - 1] >= 0.0f)
                     out << " + ";
+                else
+                    out << " - ";
             }
         }
+        if (x.coefficients[0] < 0)
+            x.coefficients[0] = -x.coefficients[0];
+        out << x.coefficients[0];
         return out;
     }
 

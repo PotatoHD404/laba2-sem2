@@ -16,7 +16,7 @@ class LinkedList {
 private:
     class Node;
 
-    int length;
+    size_t length;
     Node *head, *tail;
 
     class Node {
@@ -33,10 +33,10 @@ private:
 
     ///
     /// \param index - index of node
-    /// \return - pointer to the node of index
-    Node *GetNode(int index) {
+    /// \return - posize_ter to the node of index
+    Node *GetNode(size_t index) {
         Node *res = head;
-        for (int i = 0; i < index; i++) {
+        for (size_t i = 0; i < index; i++) {
             res = res->next;
         }
         return res;
@@ -46,17 +46,17 @@ private:
 public:
     //Creation of the object
     /// Generates empty LinkedList
-    LinkedList() : head(NULL), tail(NULL), length(0) {}
+    LinkedList() : head(NULL), tail(NULL), length() {}
 
 /// Generates LinkedList with some count of elements
 /// \param count - Number of elements in List
-    explicit LinkedList(int count) : LinkedList() {
-        if (count < 0)
+    explicit LinkedList(size_t count) : LinkedList() {
+        if (count >= 536870912)
             throw out_of_range("count < 0");
         if (count > 0) {
             head = new Node();
             Node *prev = head;
-            for (int i = 1; i < count; ++i) {
+            for (size_t i = 1; i < count; ++i) {
                 prev->next = new Node();
                 prev = prev->next;
             }
@@ -68,15 +68,15 @@ public:
     /// Generates LinkedList from array of items
     /// \param items - Array of elements
     /// \param count - Count of elements
-    LinkedList(T *items, int count) : LinkedList() {
-        if (count < 0)
+    LinkedList(T *items, size_t count) : LinkedList() {
+        if (count > 536870912)
             throw out_of_range("count < 0");
         if (items == NULL)
             throw invalid_argument("items is NULL");
         if (count > 0) {
             head = new Node(items[0]);
             Node *prev = head;
-            for (int i = 1; i < count; ++i) {
+            for (size_t i = 1; i < count; ++i) {
                 prev->next = new Node(items[i]);
                 prev = prev->next;
             }
@@ -123,7 +123,7 @@ public:
     ///  Returns element with index i from LinkedList
     /// \param index
     /// \return
-    T &At(int index) {
+    T &At(size_t index) {
         if (index < 0 || index >= length)
             throw out_of_range("index < 0 or index >= length");
         if (index == 0)
@@ -136,7 +136,7 @@ public:
     ///
     /// \param index
     /// \param value
-    void Set(int index, T value) {
+    void Set(size_t index, T value) {
         if (index < 0 || index >= length)
             throw range_error("index < 0 or index >= length");
         At(index) = value;
@@ -146,7 +146,7 @@ public:
     /// \param startIndex
     /// \param endIndex
     /// \return
-    LinkedList<T> GetSubList(int startIndex, int endIndex) {
+    LinkedList<T> GetSubList(size_t startIndex, size_t endIndex) {
         if (startIndex < 0 || startIndex >= length)
             throw range_error("index < 0 or index >= length");
         if (startIndex > endIndex)
@@ -155,7 +155,7 @@ public:
             throw range_error("endIndex >= length");
         LinkedList<T> res;
         Node *tmp = GetNode(startIndex);
-        for (int i = startIndex; i < endIndex + 1; ++i) {
+        for (size_t i = startIndex; i < endIndex + 1; ++i) {
             res.Append(tmp->data);
             tmp = tmp->next;
         }
@@ -164,14 +164,14 @@ public:
 
     ///
     /// \return
-    int GetLength() {
+    size_t GetLength() {
         return length;
     }
 
     ///
     /// \param index
     /// \return
-    T &operator[](unsigned int index) { return At(index); }
+    T &operator[](size_t index) { return At(index); }
 
     //Operations
 
@@ -236,7 +236,7 @@ public:
     ///
     /// \param item
     /// \param index
-    void InsertAt(T item, int index) {
+    void InsertAt(T item, size_t index) {
         if (index < 0 || index >= length)
             throw range_error("index < 0 or index >= length");
         if (index == length - 1) {
@@ -258,7 +258,7 @@ public:
 
     ///
     /// \param index
-    void RemoveAt(int index) {
+    void RemoveAt(size_t index) {
         if (index < 0 || index >= length)
             throw range_error("index < 0 or index >= length");
         if (index == length - 1) {
@@ -282,10 +282,10 @@ public:
     /// \return
     LinkedList<T> Concat(LinkedList<T> &list) {
         LinkedList<T> res;
-        for (int i = 0; i < length; ++i) {
+        for (size_t i = 0; i < length; ++i) {
             res.Append(this->At(i));
         }
-        for (int i = 0; i < list.length; ++i) {
+        for (size_t i = 0; i < list.length; ++i) {
             res.Append(list[i]);
         }
         return res;

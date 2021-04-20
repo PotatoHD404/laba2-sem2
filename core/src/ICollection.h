@@ -12,9 +12,9 @@ public:
 
     //Decomposition
 
-    virtual T &At(int index) = 0;
+    virtual T &At(size_t index) = 0;
 
-    virtual int GetLength() = 0;
+    virtual size_t GetLength() = 0;
 
     virtual bool Contains(T item) = 0;
 
@@ -23,7 +23,7 @@ public:
 
     virtual void Append(T item) = 0;
 
-    virtual void RemoveAt(int index) = 0;
+    virtual void RemoveAt(size_t index) = 0;
 
     virtual ~ICollection() = default;
 };
