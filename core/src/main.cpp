@@ -4,8 +4,9 @@
 
 #include <iostream>
 #include <sstream>
-#include "ArraySequence.h"
-#include "ListSequence.h"
+#include "Polynomial.h"
+#include "Complex.h"
+//#include "ListSequence.h"
 //#include "Enumerable.cpp"
 
 
@@ -14,15 +15,12 @@ using namespace std;
 
 const char *MSGS[] = {"0. Quit",
                       "1. Input polynomial",
-                      "2. Multiply polynomial",
-                      "3. Sum polynomial",
-                      "4. Print string",
-                      "5. Concat a and b",
-                      "6. Find string b in string a",
-                      "7. Run tests",
-                      "8. Clear error log",
-                      "9. Delete strings"};
+                      "2. Multiply polynomials",
+                      "3. Multiply polynomial on scalar",
+                      "4. Sum polynomials"};
 const char *MSGS1[] = {"0. Quit", "1. Poly a", "2. Poly b"};
+
+const char *MSGS2[] = {"0. Quit", "1. Int", "2. Float", "3. Complex"};
 //const char *MSGS2[] = {"0. Quit", "1. With case", "2. Without case"};
 
 
@@ -42,23 +40,13 @@ int Dialog(const char *(&msgs)[N]) {
     return choice;
 }
 
-template<typename T>
-T ReadFromString(const string &str) {
-    stringstream ss(str);
-    T t;
-    ss >> t;
-    if (ss.fail())
-        throw std::runtime_error("Cannot read string");
-    return t;
-}
 
-string ReadFromString(const string &str) {
-    return str;
-}
 template<typename T>
 void StartUI() {
     int res = 1;
     string tmp;
+    Polynomial<T> polyA;
+    Polynomial<T> polyB;
     while (res != 0) {
         res = Dialog(MSGS);
         switch (res) {
@@ -66,25 +54,85 @@ void StartUI() {
                 break;
             case 1:
                 res = Dialog(MSGS1);
-                cin >> tmp;
-                try {
-                    T input = ReadFromString(tmp);
+                if (res == 0)
+                    break;
+                else if (res == 1) {
+                    getline(cin, tmp);
+                    try {
+                        stringstream ss(tmp);
+                        T t;
+                        ArraySequence<T> arr = {};
+                        while (ss >> t) {
+                            arr.Append(t);
+                        }
+                        polyA = Polynomial(arr);
+                    }
+                    catch (exception) {
+                        cout << "Wrong input" << endl;
+                        break;
+                    }
+                } else if (res == 2) {
+                    getline(cin, tmp);
+                    try {
+                        stringstream ss(tmp);
+                        T t;
+                        ArraySequence<T> arr = {};
+                        while (ss >> t) {
+                            arr.Append(t);
+                        }
+                        polyB = Polynomial(arr);
+                    }
+                    catch (exception) {
+                        cout << "Wrong input" << endl;
+                        break;
+                    }
                 }
-                catch (exception){
-
-                }
+            case 2: {
+                cout << polyA * polyB << endl;
                 break;
-            default:
-                printf("How did you end up here?\n");
+            }
+            case 3: {
+                T scalar;
+                cin >> scalar;
+                cout << polyA * scalar << endl;
                 break;
+            }
+            case 4: {
+                cout << polyA + polyB << endl;
+                break;
+            }
+            default: {
+                cout << "How did you end up here?\n";
+                break;
+            }
         }
     }
 }
 
 
 int main() {
-//    StartUI();
-
+    int res = 1;
+    cout << "Enter data type" << endl;
+    while (res != 0) {
+        res = Dialog(MSGS2);
+        switch (res) {
+            case 0:
+                break;
+            case 1:
+                StartUI<int>();
+                break;
+            case 2:
+                StartUI<float>();
+                break;
+            case 3:
+                StartUI<Complex>();
+                break;
+            default: {
+                cout << "How did you end up here?\n";
+                break;
+            }
+        }
+    }
 
     return 0;
 }

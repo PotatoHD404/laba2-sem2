@@ -13,12 +13,19 @@ private:
     ArraySequence<T> coefficients;
 
 public:
-    Polynomial() {
-        this->coefficients = ArraySequence<T>({T()});
+    Polynomial() : Polynomial(T()) {
+    }
+
+    explicit Polynomial(T x) {
+        this->coefficients = ArraySequence<T>({x});
     }
 
     Polynomial(T *items, int count) {
         this->coefficients = ArraySequence<T>(items, count);
+    }
+
+    explicit Polynomial(ArraySequence<T> x) {
+        this->coefficients = ArraySequence<T>(x);
     }
 
     template<int N>
@@ -30,41 +37,16 @@ public:
             coefficients.Append(item);
     }
 
+    T &At(int index) {
+        return this->coefficients[coefficients.GetLength() - 1 - index];
+    }
+
+    bool operator==(Polynomial<T> &x) { return x.coefficients == this->coefficients; }
+
+    T &operator[](unsigned int index) { return At(index); }
+
     Polynomial(Polynomial<T> const &x) {
         this->coefficients = ArraySequence<T>(x.coefficients);
-    }
-
-    Polynomial<T> Multiply(T x) {
-        Polynomial<T> res = Polynomial<T>(*this);
-        for (int i = 0; i < this->coefficients.GetLength(); ++i) {
-            res.coefficients[i] = res.coefficients[i] * x;
-        }
-        return res;
-    }
-
-    Polynomial<T> Multiply(Polynomial<T> &x) {
-        Polynomial<T> res = Polynomial<T>();
-        for (int i = 0; i < this->coefficients.GetLength(); ++i) {
-            Polynomial<T> tmp = res * x.coefficients[i];
-            for (int j = 0; j < i; ++j) {
-                tmp.coefficients.Prepend();
-            }
-            res = res + tmp;
-        }
-        return res;
-    }
-
-    Polynomial<T> Sum(Polynomial<T> &x) {
-        Polynomial<T> res = Polynomial<T>(*this);
-
-        for (int i = 0; i < this->coefficients.GetLength(); ++i) {
-            if (res.coefficients.GetLength() <= i)
-                res.Append(T());
-            else {
-                res.coefficients[i] = res.coefficients[i] * x;
-            }
-        }
-        return res;
     }
 
     T Calculate(T x) {
@@ -77,8 +59,38 @@ public:
         return res;
     }
 
-    Polynomial<T> operator+(const Polynomial<T> &x) const {
-        return this->Sum(x);
+    Polynomial<T> operator*(T x) {
+        Polynomial<T> res = Polynomial<T>(*this);
+        for (int i = 0; i < res.coefficients.GetLength(); ++i) {
+            res.coefficients[i] = res.coefficients[i] * x;
+        }
+        return res;
+    }
+
+    Polynomial<T> operator*(Polynomial<T> x) const {
+        Polynomial<T> res = Polynomial<T>(*this);
+        for (int i = 0; i < res.coefficients.GetLength(); ++i) {
+            Polynomial<T> tmp = res * x.coefficients[i];
+            for (int j = 0; j < i; ++j) {
+                tmp.coefficients.Prepend(T());
+            }
+            res = res + tmp;
+        }
+        return res;
+    }
+
+
+    Polynomial<T> operator+(Polynomial<T> x) const {
+        Polynomial<T> res = Polynomial<T>(*this);
+
+        for (int i = 0; i < res.coefficients.GetLength(); ++i) {
+            if (res.coefficients.GetLength() <= i)
+                res.coefficients.Append(x.coefficients[i]);
+            else {
+                res.coefficients[i] = res.coefficients[i] + x.coefficients[i];
+            }
+        }
+        return res;
     }
 
     Polynomial<T> operator-() const {
@@ -93,19 +105,13 @@ public:
         return this->Sum(-x);
     }
 
-    Polynomial<T> operator*(T &x) const {
-        return Multiply(x);
-    }
 
-    Polynomial<T> operator*(Polynomial<T> &x) const {
-        return Multiply(x);
-    }
 
-    friend ostream &operator<<(ostream &out, const Polynomial<T> &x) {
+    friend ostream &operator<<(ostream &out, Polynomial<T> x) {
         for (int i = x.coefficients.GetLength() - 1; i > 0; --i) {
             if (x.coefficients[i] != 0) {
                 out << x.coefficients[i] << "*x^" << i;
-                if (x.coefficients[i] > 0)
+                if (x.coefficients[i] >= 0.0f)
                     out << " + ";
             }
         }

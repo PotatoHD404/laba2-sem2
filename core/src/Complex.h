@@ -71,14 +71,52 @@ public:
         return out;
     }
 
-    bool operator==(Complex &x) const { return !(*this != x); }
+    friend istream &operator>>(istream &in, Complex &x) {
+        string str;
+        stringstream ss(str);
+        in >> str;
+        if (ss >> x.real && ss >> x.imaginary)
+            return in;
+        else
+            throw runtime_error("Wrong input");
+    }
 
-    bool operator!=(Complex &x) const {
-        if (this->real != x.real || this->imaginary != x.imaginary)
+    bool operator==(Complex x) const { return !(*this != x); }
+
+    bool operator!=(const Complex &x) const {
+        if (abs(this->real - x.real) >= numeric_limits<float>::epsilon() ||
+            abs(this->imaginary - x.imaginary) >= numeric_limits<float>::epsilon())
             return true;
         else
             return false;
     }
+
+    bool operator!=(float x) const {
+        return (*this != Complex(x, 0));
+    }
+
+    bool operator!=(int x) const {
+        return (*this != (float) x);
+    }
+
+    bool operator>(float &num) const {
+        if (this->real > num)
+            return true;
+        else
+            return false;
+    }
+
+    bool operator>=(float num) const {
+        return *this > num || *this == Complex(num, 0.0);
+    }
+
+    bool operator<(float &num) const {
+        if (this->real < num)
+            return true;
+        else
+            return false;
+    }
+
 
 };
 
