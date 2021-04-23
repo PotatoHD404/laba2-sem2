@@ -6,7 +6,7 @@
 #define LABA2_IENUMERATOR_H
 
 template<class T>
-/*interface*/
+/*size_terface*/
 class IEnumerator {
 public:
     virtual T &GetCurrent() = 0;
@@ -15,7 +15,7 @@ public:
 
     virtual void Reset() = 0;
 
-    virtual int GetLength() = 0;
+    virtual size_t GetLength() = 0;
 
     virtual ~IEnumerator() {};
 };

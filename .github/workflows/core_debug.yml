@@ -46,6 +46,22 @@ jobs:
         # Execute the build.  You can specify a specific target with "--target <NAME>"
         run: cmake --build . --config $BUILD_TYPE --target Tests
 
+      - name: Generate code coverage reports
+        working-directory: ${{github.workspace}}/build/Tests/CMakeFiles/Tests.dir
+        shell: bash
+        # Execute the build.  You can specify a specific target with "--target <NAME>"
+        #        run: gcov --xml main.gcno
+        run: |
+          lcov --directory . --capture --output-file coverage.info &&\
+          lcov --remove coverage.info '/usr/*' "${HOME}"'/.cache/*' '${{github.workspace}}/core/src/Tests/*' --output-file coverage.info &&\
+          lcov --list coverage.info &&\
+          mkdir ${{github.workspace}}/coverage && cp coverage.info ${{github.workspace}}/coverage/lcov.info
+          #          bash <(curl -s https://codecov.io/bash) -f coverage.info || echo "Codecov did not collect coverage reports"
+          - name: Publish to coveralls.io
+            uses: coverallsapp/github-action@v1.1.2
+            with:
+              github-token: ${{ github.token }}
+
       - name: Test
         working-directory: ${{github.workspace}}/build
         shell: bash
@@ -59,21 +75,6 @@ jobs:
         # Execute the build.  You can specify a specific target with "--target <NAME>"
         run: cmake --build . --config $BUILD_TYPE --target Laba2
 
-      - name: Generate code coverage reports
-        working-directory: ${{github.workspace}}/build/Tests/CMakeFiles/Tests.dir
-        shell: bash
-        # Execute the build.  You can specify a specific target with "--target <NAME>"
-#        run: gcov --xml main.gcno
-        run: |
-          lcov --directory . --capture --output-file coverage.info &&\
-          lcov --remove coverage.info '/usr/*' "${HOME}"'/.cache/*' '${{github.workspace}}/core/src/Tests/*' --output-file coverage.info &&\
-          lcov --list coverage.info &&\
-          mkdir ${{github.workspace}}/coverage && cp coverage.info ${{github.workspace}}/coverage/lcov.info
-#          bash <(curl -s https://codecov.io/bash) -f coverage.info || echo "Codecov did not collect coverage reports"
-      - name: Publish to coveralls.io
-        uses: coverallsapp/github-action@v1.1.2
-        with:
-          github-token: ${{ github.token }}
 
 
 #  - lcov --directory . --capture --output-file coverage.info

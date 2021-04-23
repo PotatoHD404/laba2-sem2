@@ -23,15 +23,17 @@ public:
         items = DynamicArray<T>();
     }
 
-    explicit ArraySequence(int count) {
+    explicit ArraySequence(size_t count) {
         items = DynamicArray<T>(count);
     }
 
-    ArraySequence(T *items, int count) {
+    explicit ArraySequence(int count) : ArraySequence((size_t) count) {}
+
+    ArraySequence(T *items, size_t count) {
         this->items = DynamicArray<T>(items, count);
     }
 
-    template<int N>
+    template<size_t N>
     explicit ArraySequence(T (&items)[N]) : ArraySequence(items, N) {}
 
     ArraySequence(initializer_list<T> items) : ArraySequence() {
@@ -39,7 +41,7 @@ public:
             this->Append(item);
     }
 
-    ArraySequence(const ArraySequence<T> &list) {
+    ArraySequence(ArraySequence<T> const &list) {
         items = DynamicArray<T>(list.items);
     }
 
@@ -52,19 +54,19 @@ public:
     explicit ArraySequence(const ArraySequence<T> *list) : ArraySequence(*list) {
     }
 
-    explicit ArraySequence(const unique_ptr<Sequence<int>> &list) : ArraySequence(list.get()) {
+    explicit ArraySequence(const unique_ptr<Sequence<T>> &list) : ArraySequence(list.get()) {
     }
 
-    explicit ArraySequence(const unique_ptr<ArraySequence<int>> &list) : ArraySequence(*list) {
+    explicit ArraySequence(const unique_ptr<ArraySequence<T>> &list) : ArraySequence(*list) {
     }
 
     //Decomposition
 
-    T &At(int index) {
+    T &At(size_t index) {
         return items.At(index);
     }
 
-    ArraySequence<T> *GetSubsequence(int startIndex, int endIndex) {
+    ArraySequence<T> *GetSubsequence(size_t startIndex, size_t endIndex) {
         if (startIndex < 0 || startIndex >= items.GetLength())
             throw range_error("index < 0 or index >= length");
         if (startIndex > endIndex)
@@ -72,17 +74,17 @@ public:
         if (endIndex >= items.GetLength())
             throw range_error("endIndex >= length");
         ArraySequence<T> *res = new ArraySequence<T>();
-        for (int i = startIndex; i < endIndex + 1; ++i) {
+        for (size_t i = startIndex; i < endIndex + 1; ++i) {
             res->Append(items.At(i));
         }
         return res;
     }
 
-    int GetLength() {
+    size_t GetLength() {
         return items.GetLength();
     }
 
-    ArraySequence<T> *Subsequence(int startIndex, int endIndex) {
+    ArraySequence<T> *Subsequence(size_t startIndex, size_t endIndex) {
         if (startIndex < 0 || startIndex >= items.GetLength())
             throw range_error("index < 0 or index >= length");
         if (startIndex > endIndex)
@@ -95,10 +97,10 @@ public:
     }
 
     bool operator==(ArraySequence<T> &list) {
-        int len = list.GetLength();
+        size_t len = list.GetLength();
         if (len != this->items.GetLength())
             return false;
-        for (int i = 0; i < len; ++i)
+        for (size_t i = 0; i < len; ++i)
             if (this->At(i) != list.At(i))
                 return false;
 
@@ -111,8 +113,9 @@ public:
     ArraySequence<T1> *Init() const {
         return new ArraySequence<T1>();
     }
+
     template<typename T1>
-    ArraySequence<T1> *Init(int count) const {
+    ArraySequence<T1> *Init(size_t count) const {
         return new ArraySequence<T1>(count);
     }
 
@@ -123,16 +126,16 @@ public:
 
     void Prepend(T item) {
         items.Resize(items.GetLength() + 1);
-        for (int i = items.GetLength() - 1; i > 0; --i) {
+        for (size_t i = items.GetLength() - 1; i > 0; --i) {
             items.Set(i, items.At(i - 1));
         }
         items.Set(0, item);
     }
 
-    void InsertAt(T item, int index) {
+    void InsertAt(T item, size_t index) {
         items.Resize(items.GetLength() + 1);
 
-        for (int i = items.GetLength() - 1; i > index; --i) {
+        for (size_t i = items.GetLength() - 1; i > index; --i) {
             items.Set(i, items[i - 1]);
         }
         if (items.GetLength() - 2 != index)
@@ -143,10 +146,10 @@ public:
 
     ArraySequence<T> *Concat(Sequence<T> &list) {
         ArraySequence<T> *res = new ArraySequence<T>();
-        for (int i = 0; i < items.GetLength(); ++i) {
+        for (size_t i = 0; i < items.GetLength(); ++i) {
             res->Append(items[i]);
         }
-        for (int i = 0; i < list.GetLength(); ++i) {
+        for (size_t i = 0; i < list.GetLength(); ++i) {
             res->Append(list[i]);
         }
         return res;
@@ -157,7 +160,7 @@ public:
     }
 
     void PopFirst() {
-        for (int i = 0; i < items.GetLength() - 1; ++i) {
+        for (size_t i = 0; i < items.GetLength() - 1; ++i) {
             items.Set(i, items[i + 1]);
         }
         items.Resize(items.GetLength() - 1);
@@ -167,10 +170,10 @@ public:
         items.Resize(items.GetLength() - 1);
     }
 
-    void RemoveAt(int index) {
+    void RemoveAt(size_t index) {
         if (index < 0 || index >= items.GetLength())
             throw range_error("index < 0 or index >= length");
-        for (int i = index; i < items.GetLength() - 1; ++i) {
+        for (size_t i = index; i < items.GetLength() - 1; ++i) {
             items.Set(i, items[i + 1]);
         }
         items.Resize(items.GetLength() - 1);
@@ -178,14 +181,16 @@ public:
 
     template<typename T1>
     ArraySequence<T1> Map(T1 (*mapper)(T)) {
-        ArraySequence<T1> *res = dynamic_cast<ArraySequence<T1> *>(Enumerable<T>::template Map<T1, ArraySequence>(mapper));
+        ArraySequence<T1> *res = dynamic_cast<ArraySequence<T1> *>(Enumerable<T>::template Map<T1, ArraySequence>(
+                mapper));
         auto res1 = ArraySequence<T1>(res);
         delete res;
         return res1;
     }
 
     ArraySequence<T> Where(bool(*predicate)(T)) {
-        ArraySequence<T> *res = dynamic_cast<ArraySequence<T> *>(Enumerable<T>::template Where<ArraySequence>(predicate));
+        ArraySequence<T> *res = dynamic_cast<ArraySequence<T> *>(Enumerable<T>::template Where<ArraySequence>(
+                predicate));
         auto res1 = ArraySequence<T>(res);
         delete res;
         return res1;
