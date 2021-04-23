@@ -25,11 +25,13 @@ public:
         items = LinkedList<T>();
     }
 
-    explicit ListSequence(int count) {
+    explicit ListSequence(int count) : ListSequence((size_t) count) {}
+
+    explicit ListSequence(size_t count) {
         items = LinkedList<T>(count);
     }
 
-    ListSequence(T *items, int count) {
+    ListSequence(T *items, size_t count) {
         this->items = LinkedList<T>(items, count);
     }
 
@@ -37,7 +39,7 @@ public:
         items = LinkedList<T>(list.items);
     }
 
-    template<int N>
+    template<size_t N>
     explicit ListSequence(T (&items)[N]) : ListSequence(items, N) {}
 
     ListSequence(initializer_list<T> items) : ListSequence() {
@@ -58,19 +60,19 @@ public:
     explicit ListSequence(const ListSequence<T> *list) : ListSequence(*list) {
     }
 
-    explicit ListSequence(const unique_ptr<Sequence<int>> &list) : ListSequence(list.get()) {
+    explicit ListSequence(const unique_ptr<Sequence<T>> &list) : ListSequence(list.get()) {
     }
 
-    explicit ListSequence(const unique_ptr<ListSequence<int>> &list) : ListSequence(*list) {
+    explicit ListSequence(const unique_ptr<ListSequence<T>> &list) : ListSequence(*list) {
     }
 
     //Decomposition
 
-    T &At(int index) {
+    T &At(size_t index) {
         return items.At(index);
     }
 
-    ListSequence<T> *Subsequence(int startIndex, int endIndex) {
+    ListSequence<T> *Subsequence(size_t startIndex, size_t endIndex) {
         if (startIndex < 0 || startIndex >= items.GetLength())
             throw range_error("index < 0 or index >= length");
         if (startIndex > endIndex)
@@ -82,15 +84,15 @@ public:
         return res;
     }
 
-    int GetLength() {
+    size_t GetLength() {
         return items.GetLength();
     }
 
     bool operator==(ListSequence<T> list) {
-        int len = list.GetLength();
+        size_t len = list.GetLength();
         if (len != this->items.GetLength())
             return false;
-        for (int i = 0; i < len; ++i)
+        for (size_t i = 0; i < len; ++i)
             if (this->At(i) != list.At(i))
                 return false;
 
@@ -112,7 +114,7 @@ public:
     }
 
     template<typename T1>
-    ListSequence<T1> *Init(int count) const {
+    ListSequence<T1> *Init(size_t count) const {
         return new ListSequence<T1>(count);
     }
 
@@ -143,7 +145,7 @@ public:
         items.Prepend(item);
     }
 
-    void InsertAt(T item, int index) {
+    void InsertAt(T item, size_t index) {
         items.InsertAt(item, index);
     }
 
@@ -155,7 +157,7 @@ public:
         items.PopLast();
     }
 
-    void RemoveAt(int index) {
+    void RemoveAt(size_t index) {
         if (index < 0 || index >= items.GetLength())
             throw range_error("index < 0 or index >= length");
         items.RemoveAt(index);
@@ -163,10 +165,10 @@ public:
 
     ListSequence<T> *Concat(Sequence<T> &list) {
         ListSequence<T> *res = new ListSequence<T>();
-        for (int i = 0; i < items.GetLength(); ++i) {
+        for (size_t i = 0; i < items.GetLength(); ++i) {
             res->Append(items.At(i));
         }
-        for (int i = 0; i < list.GetLength(); ++i) {
+        for (size_t i = 0; i < list.GetLength(); ++i) {
             res->Append(list[i]);
         }
         return res;

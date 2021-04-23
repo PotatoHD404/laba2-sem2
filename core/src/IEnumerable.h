@@ -10,13 +10,13 @@
 #include "ICollection.h"
 
 template<class T>
-/*interface*/
+/*size_terface*/
 class IEnumerable {
 protected:
     class Enumerator : public IEnumerator<T> {
     private:
         ICollection<T> *items;
-        int pos;
+        size_t pos;
 
     public:
         explicit Enumerator(ICollection<T> *arr) {
@@ -28,7 +28,7 @@ protected:
             return items->At(pos);
         }
 
-        int GetLength() {
+        size_t GetLength() {
             return items->GetLength();
         }
 

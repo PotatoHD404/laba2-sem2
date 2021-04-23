@@ -137,17 +137,42 @@ def clear():
                          token=token).first().content if exists else '').replace('\n', '\r\n')})
 
 
+# @socketio.on('command')
+# def command():
+#     emit('log', str(clientsList))
+
+
 @socketio.on('command')
-def command():
-    emit('log', str(clientsList))
-
-
-@socketio.on('tests')
-def tests():
+def tests(json):
+    types = {'int': 1, 'float': 2, 'complex': 3}
+    polys = {'a': 1, 'b': 2}
+    commands = ''
+    if json['command'] == 'start':
+        commands = ['cd /app', './Laba2']
+    elif json['command'] == 'quit':
+        commands = ['0']
+    elif json['command'] == 'type':
+        commands = [types[json["type"]]]
+    elif json['command'] == 'input':
+        commands = ['1', types[json['poly']]]
+    elif json['command'] == 'multiply':
+        commands = ['2']
+    elif json['command'] == 'scalar multiply':
+        commands = ['3', types[json['poly']], json['scalar']]
+    elif json['command'] == 'sum':
+        commands = ['4']
+    elif json['command'] == 'print':
+        commands = ['5', types[json['poly']]]
+    elif json['command'] == 'tests':
+        commands = ['cd /app', './Tests --gtest_repeat=1']
     channel = clientsList[session['token']][0]
-    channel.sendall('cd /app\n')
-    channel.sendall('./Tests --gtest_repeat=1\n')
-    emit('log', 'tests started')
+    channel.sendall('\n'.join(commands) + '\n')
+    # emit('log', 'tests started')
+
+
+# @socketio.on('tests')
+# def tests():
+#     channel = clientsList[session['token']][0]
 
 
 if __name__ == '__main__':
