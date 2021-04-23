@@ -110,15 +110,29 @@ public:
         return this->Sum(-x);
     }
 
+    friend istream &operator>>(istream &in, Polynomial &poly) {
+        string tmp;
+        getline(in, tmp);
+        stringstream ss(tmp);
+        T t;
+        poly.coefficients = ArraySequence<T>();
+        while (ss >> t) {
+            poly.coefficients.Prepend(t);
+        }
+        return in;
+    }
 
     friend ostream &operator<<(ostream &out, Polynomial<T> x) {
-        if(x.coefficients[x.coefficients.GetLength() - 1] < 0)
+        if (x.coefficients[x.coefficients.GetLength() - 1] < 0)
             out << "-";
         for (size_t i = x.coefficients.GetLength() - 1; i > 0; --i) {
             if (x.coefficients[i] != 0) {
                 if (x.coefficients[i] < 0)
                     x.coefficients[i] = -x.coefficients[i];
-                out << x.coefficients[i] << "*x";
+                if (x.coefficients[i] != 1)
+                    out << x.coefficients[i] << "*";
+                out << "x";
+
                 if (i > 1)
                     out << "^" << i;
                 if (x.coefficients[i - 1] >= 0.0f)
@@ -132,8 +146,6 @@ public:
         out << x.coefficients[0];
         return out;
     }
-
-
 };
 
 #endif //TEST_DB_POLYNOMIAL_H

@@ -71,15 +71,22 @@ public:
         return out;
     }
 
-    friend istream &operator>>(istream &in, Complex &x) {
-        string str;
-        stringstream ss(str);
-        in >> str;
-        if (ss >> x.real && ss >> x.imaginary)
-            return in;
-        else
-            throw runtime_error("Wrong input");
+    friend istream &operator>>(istream &in, Complex &complex) {
+        in >> complex.real;
+        in >> complex.imaginary;
+        return in;
     }
+
+//    friend istream &operator>>(istream &in, Complex &x) {
+//        string str;
+//        in >> str;
+//        stringstream ss(str);
+//
+//        if (in >> x.real && in >> x.imaginary)
+//            return in;
+//        else
+//            throw std::runtime_error("Wrong input");
+//    }
 
     bool operator==(const Complex &x) const { return !(*this != x); }
 

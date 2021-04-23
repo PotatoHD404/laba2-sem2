@@ -59,23 +59,12 @@ void StartUI() {
                     res = 1;
                     break;
                 }
-                getline(cin, tmp);
-                getline(cin, tmp);
-                try {
-                    stringstream ss(tmp);
-                    T t;
-                    ArraySequence<T> arr = {};
-                    while (ss >> t) {
-                        arr.Append(t);
-                    }
-                    if (res == 1)
-                        polyA = Polynomial(arr);
-                    else
-                        polyB = Polynomial(arr);
-                }
-                catch (exception) {
-                    cout << "Wrong input" << endl;
-                }
+                scanf("\n");
+                scanf("\n");
+                if (res == 1)
+                    cin >> polyA;
+                else
+                    cin >> polyB;
                 break;
 
             case 2: {
@@ -83,10 +72,14 @@ void StartUI() {
                 break;
             }
             case 3: {
-                cout << "Enter a scalar" << endl;
+                res = Dialog(MSGS1);
+                cout << "Enter a scalar:" << endl;
                 T scalar;
                 cin >> scalar;
-                cout << polyA * scalar << endl;
+                if (res == 1)
+                    cout << polyA * scalar << endl;
+                else
+                    cout << polyB * scalar << endl;
                 break;
             }
             case 4: {
@@ -133,8 +126,28 @@ int main() {
             cout << "How did you end up here?\n";
             break;
         }
-
     }
+
+//    ArraySequence<Complex> arr = {};
+//    string tmp;
+////    Complex a;
+//    getline(cin, tmp);
+//    stringstream ss(tmp);
+////    stringstream ss(tmp);
+//    Complex t;
+//    ArraySequence<Complex> arr = {};
+////    while (cin >> t) {
+////        arr.Append(t);
+////    }
+//
+////    stringstream ss(tmp);
+//    while(ss >> t){
+//        cout << t << endl;
+//    }
+//    arr.Append(t);
+////    arr.Append(a);
+//    auto polyA = Polynomial(arr);
+//    cout << polyA[0];
 
     return 0;
 }
