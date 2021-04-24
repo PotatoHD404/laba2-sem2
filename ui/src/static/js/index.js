@@ -6,7 +6,7 @@ socket.on("connect", function () {
 });
 
 socket.on("refresh", function (data) {
-    document.getElementById("token").innerText = data.token
+    // document.getElementById("token").innerText = data.token
     document.getElementById("consoleOutput").innerHTML = data.text
     let textarea = document.getElementById("consoleOutput");
     let temp = textarea.scrollTop;
@@ -28,10 +28,52 @@ function ClearConsole() {
     socket.emit("clear");
 }
 
-function RunTests() {
-    socket.emit("tests");
+function Command(command) {
+    let json = {
+        "command": command
+    };
+    if (command === "input") {
+        json["poly"] = document.getElementById("setSelect").value;
+        json["input"] = document.getElementById("setInput").value;
+    } else if (command === "scalarMultiply") {
+        json["poly"] = document.getElementById("scalarMultiplySelect").value;
+        json["scalar"] = document.getElementById("scalarMultiplyInput").value;
+    } else if (command === "calc") {
+        json["poly"] = document.getElementById("calcPolySelect").value;
+        json["x"] = document.getElementById("calcPolyInput").value;
+    } else if (command === "scalar multiply") {
+        json["poly"] = document.getElementById("scalarMultiplySelect").value;
+        json["scalar"] = document.getElementById("scalarMultiplyInput").value;
+    } else if (command === "type") {
+        json["type"] = document.getElementById("typeSelect").value;
+        document.getElementById("type").classList.toggle("d-none");
+        document.getElementById("menu").classList.toggle("d-none");
+    }
+    socket.emit("command", json);
 }
 
-function Command() {
-    socket.emit("command");
-}
+// function RunTests(){
+//     // document.getElementById("consoleOutput").classList.remove("d-none");
+// }
+// function CommandPoly(command) {
+//     let json = {
+//         "command": command,
+//         "poly": poly
+//     };
+//     socket.emit("command", json);
+// }
+//
+// // socket.emit("command",);
+// // }
+//
+// function CommandScalar(command, poly, scalar) {
+//     let json = {
+//         "command": command,
+//         "poly": poly,
+//         "scalar": scalar
+//     };
+//     socket.emit("command", json);
+// }
+
+// socket.emit("command",);
+// }

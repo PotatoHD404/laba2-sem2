@@ -18,7 +18,8 @@ const char *MSGS[] = {"0. Quit",
                       "2. Multiply polynomials",
                       "3. Multiply polynomial on scalar",
                       "4. Sum polynomials",
-                      "5. Print polynomial"};
+                      "5. Calculate in point",
+                      "6. Print polynomial"};
 const char *MSGS1[] = {"0. Quit", "1. Poly a", "2. Poly b"};
 
 const char *MSGS2[] = {"0. Quit", "1. Int", "2. Float", "3. Complex"};
@@ -54,12 +55,12 @@ void StartUI() {
             case 0:
                 break;
             case 1:
+                scanf("\n");
                 res = Dialog(MSGS1);
                 if (res == 0) {
                     res = 1;
                     break;
                 }
-                scanf("\n");
                 scanf("\n");
                 if (res == 1)
                     cin >> polyA;
@@ -74,12 +75,19 @@ void StartUI() {
             case 3: {
                 res = Dialog(MSGS1);
                 cout << "Enter a scalar:" << endl;
+
                 T scalar;
-                cin >> scalar;
-                if (res == 1)
-                    cout << polyA * scalar << endl;
-                else
-                    cout << polyB * scalar << endl;
+                try {
+                    cin >> scalar;
+                    if (res == 1)
+                        cout << polyA * scalar << endl;
+                    else
+                        cout << polyB * scalar << endl;
+                }
+                catch (exception) {
+                    cout << "Wrong input" << endl;
+                }
+
                 break;
             }
             case 4: {
@@ -87,6 +95,24 @@ void StartUI() {
                 break;
             }
             case 5: {
+                res = Dialog(MSGS1);
+                cout << "Enter a number:" << endl;
+
+                T x;
+                try {
+                    cin >> x;
+                    if (res == 1)
+                        cout << polyA.Calculate(x) << endl;
+                    else
+                        cout << polyB.Calculate(x) << endl;
+                }
+                catch (exception) {
+                    cout << "Wrong input" << endl;
+                }
+                break;
+            }
+
+            case 6: {
                 res = Dialog(MSGS1);
                 if (res == 0) {
                     res = 1;

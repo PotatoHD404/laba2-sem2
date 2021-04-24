@@ -7,6 +7,7 @@ from flask_session import Session
 from datetime import datetime
 from secrets import token_urlsafe
 import paramiko
+import re
 
 eventlet.monkey_patch()
 
@@ -35,6 +36,7 @@ def bg_emit():
 
         if channel.recv_ready():
             tmp = channel.recv(4096)
+        # noinspection PyTypeChecker
         while len(tmp) == 4096:
             res += tmp.decode('utf-8')
             tmp = channel.recv(4096)
@@ -110,7 +112,7 @@ def connect():
         channel = client.get_transport().open_session()
         channel.invoke_shell()
         clientsList[token] = [channel, request.sid]
-
+        channel.sendall('\n'.join(['cd /app', './Laba2']) + '\n')
     emit('refresh', {'token': token,
                      'text': (ConsoleText.query.filter_by(
                          token=token).first().content if exists else '').replace('\n', '\r\n')})
@@ -125,18 +127,6 @@ def disconnect():
     print('Client disconnected')
 
 
-@socketio.on('clear')
-def clear():
-    token = session['token']
-    exists = len(ConsoleText.query.filter_by(token=token).all()) > 0
-    if exists:
-        ConsoleText.query.filter_by(token=token).first().content = ''
-        db.session.commit()
-    emit('refresh', {'token': token,
-                     'text': (ConsoleText.query.filter_by(
-                         token=token).first().content if exists else '').replace('\n', '\r\n')})
-
-
 # @socketio.on('command')
 # def command():
 #     emit('log', str(clientsList))
@@ -147,26 +137,55 @@ def tests(json):
     types = {'int': 1, 'float': 2, 'complex': 3}
     polys = {'a': 1, 'b': 2}
     commands = ''
-    if json['command'] == 'start':
-        commands = ['cd /app', './Laba2']
-    elif json['command'] == 'quit':
-        commands = ['0']
-    elif json['command'] == 'type':
-        commands = [types[json["type"]]]
-    elif json['command'] == 'input':
-        commands = ['1', types[json['poly']]]
-    elif json['command'] == 'multiply':
-        commands = ['2']
-    elif json['command'] == 'scalar multiply':
-        commands = ['3', types[json['poly']], json['scalar']]
-    elif json['command'] == 'sum':
-        commands = ['4']
-    elif json['command'] == 'print':
-        commands = ['5', types[json['poly']]]
-    elif json['command'] == 'tests':
-        commands = ['cd /app', './Tests --gtest_repeat=1']
-    channel = clientsList[session['token']][0]
-    channel.sendall('\n'.join(commands) + '\n')
+    try:
+        # if json['command'] == 'start':
+        #     commands = ['cd /app', './Laba2']
+        # elif json['command'] == 'quit':
+        #     commands = ['0']
+        if json['command'] == 'type':
+            commands = [types[json["type"]]]
+        elif json['command'] == 'input':
+            if re.match(r"^(([0-9](\.[0-9]+)?)( ([0-9](\.[0-9]+)?))?)*$", json["input"]):
+                commands = ['1', types[json['poly']], json['input']]
+        elif json['command'] == 'multiply':
+            commands = ['2']
+        elif json['command'] == 'scalarMultiply':
+            if re.match(r"^([0-9](\.[0-9]+)?)( ([0-9](\.[0-9]+)?))?$", json['scalar']):
+                commands = ['3', types[json['poly']], json['scalar']]
+        elif json['command'] == 'calc':
+            if re.match(r"^([0-9](\.[0-9]+)?)( ([0-9](\.[0-9]+)?))?$", json['x']):
+                commands = ['5', types[json['poly']], json['x']]
+        elif json['command'] == 'sum':
+            commands = ['4']
+        elif json['command'] == 'print':
+            commands = ['6', types[json['poly']]]
+        elif json['command'] == 'tests':
+            commands = ['cd /app', './Tests --gtest_repeat=1']
+        elif json['command'] == 'clear':
+            token = session['token']
+            exists = len(ConsoleText.query.filter_by(token=token).all()) > 0
+            if exists:
+                ConsoleText.query.filter_by(token=token).first().content = ''
+                db.session.commit()
+            emit('refresh', {'token': token,
+                             'text': (ConsoleText.query.filter_by(
+                                 token=token).first().content if exists else '').replace('\n', '\r\n')})
+            return
+    except:
+        pass
+    if commands == '':
+        emit('error', 'Input error')
+    else:
+        command = '\n'.join(commands) + '\n'
+        exists = len(ConsoleText.query.filter_by(token=session['token']).all()) > 0
+        if not exists:
+            new_text = ConsoleText(content=command, token=session['token'])
+            db.session.add(new_text)
+        else:
+            ConsoleText.query.filter_by(token=session['token']).first().content += command
+        db.session.commit()
+        channel = clientsList[session['token']][0]
+        channel.sendall(command)
     # emit('log', 'tests started')
 
 
