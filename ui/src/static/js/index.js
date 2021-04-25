@@ -3,13 +3,20 @@ let socket = io();
 socket.on("connect", function () {
     let textarea1 = document.getElementById("consoleOutput");
     textarea1.scrollTop = textarea1.scrollHeight;
+    document.getElementById("type").classList.remove("d-none");
+    document.getElementById("menu").classList.add("d-none");
 });
 
 socket.on("refresh", function (data) {
     // document.getElementById("token").innerText = data.token
-    document.getElementById("consoleOutput").innerHTML = data.text
+    document.getElementById("consoleOutput").innerHTML = data.text;
     let textarea = document.getElementById("consoleOutput");
     let temp = textarea.scrollTop;
+    if (data.state !== undefined) {
+        document.getElementById("polyA").value = data.state["PolyA"];
+        document.getElementById("polyB").value = data.state["PolyB"];
+        document.getElementById("result").value = data.state["Result"];
+    }
     let interval = setInterval(() => {
         let end = textarea.scrollHeight;
         if (temp < end) {
@@ -46,8 +53,8 @@ function Command(command) {
         json["scalar"] = document.getElementById("scalarMultiplyInput").value;
     } else if (command === "type") {
         json["type"] = document.getElementById("typeSelect").value;
-        document.getElementById("type").classList.toggle("d-none");
-        document.getElementById("menu").classList.toggle("d-none");
+        document.getElementById("type").classList.add("d-none");
+        document.getElementById("menu").classList.remove("d-none");
     }
     socket.emit("command", json);
 }

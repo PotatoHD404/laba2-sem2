@@ -54,9 +54,18 @@ def bg_emit():
                     exists += 1
             except Exception:
                 print('Exception happened')
+            text = (ConsoleText.query.filter_by(token=token).first().content if exists else '').replace('\n', '\r\n')
+            pattern = re.compile(
+                r"(PolyA:\r\n(?P<PolyA>[ix()0-9^+\-* ]+)\r\n)|(PolyB:\r\n(?P<PolyB>[ix()0-9^+\-* ]+)\r\n)|" +
+                r"(Result:\r\n(?P<Result>[ix()0-9^+\-* ]+)\r\n)")
+            res = [i.groupdict() for i in pattern.finditer(text)]
+            state = {'PolyA': '', 'PolyB': '', 'Result': ''}
+            for i in res:
+                for key, value in i.items():
+                    if value is not None:
+                        state[key] = value
             socketio.emit('refresh', {'token': token,
-                                      'text': (ConsoleText.query.filter_by(
-                                          token=token).first().content if exists else '').replace('\n', '\r\n')},
+                                      'text': text, 'state': state},
                           room=j[1])
 
 
@@ -107,7 +116,9 @@ def connect():
     global clientsList
     token = session['token']
     exists = len(ConsoleText.query.filter_by(token=token).all()) > 0
-
+    if exists:
+        ConsoleText.query.filter_by(token=token).first().content = ''
+        db.session.commit()
     if token not in clientsList:
         channel = client.get_transport().open_session()
         channel.invoke_shell()
@@ -134,33 +145,30 @@ def disconnect():
 
 @socketio.on('command')
 def tests(json):
-    types = {'int': 1, 'float': 2, 'complex': 3}
-    polys = {'a': 1, 'b': 2}
+    types = {'int': '1', 'float': '2', 'complex': '3'}
+    polys = {'a': '1', 'b': '2'}
     commands = ''
     try:
-        # if json['command'] == 'start':
-        #     commands = ['cd /app', './Laba2']
-        # elif json['command'] == 'quit':
-        #     commands = ['0']
         if json['command'] == 'type':
-            commands = [types[json["type"]]]
+            commands = [types[json["type"]], '6', polys['a'], '6', polys['b']]
         elif json['command'] == 'input':
-            if re.match(r"^(([0-9](\.[0-9]+)?)( ([0-9](\.[0-9]+)?))?)*$", json["input"]):
-                commands = ['1', types[json['poly']], json['input']]
+            pattern = re.compile(
+                r"^(([\-0-9]+(\.[\-0-9]+)?)+( ([\-0-9]+(\.[\-0-9]+)?))? )*(([\-0-9]+(\.[\-0-9]+)?)"
+                + r"( ([0-9]+(\.[\-0-9]+)?))?)+$")
+            if len(pattern.findall(json["input"])) > 0:
+                commands = ['1', polys[json['poly']], json['input'], '6', polys[json['poly']]]
         elif json['command'] == 'multiply':
             commands = ['2']
         elif json['command'] == 'scalarMultiply':
-            if re.match(r"^([0-9](\.[0-9]+)?)( ([0-9](\.[0-9]+)?))?$", json['scalar']):
-                commands = ['3', types[json['poly']], json['scalar']]
+            if re.match(r"^([\-0-9]+(\.[\-0-9]+)?)( ([\-0-9]+(\.[\-0-9]+)?))?$", json['scalar']):
+                commands = ['3', polys[json['poly']], json['scalar']]
         elif json['command'] == 'calc':
-            if re.match(r"^([0-9](\.[0-9]+)?)( ([0-9](\.[0-9]+)?))?$", json['x']):
-                commands = ['5', types[json['poly']], json['x']]
+            if re.match(r"^([\-0-9]+(\.[\-0-9]+)?)( ([\-0-9]+(\.[\-0-9]+)?))?$", json['x']):
+                commands = ['5', polys[json['poly']], json['x']]
         elif json['command'] == 'sum':
             commands = ['4']
-        elif json['command'] == 'print':
-            commands = ['6', types[json['poly']]]
         elif json['command'] == 'tests':
-            commands = ['cd /app', './Tests --gtest_repeat=1']
+            commands = ['0', 'cd /app', './Tests --gtest_repeat=1']
         elif json['command'] == 'clear':
             token = session['token']
             exists = len(ConsoleText.query.filter_by(token=token).all()) > 0
@@ -176,16 +184,20 @@ def tests(json):
     if commands == '':
         emit('error', 'Input error')
     else:
+        token = session['token']
         command = '\n'.join(commands) + '\n'
-        exists = len(ConsoleText.query.filter_by(token=session['token']).all()) > 0
+        exists = len(ConsoleText.query.filter_by(token=token).all()) > 0
         if not exists:
-            new_text = ConsoleText(content=command, token=session['token'])
+            new_text = ConsoleText(content=command, token=token)
             db.session.add(new_text)
         else:
-            ConsoleText.query.filter_by(token=session['token']).first().content += command
+            ConsoleText.query.filter_by(token=token).first().content += command
         db.session.commit()
         channel = clientsList[session['token']][0]
         channel.sendall(command)
+        emit('refresh', {'token': token,
+                         'text': (ConsoleText.query.filter_by(
+                             token=token).first().content if exists else '').replace('\n', '\r\n')})
     # emit('log', 'tests started')
 
 
