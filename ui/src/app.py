@@ -155,17 +155,17 @@ def tests(json):
             commands = [types[json["type"]], '6', polys['a'], '6', polys['b']]
         elif json['command'] == 'input':
             pattern = re.compile(
-                r"^(([\-0-9]+(\.[\-0-9]+)?)+( ([\-0-9]+(\.[\-0-9]+)?))? )*(([\-0-9]+(\.[\-0-9]+)?)"
-                + r"( ([0-9]+(\.[\-0-9]+)?))?)+$")
+                r"^(([\-0-9]+(\.[0-9]+)?)+( ([\-0-9]+(\.[0-9]+)?))? )*(([\-0-9]+(\.[0-9]+)?)"
+                + r"( ([\-0-9]+(\.[0-9]+)?))?)+$")
             if len(pattern.findall(json["input"])) > 0:
                 commands = ['1', polys[json['poly']], json['input'], '6', polys[json['poly']]]
         elif json['command'] == 'multiply':
             commands = ['2']
         elif json['command'] == 'scalarMultiply':
-            if re.match(r"^([\-0-9]+(\.[\-0-9]+)?)( ([\-0-9]+(\.[\-0-9]+)?))?$", json['scalar']):
+            if re.match(r"^([\-0-9]+(\.[0-9]+)?)( ([\-0-9]+(\.[0-9]+)?))?$", json['scalar']):
                 commands = ['3', polys[json['poly']], json['scalar']]
         elif json['command'] == 'calc':
-            if re.match(r"^([\-0-9]+(\.[\-0-9]+)?)( ([\-0-9]+(\.[\-0-9]+)?))?$", json['x']):
+            if re.match(r"^([\-0-9]+(\.[0-9]+)?)( ([\-0-9]+(\.[0-9]+)?))?$", json['x']):
                 commands = ['5', polys[json['poly']], json['x']]
         elif json['command'] == 'sum':
             commands = ['4']
@@ -200,9 +200,6 @@ def tests(json):
         emit('refresh', {'token': token,
                          'text': (ConsoleText.query.filter_by(
                              token=token).first().content if exists else '').replace('\n', '\r\n')})
-
-
-
 
 
 if __name__ == '__main__':
