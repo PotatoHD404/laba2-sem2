@@ -58,29 +58,3 @@ function Command(command) {
     }
     socket.emit("command", json);
 }
-
-// function RunTests(){
-//     // document.getElementById("consoleOutput").classList.remove("d-none");
-// }
-// function CommandPoly(command) {
-//     let json = {
-//         "command": command,
-//         "poly": poly
-//     };
-//     socket.emit("command", json);
-// }
-//
-// // socket.emit("command",);
-// // }
-//
-// function CommandScalar(command, poly, scalar) {
-//     let json = {
-//         "command": command,
-//         "poly": poly,
-//         "scalar": scalar
-//     };
-//     socket.emit("command", json);
-// }
-
-// socket.emit("command",);
-// }

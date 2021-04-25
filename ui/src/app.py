@@ -6,6 +6,7 @@ from flask_migrate import Migrate
 from flask_session import Session
 from datetime import datetime
 from secrets import token_urlsafe
+from cert import run
 import paramiko
 import re
 
@@ -22,7 +23,8 @@ sess = Session(app)
 app.config['SESSION_SQLALCHEMY'] = db
 sess.init_app(app)
 
-socketio = SocketIO(app, manage_session=False, logger=True, engineio_logger=True)
+socketio = SocketIO(app, manage_session=False, logger=True, engineio_logger=True,
+                    cors_allowed_origins=['https://potatohd.ru', 'https://extramine.ru'])
 
 clientsList = {}
 
@@ -41,20 +43,20 @@ def bg_emit():
             res += tmp.decode('utf-8')
             tmp = channel.recv(4096)
         res += tmp.decode('utf-8')
-        exists = len(ConsoleText.query.filter_by(token=token).all()) > 0
+        exists1 = len(ConsoleText.query.filter_by(token=token).all()) > 0
         if res != '':
             try:
-                if not exists:
+                if not exists1:
                     new_text = ConsoleText(content=res, token=token)
                     db.session.add(new_text)
                 else:
                     ConsoleText.query.filter_by(token=token).first().content += res
                 db.session.commit()
-                if not exists:
-                    exists += 1
+                if not exists1:
+                    exists1 += 1
             except Exception:
                 print('Exception happened')
-            text = (ConsoleText.query.filter_by(token=token).first().content if exists else '').replace('\n', '\r\n')
+            text = (ConsoleText.query.filter_by(token=token).first().content if exists1 else '').replace('\n', '\r\n')
             pattern = re.compile(
                 r"(PolyA:\r\n(?P<PolyA>[ix()0-9^+\-* ]+)\r\n)|(PolyB:\r\n(?P<PolyB>[ix()0-9^+\-* ]+)\r\n)|" +
                 r"(Result:\r\n(?P<Result>[ix()0-9^+\-* ]+)\r\n)")
@@ -198,13 +200,11 @@ def tests(json):
         emit('refresh', {'token': token,
                          'text': (ConsoleText.query.filter_by(
                              token=token).first().content if exists else '').replace('\n', '\r\n')})
-    # emit('log', 'tests started')
 
 
-# @socketio.on('tests')
-# def tests():
-#     channel = clientsList[session['token']][0]
+
 
 
 if __name__ == '__main__':
-    socketio.run(app, host='ui', port=80)
+    run()
+    socketio.run(app, host='ui', port=443, keyfile='key.pem', certfile='cert.pem')

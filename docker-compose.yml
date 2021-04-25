@@ -19,8 +19,9 @@ services:
       - ./ui/src/templates:/app/templates
       - ./ui/src/app.py:/app/app.py
       - ./ui/src/config.py:/app/config.py
+      - ./ui/src/cert.py:/app/cert.py
     ports:
-      - "5000:80"
+      - "443:443"
     depends_on:
       - core
     entrypoint: "python app.py"
@@ -28,7 +29,7 @@ services:
     container_name: wait-for-it
     build: ./test
     restart: "no"
-    command: -s -t 30 ui:80 -- bash -c "curl ui -o output.txt && echo Docker-test passed"
+    command: -s -t 30 ui:80  -- bash -c "curl https://ui -o output.txt && echo Docker-test passed"
     depends_on:
       - ui
 
