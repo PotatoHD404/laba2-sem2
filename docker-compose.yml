@@ -29,7 +29,7 @@ services:
     container_name: wait-for-it
     build: ./test
     restart: "no"
-    command: -s -t 30 ui:443  -- bash -c "curl https://ui -o output.txt && echo Docker-test passed"
+    command: -s -t 30 ui:443  -- bash -c "curl --insecure -I https://ui -o output.txt && echo Docker-test passed"
     depends_on:
       - ui
 
