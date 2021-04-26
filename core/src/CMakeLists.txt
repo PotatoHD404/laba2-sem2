@@ -1,10 +1,11 @@
 cmake_minimum_required(VERSION 3.16)
 project(Laba2)
 
-set(CMAKE_CXX_FLAGS_DEBUG "-g -Wall -fprofile-arcs -ftest-coverage -Wextra")
-set(CMAKE_CXX_FLAGS_RELEASE "-O3 -Wall -Wextra")
+set(CMAKE_CXX_FLAGS "-Wall -fprofile-arcs -ftest-coverage -Wextra")
+set(CMAKE_CXX_FLAGS_DEBUG "-g")
+set(CMAKE_CXX_FLAGS_RELEASE "-O3")
 set(CMAKE_CXX_OUTPUT_EXTENSION_REPLACE 1)
-SET(GCC_COVERAGE_LINK_FLAGS "-coverage -lgcov")
+set(GCC_COVERAGE_LINK_FLAGS "-coverage -lgcov")
 
 enable_testing()
 
