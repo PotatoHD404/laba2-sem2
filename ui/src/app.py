@@ -6,7 +6,7 @@ from flask_migrate import Migrate
 from flask_session import Session
 from datetime import datetime
 from secrets import token_urlsafe
-from cert import run
+from cert import gen_cert_and_key
 import paramiko
 import re
 
@@ -23,8 +23,8 @@ sess = Session(app)
 app.config['SESSION_SQLALCHEMY'] = db
 sess.init_app(app)
 
-socketio = SocketIO(app, manage_session=False, logger=True, engineio_logger=True,
-                    cors_allowed_origins=['https://potatohd.ru', 'https://ui'])
+socketio = SocketIO(app, manage_session=False, logger=True, engineio_logger=True, async_mode='eventlet',
+                    cors_allowed_origins=['https://potatohd.ru', 'https://ui', 'https://localhost'])
 
 clientsList = {}
 
@@ -184,7 +184,7 @@ def tests(json):
     except:
         pass
     if commands == '':
-        emit('error', 'Input error')
+        emit('error', {'command': json['command']})
     else:
         token = session['token']
         command = '\n'.join(commands) + '\n'
@@ -200,8 +200,9 @@ def tests(json):
         emit('refresh', {'token': token,
                          'text': (ConsoleText.query.filter_by(
                              token=token).first().content if exists else '').replace('\n', '\r\n')})
+        emit('ok', {'command': json['command']})
 
 
 if __name__ == '__main__':
-    run()
+    gen_cert_and_key()
     socketio.run(app, host='ui', port=443, keyfile='key.pem', certfile='cert.pem')

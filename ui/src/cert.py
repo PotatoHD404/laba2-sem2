@@ -71,7 +71,7 @@ def createCertificate(req, issuerCertKey, serial, validityPeriod,
     return cert
 
 
-def run():
+def gen_cert_and_key():
     cakey = createKeyPair(TYPE_RSA, 4096)
     careq = createCertRequest(cakey, CN='Certificate Authority')
     cacert = createCertificate(careq, (careq, cakey), 0, (0, 60 * 60 * 24 * 365))  # one year

@@ -28,12 +28,43 @@ socket.on("refresh", function (data) {
     }, 5)
 
 });
-socket.on("log", function (data) {
+socket.on("ok", function (data) {
+    let  command = data['command'];
+    ClearAll();
+    if (command === "input") {
+        document.getElementById("setInput").classList.add("is-valid");
+    } else if (command === "scalarMultiply") {
+        document.getElementById("scalarMultiplyInput").classList.add("is-valid");
+    } else if (command === "calc") {
+        document.getElementById("calcPolyInput").classList.add("is-valid");
+    }
+});
+function ClearAll(){
+    document.getElementById("setInput").classList.remove("is-invalid");
+    document.getElementById("scalarMultiplyInput").classList.remove("is-invalid");
+    document.getElementById("calcPolyInput").classList.remove("is-invalid");
+    document.getElementById("scalarMultiplyInput").classList.remove("is-invalid");
+    document.getElementById("setInput").classList.remove("is-valid");
+    document.getElementById("scalarMultiplyInput").classList.remove("is-valid");
+    document.getElementById("calcPolyInput").classList.remove("is-valid");
+    document.getElementById("scalarMultiplyInput").classList.remove("is-valid");
+}
+socket.on("error", function (data) {
+   let  command = data['command'];
+   ClearAll();
+    if (command === "input") {
+        document.getElementById("setInput").classList.add("is-invalid");
+    } else if (command === "scalarMultiply") {
+        document.getElementById("scalarMultiplyInput").classList.add("is-invalid");
+    } else if (command === "calc") {
+        document.getElementById("calcPolyInput").classList.add("is-invalid");
+    }
 });
 
 function ClearConsole() {
     socket.emit("clear");
 }
+
 
 function Command(command) {
     let json = {
@@ -48,9 +79,6 @@ function Command(command) {
     } else if (command === "calc") {
         json["poly"] = document.getElementById("calcPolySelect").value;
         json["x"] = document.getElementById("calcPolyInput").value;
-    } else if (command === "scalar multiply") {
-        json["poly"] = document.getElementById("scalarMultiplySelect").value;
-        json["scalar"] = document.getElementById("scalarMultiplyInput").value;
     } else if (command === "type") {
         json["type"] = document.getElementById("typeSelect").value;
         document.getElementById("type").classList.add("d-none");

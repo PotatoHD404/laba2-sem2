@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="JavaScriptLibraryMappings">
-    <file url="file://$USER_HOME$/AppData/Local/Packages/CanonicalGroupLimited.Ubuntu18.04onWindows_79rhkp1fndgsc/LocalState/rootfs/usr/src/gtest" libraries="{bootstrap, mathjax, socket.io}" />
+    <file url="file:////wsl$/Ubuntu-18.04/usr/src/gtest" libraries="{socket.io}" />
+    <file url="file://$USER_HOME$/AppData/Local/Packages/CanonicalGroupLimited.Ubuntu18.04onWindows_79rhkp1fndgsc/LocalState/rootfs/usr/src/gtest" libraries="{bootstrap, mathjax}" />
     <file url="file://$PROJECT_DIR$" libraries="{bootstrap, mathjax, socket.io}" />
   </component>
 </project>
