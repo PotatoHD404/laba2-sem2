@@ -15,10 +15,10 @@
             <textarea class="form-control mb-3 mt-2" id="consoleOutput" rows="5"
                       readonly>{{ text | safe }}</textarea>
         </div>
-        <div class="input-group mb-4 justify-content-center">
-            <button class="btn btn-outline-secondary" type="button" onclick=Command("clear")>Clear console
-            </button>
-        </div>
+<!--        <div class="input-group mb-4 justify-content-center">-->
+<!--            <button class="btn btn-outline-secondary" type="button" onclick=Command("clear")>Clear console-->
+<!--            </button>-->
+<!--        </div>-->
     </div>
     <div class="row justify-content-center">
         <div class="col-lg-4 col-md-6" id="type">
@@ -36,7 +36,7 @@
                 </div>
             </div>
         </div>
-        <div class="col-5 d-none" id="menu">
+        <div class="col-lg-4 col-md-6 d-none" id="menu">
             <div class="input-group mb-3">
                 <div class="input-group-prepend">
 
@@ -46,7 +46,7 @@
                     </select>
 
                 </div>
-                <input type="text" class="form-control" id="setInput" placeholder="Set polynomial"
+                <input type="text" class="form-control" id="setInput" placeholder="Set polynomial (1 2 3 4)"
                        aria-label="input">
                 <div class="input-group-append">
                     <button class="btn btn-outline-secondary" type="button" onclick=Command("input")>Set
@@ -86,11 +86,9 @@
                 </div>
             </div>
 
-            <div class="input-group mb-3 justify-content-around">
-                <button class="btn btn-outline-secondary" type="button" onclick=Command("sum")>Sum polys (A and B)
-                </button>
-                <button class="btn btn-outline-secondary" type="button" onclick=Command("multiply")>Multiply polys
-                    (A and B)
+            <div class="input-group mb-3 justify-content-center">
+                <button class="btn btn-outline-secondary" type="button" onclick=Command("sum")>Sum A and B</button>
+                <button class="btn btn-outline-secondary" type="button" onclick=Command("multiply")>Multiply A and B
                 </button>
             </div>
             <div class="input-group mb-3">

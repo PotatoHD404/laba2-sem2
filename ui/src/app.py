@@ -24,7 +24,7 @@ app.config['SESSION_SQLALCHEMY'] = db
 sess.init_app(app)
 
 socketio = SocketIO(app, manage_session=False, logger=True, engineio_logger=True,
-                    cors_allowed_origins=['https://potatohd.ru', 'https://extramine.ru'])
+                    cors_allowed_origins=['https://potatohd.ru', 'https://ui'])
 
 clientsList = {}
 
