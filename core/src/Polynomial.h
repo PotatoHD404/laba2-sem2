@@ -57,7 +57,7 @@ public:
         T res = coefficients[0];
         T tmp = x;
         for (size_t i = 1; i < coefficients.GetLength(); ++i) {
-            res = res + coefficients[i] * x;
+            res = res + coefficients[i] * tmp;
             tmp = tmp * x;
         }
         return res;

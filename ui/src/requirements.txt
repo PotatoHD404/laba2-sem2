@@ -8,3 +8,4 @@ eventlet
 redis
 paramiko
 gunicorn
+pyopenssl

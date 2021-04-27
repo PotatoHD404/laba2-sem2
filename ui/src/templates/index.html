@@ -9,26 +9,126 @@
 
 {% block content %}
 <div class="container-fluid">
-    <div class="row justify-content-md-center mt-5">
-        <div class="col-6">
-            <form>
-                <div class="form-group">
-                    <label for="consoleOutput">Console output</label>
-                    <textarea class="form-control" id="consoleOutput" rows="5" readonly>{{ text | safe }}</textarea>
-                    <div class="row mt-3">
-                        <div class="col-12">
-                            <button type="button" onclick="RunTests()" class="btn btn-primary">Start tests</button>
-                            <button type="button" onclick="ClearConsole()" class="btn btn-primary">Clear console
-                            </button>
-                            <button type="button" onclick="Command()" class="btn btn-primary">Command</button>
-                        </div>
-                    </div>
-                </div>
-            </form>
+    <div class="row mt-5 justify-content-center">
+        <div class="col-lg-5 col-md-8 justify-content-center text-center">
+            <label for="consoleOutput">Console output</label>
+            <textarea class="form-control mb-3 mt-2" id="consoleOutput" rows="5"
+                      readonly>{{ text | safe }}</textarea>
         </div>
-        <div class="col-4" id="token">
-            {{ token }}
+        <!--        <div class="input-group mb-4 justify-content-center">-->
+        <!--            <button class="btn btn-outline-secondary" type="button" onclick=Command("clear")>Clear console-->
+        <!--            </button>-->
+        <!--        </div>-->
+    </div>
+    <div class="row justify-content-center">
+        <div class="col-lg-4 col-md-6" id="type">
+            <div class="input-group mb-3">
+
+                <select class="form-select" aria-label="Default select example" id="typeSelect">
+                    <option value="int">int</option>
+                    <option value="float">float</option>
+                    <option value="complex">complex</option>
+                </select>
+
+                <div class="input-group-append">
+                    <button class="btn btn-outline-secondary" type="button" onclick=Command("type")>Set type
+                    </button>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-4 col-md-6 d-none" id="menu">
+            <div class="input-group mb-3">
+                <div class="input-group-prepend">
+
+                    <select class="form-select" aria-label="Default select example" id="setSelect">
+                        <option value="a">A</option>
+                        <option value="b">B</option>
+                    </select>
+
+                </div>
+                <input type="text" class="form-control" id="setInput" placeholder="Set polynomial (1 2 3 4)"
+                       aria-label="input">
+                <div class="input-group-append">
+                    <button class="btn btn-outline-secondary" type="button" onclick=Command("input")>Set
+                    </button>
+                </div>
+                <div class="invalid-feedback">
+                    Invalid input
+                </div>
+                <div class="valid-feedback">
+                    Your input was sent
+                </div>
+            </div>
+            <div class="input-group mb-3">
+                <div class="input-group-prepend">
+
+                    <select class="form-select" aria-label="Default select example" id="scalarMultiplySelect">
+                        <option value="a">A</option>
+                        <option value="b">B</option>
+                    </select>
+
+                </div>
+                <input type="text" class="form-control" placeholder="Multiply poly on scalar" aria-label="input"
+                       id="scalarMultiplyInput">
+                <div class="input-group-append">
+                    <button class="btn btn-outline-secondary" type="button" onclick=Command("scalarMultiply")>
+                        Multiply
+                    </button>
+                </div>
+                <div class="invalid-feedback">
+                    Invalid input
+                </div>
+                <div class="valid-feedback">
+                    Your input was sent
+                </div>
+            </div>
+
+            <div class="input-group mb-3">
+                <div class="input-group-prepend">
+                    <select class="form-select" aria-label="Default select example" id="calcPolySelect">
+                        <option value="a">A</option>
+                        <option value="b">B</option>
+                    </select>
+                </div>
+                <input type="text" class="form-control" placeholder="Calculate poly in x" aria-label="input"
+                       id="calcPolyInput">
+                <div class="input-group-append">
+                    <button class="btn btn-outline-secondary" type="button" onclick=Command("calc")>Calculate
+                    </button>
+                </div>
+                <div class="invalid-feedback">
+                    Invalid input
+                </div>
+                <div class="valid-feedback">
+                    Your input was sent
+                </div>
+            </div>
+
+            <div class="input-group mb-3 justify-content-center">
+                <button class="btn btn-outline-secondary" type="button" onclick=Command("sum")>Sum A and B</button>
+                <button class="btn btn-outline-secondary" type="button" onclick=Command("multiply")>Multiply A and B
+                </button>
+            </div>
+            <div class="input-group mb-3">
+                <div class="input-group-prepend">
+                    <span class="input-group-text">Poly A</span>
+                </div>
+                <input type="text" class="form-control" placeholder="" id="polyA" aria-label="Poly A" readonly>
+            </div>
+            <div class="input-group mb-3">
+                <div class="input-group-prepend">
+                    <span class="input-group-text">Poly B</span>
+                </div>
+                <input type="text" class="form-control" placeholder="" id="polyB" aria-label="Poly B" readonly>
+            </div>
+            <div class="input-group mb-3">
+                <div class="input-group-prepend">
+                    <span class="input-group-text">Result</span>
+                </div>
+                <input type="text" class="form-control" placeholder="" id="result" aria-label="Result" readonly>
+            </div>
         </div>
     </div>
+
 </div>
 {% endblock %}

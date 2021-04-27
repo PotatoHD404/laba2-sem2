@@ -6,7 +6,9 @@ from flask_migrate import Migrate
 from flask_session import Session
 from datetime import datetime
 from secrets import token_urlsafe
+from cert import gen_cert_and_key
 import paramiko
+import re
 
 eventlet.monkey_patch()
 
@@ -21,7 +23,8 @@ sess = Session(app)
 app.config['SESSION_SQLALCHEMY'] = db
 sess.init_app(app)
 
-socketio = SocketIO(app, manage_session=False, logger=True, engineio_logger=True)
+socketio = SocketIO(app, manage_session=False, logger=True, engineio_logger=True, async_mode='eventlet',
+                    cors_allowed_origins=['https://potatohd.ru', 'https://ui', 'https://localhost'])
 
 clientsList = {}
 
@@ -35,26 +38,36 @@ def bg_emit():
 
         if channel.recv_ready():
             tmp = channel.recv(4096)
+        # noinspection PyTypeChecker
         while len(tmp) == 4096:
             res += tmp.decode('utf-8')
             tmp = channel.recv(4096)
         res += tmp.decode('utf-8')
-        exists = len(ConsoleText.query.filter_by(token=token).all()) > 0
+        exists1 = len(ConsoleText.query.filter_by(token=token).all()) > 0
         if res != '':
             try:
-                if not exists:
+                if not exists1:
                     new_text = ConsoleText(content=res, token=token)
                     db.session.add(new_text)
                 else:
                     ConsoleText.query.filter_by(token=token).first().content += res
                 db.session.commit()
-                if not exists:
-                    exists += 1
+                if not exists1:
+                    exists1 += 1
             except Exception:
                 print('Exception happened')
+            text = (ConsoleText.query.filter_by(token=token).first().content if exists1 else '').replace('\n', '\r\n')
+            pattern = re.compile(
+                r"(PolyA:\r\n(?P<PolyA>[ix()0-9^+\-* ]+)\r\n)|(PolyB:\r\n(?P<PolyB>[ix()0-9^+\-* ]+)\r\n)|" +
+                r"(Result:\r\n(?P<Result>[ix()0-9^+\-* ]+)\r\n)")
+            res = [i.groupdict() for i in pattern.finditer(text)]
+            state = {'PolyA': '', 'PolyB': '', 'Result': ''}
+            for i in res:
+                for key, value in i.items():
+                    if value is not None:
+                        state[key] = value
             socketio.emit('refresh', {'token': token,
-                                      'text': (ConsoleText.query.filter_by(
-                                          token=token).first().content if exists else '').replace('\n', '\r\n')},
+                                      'text': text, 'state': state},
                           room=j[1])
 
 
@@ -105,12 +118,14 @@ def connect():
     global clientsList
     token = session['token']
     exists = len(ConsoleText.query.filter_by(token=token).all()) > 0
-
+    if exists:
+        ConsoleText.query.filter_by(token=token).first().content = ''
+        db.session.commit()
     if token not in clientsList:
         channel = client.get_transport().open_session()
         channel.invoke_shell()
         clientsList[token] = [channel, request.sid]
-
+        channel.sendall('\n'.join(['cd /app', './Laba2']) + '\n')
     emit('refresh', {'token': token,
                      'text': (ConsoleText.query.filter_by(
                          token=token).first().content if exists else '').replace('\n', '\r\n')})
@@ -125,18 +140,6 @@ def disconnect():
     print('Client disconnected')
 
 
-@socketio.on('clear')
-def clear():
-    token = session['token']
-    exists = len(ConsoleText.query.filter_by(token=token).all()) > 0
-    if exists:
-        ConsoleText.query.filter_by(token=token).first().content = ''
-        db.session.commit()
-    emit('refresh', {'token': token,
-                     'text': (ConsoleText.query.filter_by(
-                         token=token).first().content if exists else '').replace('\n', '\r\n')})
-
-
 # @socketio.on('command')
 # def command():
 #     emit('log', str(clientsList))
@@ -144,36 +147,62 @@ def clear():
 
 @socketio.on('command')
 def tests(json):
-    types = {'int': 1, 'float': 2, 'complex': 3}
-    polys = {'a': 1, 'b': 2}
+    types = {'int': '1', 'float': '2', 'complex': '3'}
+    polys = {'a': '1', 'b': '2'}
     commands = ''
-    if json['command'] == 'start':
-        commands = ['cd /app', './Laba2']
-    elif json['command'] == 'quit':
-        commands = ['0']
-    elif json['command'] == 'type':
-        commands = [types[json["type"]]]
-    elif json['command'] == 'input':
-        commands = ['1', types[json['poly']]]
-    elif json['command'] == 'multiply':
-        commands = ['2']
-    elif json['command'] == 'scalar multiply':
-        commands = ['3', types[json['poly']], json['scalar']]
-    elif json['command'] == 'sum':
-        commands = ['4']
-    elif json['command'] == 'print':
-        commands = ['5', types[json['poly']]]
-    elif json['command'] == 'tests':
-        commands = ['cd /app', './Tests --gtest_repeat=1']
-    channel = clientsList[session['token']][0]
-    channel.sendall('\n'.join(commands) + '\n')
-    # emit('log', 'tests started')
-
-
-# @socketio.on('tests')
-# def tests():
-#     channel = clientsList[session['token']][0]
+    try:
+        if json['command'] == 'type':
+            commands = [types[json["type"]], '6', polys['a'], '6', polys['b']]
+        elif json['command'] == 'input':
+            pattern = re.compile(
+                r"^(([\-0-9]+(\.[0-9]+)?)+( ([\-0-9]+(\.[0-9]+)?))? )*(([\-0-9]+(\.[0-9]+)?)"
+                + r"( ([\-0-9]+(\.[0-9]+)?))?)+$")
+            if len(pattern.findall(json["input"])) > 0:
+                commands = ['1', polys[json['poly']], json['input'], '6', polys[json['poly']]]
+        elif json['command'] == 'multiply':
+            commands = ['2']
+        elif json['command'] == 'scalarMultiply':
+            if re.match(r"^([\-0-9]+(\.[0-9]+)?)( ([\-0-9]+(\.[0-9]+)?))?$", json['scalar']):
+                commands = ['3', polys[json['poly']], json['scalar']]
+        elif json['command'] == 'calc':
+            if re.match(r"^([\-0-9]+(\.[0-9]+)?)( ([\-0-9]+(\.[0-9]+)?))?$", json['x']):
+                commands = ['5', polys[json['poly']], json['x']]
+        elif json['command'] == 'sum':
+            commands = ['4']
+        elif json['command'] == 'tests':
+            commands = ['0', 'cd /app', './Tests --gtest_repeat=1']
+        elif json['command'] == 'clear':
+            token = session['token']
+            exists = len(ConsoleText.query.filter_by(token=token).all()) > 0
+            if exists:
+                ConsoleText.query.filter_by(token=token).first().content = ''
+                db.session.commit()
+            emit('refresh', {'token': token,
+                             'text': (ConsoleText.query.filter_by(
+                                 token=token).first().content if exists else '').replace('\n', '\r\n')})
+            return
+    except:
+        pass
+    if commands == '':
+        emit('error', {'command': json['command']})
+    else:
+        token = session['token']
+        command = '\n'.join(commands) + '\n'
+        exists = len(ConsoleText.query.filter_by(token=token).all()) > 0
+        if not exists:
+            new_text = ConsoleText(content=command, token=token)
+            db.session.add(new_text)
+        else:
+            ConsoleText.query.filter_by(token=token).first().content += command
+        db.session.commit()
+        channel = clientsList[session['token']][0]
+        channel.sendall(command)
+        emit('refresh', {'token': token,
+                         'text': (ConsoleText.query.filter_by(
+                             token=token).first().content if exists else '').replace('\n', '\r\n')})
+        emit('ok', {'command': json['command']})
 
 
 if __name__ == '__main__':
-    socketio.run(app, host='ui', port=80)
+    gen_cert_and_key()
+    socketio.run(app, host='ui', port=443, keyfile='key.pem', certfile='cert.pem')

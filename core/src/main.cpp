@@ -18,7 +18,8 @@ const char *MSGS[] = {"0. Quit",
                       "2. Multiply polynomials",
                       "3. Multiply polynomial on scalar",
                       "4. Sum polynomials",
-                      "5. Print polynomial"};
+                      "5. Calculate in point",
+                      "6. Print polynomial"};
 const char *MSGS1[] = {"0. Quit", "1. Poly a", "2. Poly b"};
 
 const char *MSGS2[] = {"0. Quit", "1. Int", "2. Float", "3. Complex"};
@@ -60,7 +61,6 @@ void StartUI() {
                     break;
                 }
                 scanf("\n");
-                scanf("\n");
                 if (res == 1)
                     cin >> polyA;
                 else
@@ -68,33 +68,62 @@ void StartUI() {
                 break;
 
             case 2: {
+                cout << "Result:" << endl;
                 cout << polyA * polyB << endl;
                 break;
             }
             case 3: {
                 res = Dialog(MSGS1);
                 cout << "Enter a scalar:" << endl;
+                scanf("\n");
                 T scalar;
-                cin >> scalar;
-                if (res == 1)
-                    cout << polyA * scalar << endl;
-                else
-                    cout << polyB * scalar << endl;
+                try {
+                    cin >> scalar;
+                    cout << "Result:" << endl;
+                    if (res == 1)
+                        cout << polyA * scalar << endl;
+                    else
+                        cout << polyB * scalar << endl;
+                }
+                catch (exception) {
+                    cout << "Wrong input" << endl;
+                }
+
                 break;
             }
             case 4: {
+                cout << "Result:" << endl;
                 cout << polyA + polyB << endl;
                 break;
             }
             case 5: {
                 res = Dialog(MSGS1);
+                cout << "Enter a number:" << endl;
+
+                T x;
+                try {
+                    cin >> x;
+                    cout << "Result:" << endl;
+                    if (res == 1)
+                        cout << polyA.Calculate(x) << endl;
+                    else
+                        cout << polyB.Calculate(x) << endl;
+                }
+                catch (exception) {
+                    cout << "Wrong input" << endl;
+                }
+                break;
+            }
+
+            case 6: {
+                res = Dialog(MSGS1);
                 if (res == 0) {
                     res = 1;
                     break;
                 } else if (res == 1)
-                    cout << polyA << endl;
+                    cout << "PolyA:" << endl << polyA << endl;
                 else if (res == 2)
-                    cout << polyB << endl;
+                    cout << "PolyB:" << endl << polyB << endl;
                 break;
             }
             default: {
@@ -127,27 +156,6 @@ int main() {
             break;
         }
     }
-
-//    ArraySequence<Complex> arr = {};
-//    string tmp;
-////    Complex a;
-//    getline(cin, tmp);
-//    stringstream ss(tmp);
-////    stringstream ss(tmp);
-//    Complex t;
-//    ArraySequence<Complex> arr = {};
-////    while (cin >> t) {
-////        arr.Append(t);
-////    }
-//
-////    stringstream ss(tmp);
-//    while(ss >> t){
-//        cout << t << endl;
-//    }
-//    arr.Append(t);
-////    arr.Append(a);
-//    auto polyA = Polynomial(arr);
-//    cout << polyA[0];
 
     return 0;
 }

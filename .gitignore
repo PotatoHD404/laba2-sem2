@@ -34,3 +34,5 @@
 
 cmake-build*/
 venv/
+colabhack/
+ui/src/keys/
